@@ -187,18 +187,45 @@ form{margin-top:1rem;}
 .carte-wrap svg{width:100%;display:block;}
 
 /* PHOTOS */
-.photos-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:260px 260px;gap:4px;}
-.photo-item{position:relative;overflow:hidden;background:rgba(255,255,255,.05);cursor:pointer;}
-.photo-tall{grid-row:span 2;}
-.photo-wide{grid-column:span 2;}
-.photo-upload-label{display:block;width:100%;height:100%;position:relative;cursor:pointer;}
-.photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;transition:background .3s;}
-.photo-placeholder span{font-size:.72rem;font-weight:300;letter-spacing:.1em;color:rgba(212,174,122,.5);text-align:center;line-height:1.6;}
-.photo-upload-label:hover .photo-placeholder{background:rgba(255,255,255,.04);}
-.photo-hover-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(26,35,22,.75),transparent);padding:1rem 1.2rem;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(212,174,122,.7);opacity:0;transition:opacity .3s;}
-.photo-upload-label:hover .photo-hover-label{opacity:1;}
-.photo-item.has-photo .photo-placeholder{display:none;}
-.photo-item.has-photo .photo-hover-label{opacity:1;}
+<section id="photos" style="background:var(--moss);padding:7rem 8vw;">
+  <div style="display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.1rem;">
+    <span style="width:1.8rem;height:1px;background:var(--gold-l);display:block;"></span>Galerie
+  </div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:.6rem;">Moments de <em style="font-style:italic;color:var(--gold-l);">sérénité</em></h2>
+  <p style="font-size:.84rem;font-weight:300;color:rgba(250,248,244,.45);margin-bottom:3.5rem;max-width:50ch;">
+    Un aperçu des ambiances de détente : eau, chaleur, lumière et massage.
+  </p>
+
+  <div class="photos-grid">
+    <!-- Grande image gauche -->
+    <div class="photo-item photo-tall reveal">
+      <img src="massage.jpg" alt="Massage thaï" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <!-- Colonne du milieu haut -->
+    <div class="photo-item reveal">
+      <img src="hammam.jpg" alt="Ambiance hammam" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <!-- Colonne de droite haut -->
+    <div class="photo-item reveal">
+      <img src="sauna.jpg" alt="Ambiance sauna" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <!-- Ligne du bas, deux images larges -->
+    <div class="photo-item photo-wide reveal">
+      <img src="jacuzzi.jpg" alt="Jacuzzi et relaxation" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <div class="photo-item reveal">
+      <img src="douche.jpg" alt="Douche et détente" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <div class="photo-item reveal">
+      <img src="tv.jpg" alt="Ambiance repos avec télévision" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+</section>
 
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease;}
