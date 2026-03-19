@@ -509,64 +509,34 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 </section>
 
 <!-- ZONES -->
-<section id="zones">
-  <div class="s-kicker">Zones desservies</div>
-  <h2 class="s-title">Je me déplace en <em>Franche-Comté</em></h2>
-
-  <div style="display:grid;grid-template-columns:1.2fr 1.3fr;gap:3rem;align-items:center;margin-top:3rem;">
-    <!-- Carte stylisée en CSS, sans image -->
-    <div style="background:var(--bg2);padding:2rem;border-radius:8px;position:relative;min-height:260px;">
-      <div style="position:absolute;inset:1.5rem;display:flex;flex-direction:column;justify-content:space-between;">
-        <div style="font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:1rem;">
-          Carte des zones desservies
+  <div class="zones-wrap" style="display:block;text-align:center;margin-top:3rem;">
+    <div class="zones-list" style="display:inline-block;text-align:left;max-width:460px;width:100%;">
+      <div class="zone-item">
+        <div class="zone-dep">25</div>
+        <div class="zone-info">
+          <strong>Doubs</strong>
+          <span>Belfort, Montbéliard et communes alentours (à adapter selon ton secteur).</span>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:1rem;">
-          <div style="flex:1;min-width:90px;background:var(--sage);color:#fff;padding:1rem;border-radius:999px;text-align:center;font-size:.8rem;">
-            25<br><span style="font-size:.7rem;opacity:.8;">Doubs</span>
-          </div>
-          <div style="flex:1;min-width:90px;background:var(--sage-l);color:#fff;padding:1rem;border-radius:999px;text-align:center;font-size:.8rem;">
-            70<br><span style="font-size:.7rem;opacity:.8;">Haute-Saône</span>
-          </div>
-          <div style="flex:1;min-width:90px;background:var(--gold);color:#fff;padding:1rem;border-radius:999px;text-align:center;font-size:.8rem;">
-            90<br><span style="font-size:.7rem;opacity:.8;">Territoire de Belfort</span>
-          </div>
+      </div>
+      <div class="zone-item">
+        <div class="zone-dep">70</div>
+        <div class="zone-info">
+          <strong>Haute-Saône</strong>
+          <span>Principales communes desservies selon tes disponibilités.</span>
         </div>
-        <div style="margin-top:1.5rem;font-size:.75rem;color:var(--ink2);line-height:1.6;">
-          Intervention à domicile uniquement dans ces départements.<br>
-          Pour toute autre zone, merci de me contacter.
+      </div>
+      <div class="zone-item">
+        <div class="zone-dep">90</div>
+        <div class="zone-info">
+          <strong>Territoire de Belfort</strong>
+          <span>Zone principale d’intervention pour le massage à domicile.</span>
         </div>
       </div>
     </div>
-
-    <!-- Liste textuelle à côté -->
-    <div>
-      <div class="zones-list">
-        <div class="zone-item">
-          <div class="zone-dep">25</div>
-          <div class="zone-info">
-            <strong>Doubs</strong>
-            <span>Belfort, Montbéliard et communes alentours (à adapter selon ton secteur).</span>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dep">70</div>
-          <div class="zone-info">
-            <strong>Haute-Saône</strong>
-            <span>Principales communes desservies selon tes disponibilités.</span>
-          </div>
-        </div>
-        <div class="zone-item">
-          <div class="zone-dep">90</div>
-          <div class="zone-info">
-            <strong>Territoire de Belfort</strong>
-            <span>Zone principale d’intervention pour le massage à domicile.</span>
-          </div>
-        </div>
-      </div>
-      <p class="zones-note">Une commune non listée ? Contactez-moi — je ferai mon possible pour me déplacer.</p>
-    </div>
+    <p class="zones-note" style="margin-top:1.5rem;">
+      Une commune non listée ? Contactez-moi — je ferai mon possible pour me déplacer.
+    </p>
   </div>
-</section>
 
 <!-- CONTACT -->
 <section id="contact">
