@@ -187,42 +187,54 @@ form{margin-top:1rem;}
 .carte-wrap svg{width:100%;display:block;}
 
 /* PHOTOS */
-<section id="photos" style="background:var(--moss);padding:7rem 8vw;">
+<section id="photos">
   <div style="display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.1rem;">
     <span style="width:1.8rem;height:1px;background:var(--gold-l);display:block;"></span>Galerie
   </div>
-  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:.6rem;">Moments de <em style="font-style:italic;color:var(--gold-l);">sérénité</em></h2>
-  <p style="font-size:.84rem;font-weight:300;color:rgba(250,248,244,.45);margin-bottom:3.5rem;max-width:50ch;">
-    Un aperçu des ambiances de détente : eau, chaleur, lumière et massage.
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:.6rem;">
+    Moments de <em style="font-style:italic;color:var(--gold-l);">sérénité</em>
+  </h2>
+  <p style="font-size:.84rem;font-weight:300;color:rgba(250,248,244,.45);margin-bottom:2.5rem;max-width:50ch;">
+    Un aperçu des ambiances de détente autour du massage : chaleur, eau, lumière et repos.
   </p>
 
-  <div class="photos-grid">
-    <!-- Grande image gauche -->
-    <div class="photo-item photo-tall reveal">
-      <img src="massage.jpg" alt="Massage thaï" style="width:100%;height:100%;object-fit:cover;">
+  <div class="slider">
+    <div class="slide active">
+      <img src="massage.jpg" alt="Massage thaï">
+      <div class="slide-caption">Le cœur de votre expérience : le massage thaï à domicile.</div>
+    </div>
+    <div class="slide">
+      <img src="hammam.jpg" alt="Ambiance hammam">
+      <div class="slide-caption">Une atmosphère chaude et enveloppante pour préparer le corps à la détente.</div>
+    </div>
+    <div class="slide">
+      <img src="sauna.jpg" alt="Sauna">
+      <div class="slide-caption">La chaleur qui relâche les tensions et invite au lâcher-prise.</div>
+    </div>
+    <div class="slide">
+      <img src="jacuzzi.jpg" alt="Jacuzzi">
+      <div class="slide-caption">L'eau comme élément de relaxation profonde.</div>
+    </div>
+    <div class="slide">
+      <img src="douche.jpg" alt="Douche détente">
+      <div class="slide-caption">Un moment pour se recentrer et revenir à soi.</div>
+    </div>
+    <div class="slide">
+      <img src="tv.jpg" alt="Ambiance repos">
+      <div class="slide-caption">Un cadre cosy pour prolonger la détente après la séance.</div>
     </div>
 
-    <!-- Colonne du milieu haut -->
-    <div class="photo-item reveal">
-      <img src="hammam.jpg" alt="Ambiance hammam" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-
-    <!-- Colonne de droite haut -->
-    <div class="photo-item reveal">
-      <img src="sauna.jpg" alt="Ambiance sauna" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-
-    <!-- Ligne du bas, deux images larges -->
-    <div class="photo-item photo-wide reveal">
-      <img src="jacuzzi.jpg" alt="Jacuzzi et relaxation" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-
-    <div class="photo-item reveal">
-      <img src="douche.jpg" alt="Douche et détente" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-
-    <div class="photo-item reveal">
-      <img src="tv.jpg" alt="Ambiance repos avec télévision" style="width:100%;height:100%;object-fit:cover;">
+    <div class="slider-controls">
+      <button class="slider-btn" onclick="prevSlide()">← Précédent</button>
+      <div class="slider-dots">
+        <div class="slider-dot active" onclick="goSlide(0)"></div>
+        <div class="slider-dot" onclick="goSlide(1)"></div>
+        <div class="slider-dot" onclick="goSlide(2)"></div>
+        <div class="slider-dot" onclick="goSlide(3)"></div>
+        <div class="slider-dot" onclick="goSlide(4)"></div>
+        <div class="slider-dot" onclick="goSlide(5)"></div>
+      </div>
+      <button class="slider-btn" onclick="nextSlide()">Suivant →</button>
     </div>
   </div>
 </section>
