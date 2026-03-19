@@ -570,50 +570,47 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
       <div class="carte-wrap">
         <!-- Carte de visite SVG (optionnelle) -->
-             <div>
+       <div>
       <div class="fg-row">
         <div class="fg">
-          <label for="nom">Nom et prénom</label>
-          <input id="nom" placeholder="Votre nom complet"/>
+          <label>Contact direct</label>
+          <div class="chips">
+            <div class="chip">
+              <span class="chip-icon">✉️</span>
+              <span>jeromefischer087@gmail.com</span>
+            </div>
+            <div class="chip">
+              <span class="chip-icon">📞</span>
+              <span>06 09 71 53 44</span>
+            </div>
+          </div>
         </div>
-        <div class="fg">
-          <label for="ville">Ville</label>
-          <input id="ville" placeholder="Votre ville"/>
-        </div>
-      </div>
-      <div class="fg-row">
-        <div class="fg">
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="Votre email"/>
-        </div>
-        <div class="fg">
-          <label for="tel">Téléphone</label>
-          <input id="tel" type="tel" placeholder="Votre téléphone"/>
-        </div>
-      </div>
-      <div class="fg">
-        <label for="type">Type de séance</label>
-        <select id="type">
-          <option>Découverte (60 min)</option>
-          <option>Équilibre (90 min)</option>
-          <option>Sérénité (120 min)</option>
-          <option>Bon cadeau</option>
-          <option>Duo</option>
-          <option>Abonnement</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label for="message">Votre demande</label>
-        <textarea id="message" placeholder="Précisez vos disponibilités, vos besoins, etc."></textarea>
       </div>
 
-      <a class="form-btn"
-         href="mailto:jeromefischer087@gmail.com?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
-        Envoyer ma demande
-      </a>
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.5rem;">
+        <!-- Bouton email -->
+        <a class="form-btn"
+           href="mailto:jeromefischer087@gmail.com?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
+          Me contacter par email
+        </a>
+
+        <!-- Bouton téléphone (clic depuis mobile) -->
+        <a class="form-btn"
+           href="tel:+33609715344"
+           style="background:var(--sage);">
+          M’appeler au 06 09 71 53 44
+        </a>
+
+        <!-- Bouton WhatsApp (ouvre une conversation) -->
+        <a class="form-btn"
+           href="https://wa.me/33609715344"
+           target="_blank"
+           style="background:#25D366;">
+          M’écrire sur WhatsApp
+        </a>
+      </div>
     </div>
-
-
+        
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
