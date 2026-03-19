@@ -524,12 +524,27 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
         <div class="chip"><span class="chip-icon">📞</span><span>06 09 71 53 44</span></div>
         <div class="chip"><span class="chip-icon">✉️</span><span>jeromefischer087@gmail.com</span></div>
         <div class="chip"><span class="chip-icon">📍</span><span>Franche-Comté (25, 70, 90)</span></div>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-  <input type="hidden" name="cmd" value="_s-xclick">
-  <input type="hidden" name="hosted_button_id" value="TON_ID_DE_BOUTON">
-  <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Payer avec PayPal">
-  <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-</form>
+       <div class="paypal-button" style="margin-top: 15px;">
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <input type="hidden" name="cmd" value="_xclick">
+    <!-- Adresse PayPal qui reçoit le paiement -->
+    <input type="hidden" name="business" value="jeromefischer087@gmail.com">
+
+    <!-- Infos sur ce que tu vends -->
+    <input type="hidden" name="item_name" value="Prestation de service">
+    <input type="hidden" name="currency_code" value="EUR">
+    <input type="hidden" name="amount" value="50.00">
+
+    <!-- Bouton visuel -->
+    <input type="image"
+      src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif"
+      border="0" name="submit" alt="Payer avec PayPal">
+    <img alt="" border="0"
+      src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif"
+      width="1" height="1">
+  </form>
+</div>
+
       </div>
 
       <div class="carte-wrap">
