@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Le Temple du Corps — Massage Thaï à domicile · Franche-Comté</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:      #f2efe9;
+  --bg2:     #e9e5dd;
+  --bg3:     #ddd8ce;
+  --ink:     #1c2018;
+  --ink2:    #3a4232;
+  --sage:    #6b7c5e;
+  --sage-l:  #8fa07f;
+  --sage-d:  #3f4e35;
+  --moss:    #2a3626;
+  --gold:    #b8935a;
+  --gold-l:  #d4ae7a;
+  --white:   #faf8f4;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6vw;display:flex;align-items:center;justify-content:space-between;transition:background .35s,padding .35s,box-shadow .35s;}
+nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1rem 6vw;box-shadow:0 1px 0 rgba(107,124,94,.15);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:300;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.6rem;}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{font-size:.68rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);text-decoration:none;position:relative;padding-bottom:2px;transition:color .3s;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s;}
+.nav-links a:hover{color:var(--sage-d);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-btn{font-size:.65rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--white);background:var(--moss);padding:.65rem 1.4rem;text-decoration:none;transition:background .3s,transform .2s;}
+.nav-btn:hover{background:var(--gold);transform:translateY(-2px);}
+
+/* HERO */
+#accueil{min-height:100svh;display:grid;grid-template-columns:58% 42%;position:relative;overflow:hidden;}
+.hero-l{display:flex;flex-direction:column;justify-content:center;padding:9rem 3rem 5rem 8vw;position:relative;z-index:1;}
+.hero-kicker{display:flex;align-items:center;gap:.9rem;font-size:.62rem;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
+.hero-kicker-bar{width:2.2rem;height:1px;background:var(--gold);}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,5.6rem);font-weight:300;line-height:1.04;color:var(--ink);margin-bottom:1rem;}
+.hero-h1 em{font-style:italic;color:var(--sage);}
+.hero-zone{font-size:.72rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--sage-l);margin-bottom:1.8rem;display:flex;align-items:center;gap:.5rem;}
+.hero-sub{font-size:.9rem;font-weight:300;line-height:2;color:var(--ink2);max-width:40ch;margin-bottom:2.8rem;}
+.hero-ctas{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
+.cta-main{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:300;color:var(--white);background:var(--sage-d);padding:1rem 2.2rem;text-decoration:none;transition:background .3s,transform .2s;display:inline-block;}
+.cta-main:hover{background:var(--gold);transform:translateY(-2px);}
+.cta-ghost{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:300;color:var(--sage-d);text-decoration:none;border-bottom:1px solid var(--sage-l);padding-bottom:2px;transition:color .3s,border-color .3s;}
+.cta-ghost:hover{color:var(--gold);border-color:var(--gold);}
+
+/* Hero right */
+.hero-r{position:relative;overflow:hidden;background:linear-gradient(150deg,#c8d4be 0%,#9aaf87 45%,#6b8558 100%);}
+.hero-r-visual{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.hero-r-visual svg{width:100%;height:100%;}
+.hero-badge{position:absolute;bottom:3rem;right:3rem;width:115px;height:115px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:spin 25s linear infinite;}
+.hero-badge-in{animation:spin 25s linear reverse infinite;text-align:center;}
+.hero-badge-in big{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);line-height:1.15;}
+.hero-badge-in small{font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.scroll-cue{position:absolute;bottom:2.5rem;left:8vw;display:flex;align-items:center;gap:.8rem;z-index:2;}
+.scroll-cue span{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sage-l);}
+.scroll-bar{width:35px;height:1px;background:linear-gradient(to right,var(--sage-l),transparent);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* STATS */
+.stats{background:var(--moss);padding:3.2rem 8vw;display:flex;align-items:center;justify-content:space-around;gap:2rem;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-n{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:300;color:var(--gold-l);line-height:1;}
+.stat-l{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.4);margin-top:.4rem;}
+.stats-div{width:1px;height:45px;background:rgba(184,147,90,.2);}
+
+/* BANNIÈRE */
+.banniere-wrap{width:100%;height:340px;overflow:hidden;position:relative;background:linear-gradient(135deg,#2d3d28 0%,#4a6040 40%,#7a9a6a 100%);}
+.banniere-wrap svg{width:100%;height:100%;}
+
+/* SECTIONS */
+section{padding:7rem 8vw;}
+.s-kicker{display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;}
+.s-kicker::before{content:'';width:1.8rem;height:1px;background:var(--gold);}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--ink);}
+.s-title em{font-style:italic;color:var(--sage);}
+
+/* MASSAGE THAÏ */
+#massage{background:var(--white);}
+.massage-wrap{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-top:4rem;}
+.massage-txt p{font-size:.88rem;font-weight:300;line-height:2;color:var(--ink2);margin-bottom:1.2rem;}
+.massage-traits{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem;}
+.trait{display:flex;align-items:flex-start;gap:1rem;}
+.trait-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.5rem;}
+.trait-txt{font-size:.84rem;font-weight:300;line-height:1.7;color:var(--ink2);}
+.massage-visual{display:flex;flex-direction:column;gap:8px;}
+.mv-img{border-radius:6px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18);}
+.mv-img svg{width:100%;display:block;}
+
+/* QUOTE */
+.quote-band{background:var(--bg3);padding:5rem 8vw;display:flex;gap:4rem;align-items:center;}
+.quote-line{width:2px;min-height:90px;background:var(--gold);flex-shrink:0;}
+.quote-txt{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.2vw,2.2rem);font-weight:300;font-style:italic;color:var(--sage-d);line-height:1.55;}
+.quote-attr{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sage-l);margin-top:1.1rem;}
+
+/* FORMULES */
+#formules{background:var(--bg);}
+.form-head{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:4.5rem;}
+.form-intro{font-size:.87rem;font-weight:300;line-height:1.95;color:var(--ink2);}
+.formules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.f-card{background:var(--white);padding:2.8rem 2.4rem;position:relative;overflow:hidden;transition:background .4s;}
+.f-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--sage);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.76,0,.24,1);}
+.f-card:hover{background:var(--bg2);}
+.f-card:hover::after{transform:scaleX(1);}
+.f-card.star{background:var(--sage-d);}
+.f-card.star::after{background:var(--gold);}
+.f-card.star:hover{background:#344229;}
+.f-card-icon{font-size:2rem;margin-bottom:1.3rem;display:block;}
+.f-card-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--ink);margin-bottom:.5rem;}
+.f-card.star .f-card-name{color:var(--white);}
+.f-card-dur{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-l);margin-bottom:1rem;}
+.f-card.star .f-card-dur{color:rgba(250,248,244,.4);}
+.f-card-desc{font-size:.82rem;font-weight:300;line-height:1.85;color:var(--ink2);margin-bottom:1.6rem;}
+.f-card.star .f-card-desc{color:rgba(250,248,244,.65);}
+.f-devis{display:inline-flex;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:300;border:1px solid var(--gold);padding:.3rem .85rem;text-decoration:none;transition:background .3s,color .3s;}
+.f-devis:hover{background:var(--gold);color:var(--white);}
+.f-card.star .f-devis{color:var(--gold-l);border-color:var(--gold-l);}
+.f-card.star .f-devis:hover{background:var(--gold-l);color:var(--moss);}
+.f-card.large{grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem;align-items:center;background:var(--moss);}
+.f-card.large .f-card-name{color:var(--white);font-size:1.6rem;}
+.f-card.large .f-card-desc{color:rgba(250,248,244,.6);}
+.f-card.large .f-card-dur{color:rgba(250,248,244,.35);}
+.f-card.large::after{background:var(--gold-l);}
+.f-card.large:hover{background:#222e1e;}
+.f-large-mid{border-left:1px solid rgba(255,255,255,.1);border-right:1px solid rgba(255,255,255,.1);padding:0 2rem;}
+
+/* BIENFAITS */
+#bienfaits{background:var(--white);}
+.bien-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem;}
+.bien-card{background:var(--bg2);padding:2.2rem 1.8rem;border-top:2px solid transparent;transition:border-color .35s,background .35s;}
+.bien-card:hover{border-color:var(--gold);background:var(--bg3);}
+.bien-icon{font-size:1.6rem;margin-bottom:1rem;}
+.bien-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:.5rem;}
+.bien-txt{font-size:.8rem;font-weight:300;line-height:1.8;color:var(--ink2);}
+
+/* ZONES */
+#zones{background:var(--bg);}
+.zones-wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem;}
+.zones-map{background:var(--bg2);aspect-ratio:4/3;overflow:hidden;}
+.zones-map svg{width:100%;height:100%;}
+.zones-list{display:flex;flex-direction:column;gap:1.2rem;}
+.zone-item{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem;background:var(--white);transition:background .3s;}
+.zone-item:hover{background:var(--bg2);}
+.zone-dep{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;color:var(--gold);line-height:1;flex-shrink:0;width:2.5rem;}
+.zone-info strong{display:block;font-size:.85rem;font-weight:400;color:var(--ink);margin-bottom:.2rem;}
+.zone-info span{font-size:.78rem;font-weight:300;color:var(--ink2);}
+.zones-note{font-size:.78rem;font-weight:300;color:var(--sage-l);margin-top:.5rem;}
+
+/* CONTACT */
+#contact{background:var(--bg2);}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:6rem;align-items:start;margin-top:4rem;}
+.contact-info h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--ink);margin:2rem 0 .6rem;}
+.contact-info h3:first-child{margin-top:0;}
+.contact-info p{font-size:.83rem;font-weight:300;line-height:1.85;color:var(--ink2);}
+.hours{width:100%;border-collapse:collapse;margin-top:.3rem;}
+.hours tr{border-bottom:1px solid var(--bg3);}
+.hours td{padding:.55rem 0;font-size:.8rem;font-weight:300;color:var(--ink2);}
+.hours td:last-child{text-align:right;color:var(--sage-d);font-weight:400;}
+.chips{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem;}
+.chip{display:flex;align-items:center;gap:.7rem;font-size:.82rem;font-weight:300;color:var(--ink2);}
+.chip-icon{font-size:1rem;width:1.4rem;text-align:center;}
+
+/* Carte de visite */
+.carte-wrap{margin-top:2rem;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+.carte-wrap svg{width:100%;display:block;}
+
+.fg{margin-bottom:1.3rem;}
+.fg label{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.4rem;}
+.fg input,.fg select,.fg textarea{width:100%;padding:.85rem 1rem;background:var(--white);border:1px solid var(--bg3);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:300;color:var(--ink);outline:none;border-radius:0;transition:border-color .3s;appearance:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--sage);}
+.fg textarea{height:90px;resize:vertical;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-btn{width:100%;padding:1rem;background:var(--sage-d);color:var(--white);border:none;font-family:'DM Sans',sans-serif;font-size:.66rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;margin-top:.3rem;}
+.form-btn:hover{background:var(--gold);}
+.form-ok{display:none;background:var(--white);border-left:3px solid var(--sage);padding:1rem 1.4rem;margin-top:1rem;font-size:.83rem;color:var(--sage-d);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem;}
+.f-brand p{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:.8rem;}
+.f-brand p span{font-style:italic;color:var(--gold-l);}
+.f-brand small{font-size:.78rem;font-weight:300;line-height:1.85;color:rgba(250,248,244,.4);max-width:28ch;display:block;}
+.f-col h4{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.3rem;}
+.f-col ul{list-style:none;}
+.f-col ul li{margin-bottom:.6rem;}
+.f-col ul li a{font-size:.78rem;font-weight:300;color:rgba(250,248,244,.45);text-decoration:none;transition:color .3s;}
+.f-col ul li a:hover{color:var(--gold-l);}
+.f-col ul li span{font-size:.78rem;font-weight:300;color:rgba(250,248,244,.4);}
+.footer-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-bot p{font-size:.7rem;color:rgba(250,248,244,.28);}
+.footer-bot a{font-size:.7rem;color:rgba(250,248,244,.28);text-decoration:none;transition:color .3s;}
+.footer-bot a:hover{color:var(--gold-l);}
+
+/* MODALS */
+.modal-bg{display:none;position:fixed;inset:0;z-index:900;background:rgba(26,35,22,.82);align-items:center;justify-content:center;padding:2rem;}
+.modal-bg.on{display:flex;}
+.modal-box{background:var(--white);max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:3rem;position:relative;}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--sage-l);line-height:1;}
+.modal-box h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;color:var(--ink);}
+.modal-hr{width:3rem;height:1px;background:var(--gold);margin:1.3rem 0;}
+.modal-box h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;color:var(--sage-d);margin:1.5rem 0 .5rem;}
+.modal-box p{font-size:.83rem;font-weight:300;line-height:1.85;color:var(--ink2);}
+
+/* PHOTOS */
+.photos-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:260px 260px;gap:4px;}
+.photo-item{position:relative;overflow:hidden;background:rgba(255,255,255,.05);cursor:pointer;}
+.photo-tall{grid-row:span 2;}
+.photo-wide{grid-column:span 2;}
+.photo-upload-label{display:block;width:100%;height:100%;position:relative;cursor:pointer;}
+.photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;transition:background .3s;}
+.photo-placeholder span{font-size:.72rem;font-weight:300;letter-spacing:.1em;color:rgba(212,174,122,.5);text-align:center;line-height:1.6;}
+.photo-upload-label:hover .photo-placeholder{background:rgba(255,255,255,.04);}
+.photo-hover-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(26,35,22,.75),transparent);padding:1rem 1.2rem;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(212,174,122,.7);opacity:0;transition:opacity .3s;}
+.photo-upload-label:hover .photo-hover-label{opacity:1;}
+.photo-item.has-photo .photo-placeholder{display:none;}
+.photo-item.has-photo .photo-hover-label{opacity:1;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* BURGER */
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.burger span{display:block;width:22px;height:1px;background:var(--ink);}
+.mob-menu{display:none;position:fixed;inset:0;z-index:400;background:var(--white);flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mob-menu.open{display:flex;}
+.mob-menu a{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none;}
+.mob-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--sage-l);}
+
+@media(max-width:960px){
+  .nav-links,.nav-btn{display:none;}
+  .burger{display:flex;}
+  #accueil{grid-template-columns:1fr;}
+  .hero-r{display:none;}
+  .hero-l{padding:8rem 6vw 5rem;}
+  section{padding:5rem 6vw;}
+  .massage-wrap{grid-template-columns:1fr;gap:3rem;}
+  .form-head{grid-template-columns:1fr;gap:1.5rem;}
+  .formules-grid{grid-template-columns:1fr;}
+  .f-card.large{grid-column:auto;grid-template-columns:1fr;}
+  .f-large-mid{border:none;padding:0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:1.5rem 0;margin:1rem 0;}
+  .bien-grid{grid-template-columns:1fr 1fr;}
+  .zones-wrap{grid-template-columns:1fr;gap:2.5rem;}
+  .contact-wrap{grid-template-columns:1fr;gap:3rem;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
+  .footer-bot{flex-direction:column;text-align:center;}
+  .quote-band{padding:4rem 6vw;gap:2rem;}
+  .stats{flex-direction:column;gap:1.5rem;}
+  .stats-div{display:none;}
+  .fg-row{grid-template-columns:1fr;}
+  .banniere-wrap{height:200px;}
+  .photos-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .photo-tall{grid-row:auto;min-height:220px;}
+  .photo-wide{grid-column:span 2;min-height:200px;}
+  .photo-item{min-height:180px;}
+}
+@media(max-width:560px){
+  .bien-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  .photos-grid{grid-template-columns:1fr;}
+  .photo-wide{grid-column:auto;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#accueil">🌿 Le Temple du Corps</a>
+  <ul class="nav-links">
+    <li><a href="#accueil">Accueil</a></li>
+    <li><a href="#massage">Le massage thaï</a></li>
+    <li><a href="#formules">Formules</a></li>
+    <li><a href="#photos">Photos</a></li>
+    <li><a href="#zones">Zones</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-btn" href="https://cal.com/jerome-fischer-ozrkr1/15min" target="_blank">Prendre RDV</a>
+  <div class="burger" onclick="openMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMenu()">×</button>
+  <a href="#accueil" onclick="closeMenu()">Accueil</a>
+  <a href="#massage" onclick="closeMenu()">Le massage thaï</a>
+  <a href="#formules" onclick="closeMenu()">Formules</a>
+  <a href="#photos" onclick="closeMenu()">Photos</a>
+  <a href="#zones" onclick="closeMenu()">Zones</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="accueil">
+  <div class="hero-l">
+    <div class="hero-kicker"><span class="hero-kicker-bar"></span>Massage bien-être à domicile</div>
+    <h1 class="hero-h1">Le Temple<br>du <em>Corps</em></h1>
+    <div class="hero-zone">📍 Belfort et alentours · Franche-Comté</div>
+    <p class="hero-sub">L'art ancestral du massage thaï, pratiqué chez vous. Une technique millénaire qui allie étirements, pressions et énergie pour libérer le corps et apaiser l'esprit en profondeur.</p>
+    <div class="hero-ctas">
+      <a class="cta-main" href="#contact">Demander un devis</a>
+      <a class="cta-ghost" href="#massage">Découvrir le massage thaï</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="hero-r-visual">
+      <!-- Illustration botanique zen -->
+      <svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bg-grad" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#9aaf87" stop-opacity=".4"/>
+            <stop offset="100%" stop-color="#3f5535" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="600" height="800" fill="url(#bg-grad)"/>
+        <!-- Cercles concentriques -->
+        <circle cx="300" cy="400" r="280" stroke="rgba(255,255,255,.07)" stroke-width="1" fill="none"/>
+        <circle cx="300" cy="400" r="200" stroke="rgba(255,255,255,.1)" stroke-width="1" fill="none"/>
+        <circle cx="300" cy="400" r="120" stroke="rgba(255,255,255,.12)" stroke-width="1" fill="none"/>
+        <!-- Tige centrale -->
+        <line x1="300" y1="100" x2="300" y2="700" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+        <!-- Grandes feuilles -->
+        <ellipse cx="300" cy="400" rx="130" ry="200" stroke="rgba(255,255,255,.15)" stroke-width="1" fill="none" transform="rotate(0,300,400)"/>
+        <ellipse cx="300" cy="400" rx="130" ry="200" stroke="rgba(255,255,255,.1)" stroke-width="1" fill="none" transform="rotate(45,300,400)"/>
+        <ellipse cx="300" cy="400" rx="130" ry="200" stroke="rgba(255,255,255,.08)" stroke-width="1" fill="none" transform="rotate(90,300,400)"/>
+        <ellipse cx="300" cy="400" rx="130" ry="200" stroke="rgba(255,255,255,.08)" stroke-width="1" fill="none" transform="rotate(135,300,400)"/>
+        <!-- Branches gauches -->
+        <path d="M300 400 Q220 330 170 260" stroke="rgba(255,255,255,.18)" stroke-width="1.2" fill="none"/>
+        <path d="M300 400 Q240 370 200 310" stroke="rgba(255,255,255,.12)" stroke-width="1" fill="none"/>
+        <path d="M300 400 Q210 450 160 520" stroke="rgba(255,255,255,.15)" stroke-width="1.2" fill="none"/>
+        <!-- Branches droites -->
+        <path d="M300 400 Q380 330 430 260" stroke="rgba(255,255,255,.18)" stroke-width="1.2" fill="none"/>
+        <path d="M300 400 Q360 370 400 310" stroke="rgba(255,255,255,.12)" stroke-width="1" fill="none"/>
+        <path d="M300 400 Q390 450 440 520" stroke="rgba(255,255,255,.15)" stroke-width="1.2" fill="none"/>
+        <!-- Petits points floraux -->
+        <circle cx="170" cy="260" r="4" fill="rgba(212,174,122,.5)"/>
+        <circle cx="160" cy="520" r="4" fill="rgba(212,174,122,.5)"/>
+        <circle cx="430" cy="260" r="4" fill="rgba(212,174,122,.5)"/>
+        <circle cx="440" cy="520" r="4" fill="rgba(212,174,122,.5)"/>
+        <circle cx="300" cy="100" r="5" fill="rgba(212,174,122,.6)"/>
+        <circle cx="300" cy="700" r="5" fill="rgba(212,174,122,.6)"/>
+        <!-- Point central -->
+        <circle cx="300" cy="400" r="12" stroke="rgba(212,174,122,.5)" stroke-width="1.5" fill="none"/>
+        <circle cx="300" cy="400" r="4" fill="rgba(212,174,122,.7)"/>
+        <!-- Texte décoratif -->
+        <text x="300" y="760" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.3)" font-family="'DM Sans',sans-serif" letter-spacing="4">NUAD BORAN</text>
+      </svg>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-in">
+        <big>Le<br>Temple</big>
+        <small>à votre porte</small>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>Découvrir</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Départements couverts</div></div>
+  <div class="stats-div"></div>
+  <div class="stat"><div class="stat-n">2 500+</div><div class="stat-l">ans de tradition</div></div>
+  <div class="stats-div"></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">À votre domicile</div></div>
+  <div class="stats-div"></div>
+  <div class="stat"><div class="stat-n">Lun–Ven</div><div class="stat-l">8h00 – 19h00</div></div>
+</div>
+
+<!-- BANNIÈRE -->
+<div class="banniere-wrap">
+  <svg viewBox="0 0 1400 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="ban-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2a3626"/>
+        <stop offset="50%" stop-color="#4a6040"/>
+        <stop offset="100%" stop-color="#7a9a6a"/>
+      </linearGradient>
+    </defs>
+    <rect width="1400" height="340" fill="url(#ban-grad)"/>
+    <!-- Motif répété de lignes organiques -->
+    <g opacity=".12" stroke="#fff" stroke-width=".8" fill="none">
+      <ellipse cx="200" cy="170" rx="160" ry="240"/>
+      <ellipse cx="500" cy="170" rx="160" ry="240"/>
+      <ellipse cx="800" cy="170" rx="160" ry="240"/>
+      <ellipse cx="1100" cy="170" rx="160" ry="240"/>
+      <ellipse cx="1400" cy="170" rx="160" ry="240"/>
+    </g>
+    <g opacity=".08" stroke="#d4ae7a" stroke-width="1" fill="none">
+      <line x1="0" y1="170" x2="1400" y2="170"/>
+      <line x1="700" y1="0" x2="700" y2="340"/>
+    </g>
+    <!-- Texte central -->
+    <text x="700" y="155" text-anchor="middle" font-size="42" fill="rgba(255,255,255,.12)" font-family="'Playfair Display',serif" font-style="italic">Nuad Boran</text>
+    <text x="700" y="200" text-anchor="middle" font-size="11" fill="rgba(212,174,122,.5)" font-family="'DM Sans',sans-serif" letter-spacing="6">L'ART DU MASSAGE THAÏLANDAIS · À DOMICILE EN FRANCHE-COMTÉ</text>
+    <!-- Points décoratifs -->
+    <circle cx="350" cy="170" r="3" fill="rgba(212,174,122,.4)"/>
+    <circle cx="1050" cy="170" r="3" fill="rgba(212,174,122,.4)"/>
+    <line x1="400" y1="170" x2="560" y2="170" stroke="rgba(212,174,122,.25)" stroke-width="1"/>
+    <line x1="840" y1="170" x2="1000" y2="170" stroke="rgba(212,174,122,.25)" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- LE MASSAGE THAÏ -->
+<section id="massage">
+  <div class="s-kicker">L'art ancestral</div>
+  <h2 class="s-title">Qu'est-ce que le <em>massage thaï</em> ?</h2>
+  <div class="massage-wrap">
+    <div class="massage-txt reveal">
+      <p>Le massage thaï — <em>Nuad Boran</em> en thaïlandais — est une pratique thérapeutique vieille de plus de 2 500 ans, enracinée dans la médecine ayurvédique et les traditions bouddhistes. Contrairement aux massages occidentaux, il se pratique habillé, au sol, sans huile.</p>
+      <p>Le praticien utilise ses pouces, paumes, coudes, genoux et pieds pour exercer des pressions sur les lignes d'énergie du corps (<em>Sen</em>), tout en guidant le corps à travers une série d'étirements inspirés du yoga.</p>
+      <p>Le résultat est une détente profonde, une meilleure circulation, une libération des tensions chroniques et un sentiment de légèreté durable.</p>
+      <div class="massage-traits">
+        <div class="trait"><div class="trait-dot"></div><div class="trait-txt">Pratiqué habillé, sans huile — une tenue souple est idéale</div></div>
+        <div class="trait"><div class="trait-dot"></div><div class="trait-txt">Combinaison unique d'acupression, étirements et yoga passif</div></div>
+        <div class="trait"><div class="trait-dot"></div><div class="trait-txt">Adapté à tous les profils — débutants comme habitués</div></div>
+        <div class="trait"><div class="trait-dot"></div><div class="trait-txt">Je me déplace avec le matelas de sol professionnel</div></div>
+      </div>
+    </div>
+    <div class="massage-visual reveal" style="transition-delay:.2s">
+      <!-- Visuel 1 : scène de massage thaï stylisée -->
+      <div class="mv-img">
+        <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mv1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3a4e33"/>
+              <stop offset="100%" stop-color="#7a9a6a"/>
+            </linearGradient>
+          </defs>
+          <rect width="560" height="320" fill="url(#mv1)"/>
+          <!-- Silhouette allongée (personne sur matelas) -->
+          <ellipse cx="280" cy="195" rx="200" ry="22" fill="rgba(255,255,255,.06)" rx="200"/>
+          <!-- Tête -->
+          <circle cx="115" cy="185" r="22" fill="rgba(255,255,255,.15)"/>
+          <!-- Corps allongé -->
+          <path d="M135 185 Q200 175 280 178 Q340 180 390 183 Q420 185 430 188" stroke="rgba(255,255,255,.2)" stroke-width="28" stroke-linecap="round" fill="none"/>
+          <!-- Jambes -->
+          <path d="M390 183 Q410 185 435 195 Q455 205 465 210" stroke="rgba(255,255,255,.18)" stroke-width="20" stroke-linecap="round" fill="none"/>
+          <path d="M390 183 Q410 182 435 178 Q455 175 465 170" stroke="rgba(255,255,255,.15)" stroke-width="18" stroke-linecap="round" fill="none"/>
+          <!-- Praticien assis -->
+          <ellipse cx="290" cy="145" rx="18" ry="20" fill="rgba(212,174,122,.25)"/>
+          <path d="M278 163 Q290 170 302 163" stroke="rgba(212,174,122,.3)" stroke-width="14" stroke-linecap="round" fill="none"/>
+          <!-- Mains du praticien -->
+          <circle cx="260" cy="178" r="7" fill="rgba(212,174,122,.35)"/>
+          <circle cx="310" cy="178" r="7" fill="rgba(212,174,122,.35)"/>
+          <!-- Fleurs décoratives -->
+          <circle cx="80" cy="260" r="15" fill="rgba(255,255,255,.06)"/>
+          <circle cx="480" cy="60" r="20" fill="rgba(212,174,122,.08)"/>
+          <!-- Texte -->
+          <text x="280" y="295" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.35)" font-family="'DM Sans',sans-serif" letter-spacing="3">MASSAGE THAÏ TRADITIONNEL</text>
+        </svg>
+      </div>
+      <!-- Visuel 2 : lignes d'énergie Sen -->
+      <div class="mv-img" style="margin-top:8px">
+        <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mv2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2d3d28"/>
+              <stop offset="100%" stop-color="#4a6040"/>
+            </linearGradient>
+          </defs>
+          <rect width="560" height="200" fill="url(#mv2)"/>
+          <!-- Silhouette corps debout schématique -->
+          <circle cx="280" cy="45" r="18" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+          <line x1="280" y1="63" x2="280" y2="140" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <path d="M280 85 Q240 95 220 110" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+          <path d="M280 85 Q320 95 340 110" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+          <path d="M280 140 Q260 160 250 185" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+          <path d="M280 140 Q300 160 310 185" stroke="rgba(255,255,255,.2)" stroke-width="1.5" fill="none"/>
+          <!-- Lignes Sen -->
+          <path d="M280 63 Q275 100 278 140" stroke="rgba(212,174,122,.6)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+          <path d="M270 70 Q240 100 230 130" stroke="rgba(184,147,90,.4)" stroke-width="1" fill="none" stroke-dasharray="3,4"/>
+          <path d="M290 70 Q320 100 330 130" stroke="rgba(184,147,90,.4)" stroke-width="1" fill="none" stroke-dasharray="3,4"/>
+          <!-- Points d'acupression -->
+          <circle cx="280" cy="75" r="3" fill="rgba(212,174,122,.8)"/>
+          <circle cx="280" cy="100" r="3" fill="rgba(212,174,122,.8)"/>
+          <circle cx="280" cy="125" r="3" fill="rgba(212,174,122,.8)"/>
+          <circle cx="262" cy="90" r="2.5" fill="rgba(212,174,122,.6)"/>
+          <circle cx="298" cy="90" r="2.5" fill="rgba(212,174,122,.6)"/>
+          <!-- Légende -->
+          <line x1="360" y1="80" x2="400" y2="80" stroke="rgba(212,174,122,.5)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="408" y="84" font-size="9" fill="rgba(212,174,122,.7)" font-family="'DM Sans',sans-serif">Lignes Sen</text>
+          <circle cx="364" cy="100" r="3" fill="rgba(212,174,122,.6)"/>
+          <text x="374" y="104" font-size="9" fill="rgba(212,174,122,.7)" font-family="'DM Sans',sans-serif">Points d'énergie</text>
+          <text x="280" y="198" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.3)" font-family="'DM Sans',sans-serif" letter-spacing="3">LES LIGNES D'ÉNERGIE · SEN</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <div class="quote-line"></div>
+  <div>
+    <p class="quote-txt">« Le massage thaï est un dialogue silencieux<br>entre deux corps — une méditation en mouvement. »</p>
+    <p class="quote-attr">— Tradition du Nuad Boran</p>
+  </div>
+</div>
+
+<!-- FORMULES -->
+<section id="formules">
+  <div class="form-head">
+    <div>
+      <div class="s-kicker">Nos formules</div>
+      <h2 class="s-title">Choisissez votre <em>séance</em></h2>
+    </div>
+    <p class="form-intro reveal">Chaque séance est adaptée à votre état du moment — tension, fatigue, stress ou simple envie de vous offrir un moment hors du temps. Je me déplace avec le matelas de sol professionnel et tout le nécessaire.</p>
+  </div>
+  <div class="formules-grid">
+    <div class="f-card reveal">
+      <span class="f-card-icon">🌱</span>
+      <div class="f-card-name">Découverte</div>
+      <div class="f-card-dur">60 minutes</div>
+      <p class="f-card-desc">Idéale pour une première expérience du massage thaï. Un parcours complet du corps en douceur — pressions sur les lignes d'énergie et étirements initiaux pour ressentir l'essence de cette pratique.</p>
+      <a class="f-devis" href="#contact">Demander un devis</a>
+    </div>
+    <div class="f-card star reveal" style="transition-delay:.1s">
+      <span class="f-card-icon">☯️</span>
+      <div class="f-card-name">Équilibre</div>
+      <div class="f-card-dur">90 minutes · Formule phare</div>
+      <p class="f-card-desc">La durée idéale pour un massage thaï complet. Pressions profondes sur toutes les lignes Sen, étirements du dos, des hanches et des épaules. Un rééquilibrage total du corps et de l'esprit.</p>
+      <a class="f-devis" href="#contact">Demander un devis</a>
+    </div>
+    <div class="f-card reveal" style="transition-delay:.2s">
+      <span class="f-card-icon">🕯️</span>
+      <div class="f-card-name">Sérénité</div>
+      <div class="f-card-dur">120 minutes</div>
+      <p class="f-card-desc">Pour ceux qui souhaitent s'offrir une immersion totale. Le temps de travailler chaque zone en profondeur, d'approfondir les étirements et de laisser le corps entrer dans une détente absolue.</p>
+      <a class="f-devis" href="#contact">Demander un devis</a>
+    </div>
+    <div class="f-card large reveal">
+      <div>
+        <span class="f-card-icon">🎁</span>
+        <div class="f-card-name">Bon Cadeau</div>
+        <div class="f-card-dur">Toutes durées disponibles</div>
+        <p class="f-card-desc">Offrez un moment d'exception à ceux que vous aimez. Bons cadeaux disponibles pour toutes les formules.</p>
+        <a class="f-devis" href="#contact">Demander un bon cadeau</a>
+      </div>
+      <div class="f-large-mid">
+        <span class="f-card-icon">👥</span>
+        <div class="f-card-name">Duo</div>
+        <div class="f-card-dur">Séance à deux · même lieu</div>
+        <p class="f-card-desc">Partagez l'expérience du massage thaï en duo — deux séances réalisées successivement à votre domicile.</p>
+        <a class="f-devis" href="#contact">Demander un devis</a>
+      </div>
+      <div>
+        <span class="f-card-icon">♾️</span>
+        <div class="f-card-name">Abonnement</div>
+        <div class="f-card-dur">Séances régulières</div>
+        <p class="f-card-desc">Pour faire du massage thaï une pratique de bien-être régulière. Tarif préférentiel sur les séances mensuelles ou bimensuelles.</p>
+        <a class="f-devis" href="#contact">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIENFAITS -->
+<section id="bienfaits">
+  <div class="s-kicker">Pourquoi le massage thaï</div>
+  <h2 class="s-title">Les <em>bienfaits</em> reconnus</h2>
+  <div class="bien-grid">
+    <div class="bien-card reveal">
+      <div class="bien-icon">💆</div>
+      <div class="bien-name">Détente musculaire</div>
+      <p class="bien-txt">Les pressions profondes et étirements libèrent les tensions accumulées dans les muscles, notamment dans le dos, les épaules et les jambes.</p>
+    </div>
+    <div class="bien-card reveal" style="transition-delay:.1s">
+      <div class="bien-icon">⚡</div>
+      <div class="bien-name">Énergie &amp; vitalité</div>
+      <p class="bien-txt">En débloquant les lignes d'énergie (Sen), le massage thaï revitalise l'organisme et combat durablement la fatigue chronique.</p>
+    </div>
+    <div class="bien-card reveal" style="transition-delay:.2s">
+      <div class="bien-icon">🧘</div>
+      <div class="bien-name">Flexibilité</div>
+      <p class="bien-txt">Les étirements passifs inspirés du yoga améliorent progressivement la souplesse articulaire et musculaire, sans effort de votre part.</p>
+    </div>
+    <div class="bien-card reveal" style="transition-delay:.3s">
+      <div class="bien-icon">🧠</div>
+      <div class="bien-name">Clarté mentale</div>
+      <p class="bien-txt">L'état méditatif induit par le massage thaï apaise le mental, réduit le stress et favorise un sommeil réparateur durable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos" style="background:var(--moss);padding:7rem 8vw;">
+  <div style="display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1.1rem;">
+    <span style="width:1.8rem;height:1px;background:var(--gold-l);display:block;"></span>Galerie
+  </div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:.6rem;">Moments de <em style="font-style:italic;color:var(--gold-l);">sérénité</em></h2>
+  <p style="font-size:.84rem;font-weight:300;color:rgba(250,248,244,.45);margin-bottom:3.5rem;max-width:50ch;">Ajoutez vos photos ici pour donner vie à votre espace. Cliquez sur une case pour remplacer le visuel par votre propre image.</p>
+
+  <div class="photos-grid">
+    <!-- Grande image gauche -->
+    <div class="photo-item photo-tall reveal">
+      <label class="photo-upload-label" for="p1">
+        <input type="file" id="p1" accept="image/*" onchange="loadPhoto(this,'img-p1')" style="display:none">
+        <img id="img-p1" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="80" opacity=".3">
+            <circle cx="100" cy="75" r="28" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <path d="M55 145 Q100 110 145 145" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <rect x="40" y="55" width="120" height="90" rx="4" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Cliquez pour ajouter<br>une photo</span>
+        </div>
+        <div class="photo-hover-label">Séance thaï</div>
+      </label>
+    </div>
+    <!-- Petite haut droite -->
+    <div class="photo-item reveal" style="transition-delay:.1s">
+      <label class="photo-upload-label" for="p2">
+        <input type="file" id="p2" accept="image/*" onchange="loadPhoto(this,'img-p2')" style="display:none">
+        <img id="img-p2" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="60" opacity=".3">
+            <circle cx="100" cy="75" r="28" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <path d="M55 145 Q100 110 145 145" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <rect x="40" y="55" width="120" height="90" rx="4" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Ajouter une photo</span>
+        </div>
+        <div class="photo-hover-label">Étirements</div>
+      </label>
+    </div>
+    <!-- Petite bas droite -->
+    <div class="photo-item reveal" style="transition-delay:.2s">
+      <label class="photo-upload-label" for="p3">
+        <input type="file" id="p3" accept="image/*" onchange="loadPhoto(this,'img-p3')" style="display:none">
+        <img id="img-p3" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="60" opacity=".3">
+            <circle cx="100" cy="75" r="28" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <path d="M55 145 Q100 110 145 145" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <rect x="40" y="55" width="120" height="90" rx="4" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Ajouter une photo</span>
+        </div>
+        <div class="photo-hover-label">Matelas de sol</div>
+      </label>
+    </div>
+    <!-- Petite bas gauche -->
+    <div class="photo-item reveal" style="transition-delay:.15s">
+      <label class="photo-upload-label" for="p4">
+        <input type="file" id="p4" accept="image/*" onchange="loadPhoto(this,'img-p4')" style="display:none">
+        <img id="img-p4" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="60" opacity=".3">
+            <circle cx="100" cy="75" r="28" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <path d="M55 145 Q100 110 145 145" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <rect x="40" y="55" width="120" height="90" rx="4" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Ajouter une photo</span>
+        </div>
+        <div class="photo-hover-label">Ambiance zen</div>
+      </label>
+    </div>
+    <!-- Large bas -->
+    <div class="photo-item photo-wide reveal" style="transition-delay:.25s">
+      <label class="photo-upload-label" for="p5">
+        <input type="file" id="p5" accept="image/*" onchange="loadPhoto(this,'img-p5')" style="display:none">
+        <img id="img-p5" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="70" opacity=".3">
+            <circle cx="100" cy="75" r="28" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <path d="M55 145 Q100 110 145 145" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+            <rect x="40" y="55" width="120" height="90" rx="4" stroke="#d4ae7a" stroke-width="1.5" fill="none"/>
+          </svg>
+          <span>Cliquez pour ajouter<br>une photo panoramique</span>
+        </div>
+        <div class="photo-hover-label">Détente &amp; bien-être</div>
+      </label>
+    </div>
+  </div>
+  <p style="font-size:.68rem;font-weight:300;color:rgba(250,248,244,.25);margin-top:2rem;text-align:center;letter-spacing:.1em;">Les photos ajoutées ici sont temporaires. Pour les rendre permanentes, confiez-les à votre développeur web.</p>
+</section>
+
+<!-- ZONES -->
+<section id="zones">
+  <div class="s-kicker">Zone d'intervention</div>
+  <h2 class="s-title">Je me déplace en <em>Franche-Comté</em></h2>
+  <div class="zones-wrap">
+    <div class="zones-map reveal">
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="320" fill="#e9e5dd"/>
+        <path d="M75 55 Q115 38 168 52 Q198 58 208 88 Q218 118 198 142 Q173 158 143 148 Q108 138 88 112 Q68 88 75 55Z" fill="#6b7c5e" opacity=".55" stroke="#faf8f4" stroke-width="2"/>
+        <text x="140" y="105" text-anchor="middle" font-size="15" fill="#faf8f4" font-family="'DM Sans',sans-serif" font-weight="300">25</text>
+        <path d="M40 80 Q78 55 115 65 Q135 70 140 90 Q145 112 125 130 Q100 148 72 140 Q45 130 32 108 Q22 88 40 80Z" fill="#8fa07f" opacity=".55" stroke="#faf8f4" stroke-width="2"/>
+        <text x="86" y="110" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'DM Sans',sans-serif" font-weight="300">70</text>
+        <path d="M195 130 Q222 118 248 130 Q265 142 262 165 Q258 188 235 195 Q210 200 192 183 Q176 166 180 148 Q183 136 195 130Z" fill="#3f4e35" opacity=".7" stroke="#faf8f4" stroke-width="2"/>
+        <text x="220" y="165" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'DM Sans',sans-serif" font-weight="300">90</text>
+        <circle cx="140" cy="105" r="5" fill="#d4ae7a"/>
+        <circle cx="86" cy="110" r="5" fill="#d4ae7a"/>
+        <circle cx="220" cy="165" r="5" fill="#d4ae7a"/>
+        <text x="200" y="255" text-anchor="middle" font-size="11" fill="#3a4232" font-family="'DM Sans',sans-serif" font-weight="300" letter-spacing="3">FRANCHE-COMTÉ</text>
+        <text x="200" y="274" text-anchor="middle" font-size="10" fill="#6b7c5e" font-family="'DM Sans',sans-serif">Zone d'intervention · Doubs · Haute-Saône · T. de Belfort</text>
+      </svg>
+    </div>
+    <div class="zones-list reveal" style="transition-delay:.15s">
+      <div class="zone-item">
+        <div class="zone-dep">25</div>
+        <div class="zone-info">
+          <strong>Doubs</strong>
+          <span>Besançon, Pontarlier, Montbéliard et communes alentours</span>
+        </div>
+      </div>
+      <div class="zone-item">
+        <div class="zone-dep">70</div>
+        <div class="zone-info">
+          <strong>Haute-Saône</strong>
+          <span>Vesoul, Gray, Lure et communes alentours</span>
+        </div>
+      </div>
+      <div class="zone-item">
+        <div class="zone-dep">90</div>
+        <div class="zone-info">
+          <strong>Territoire de Belfort</strong>
+          <span>Belfort et ensemble du territoire</span>
+        </div>
+      </div>
+      <p class="zones-note">Une commune non listée ? Contactez-moi — je ferai mon possible pour me déplacer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="s-kicker">Prise de rendez-vous</div>
+  <h2 class="s-title">Réservez votre <em>séance</em></h2>
+  <div class="contact-wrap">
+    <div class="reveal">
+      <h3>Horaires d'intervention</h3>
+      <table class="hours">
+        <tr><td>Lundi – Vendredi</td><td>8h00 – 19h00</td></tr>
+        <tr><td>Samedi – Dimanche</td><td>Sur demande</td></tr>
+      </table>
+      <h3>Me contacter</h3>
+      <div class="chips">
+        <div class="chip"><span class="chip-icon">📞</span><span><a href="tel:0609715344" style="color:inherit;text-decoration:none;">06 09 71 53 44</a></span></div>
+        <div class="chip"><span class="chip-icon">✉️</span><span>jeromef16000@hotmail.fr</span></div>
+        <div class="chip"><span class="chip-icon">📍</span><span>Déplacement chez vous — Doubs · Haute-Saône · T. de Belfort</span></div>
+      </div>
+
+      <!-- Carte de visite visuelle -->
+      <div class="carte-wrap reveal" style="transition-delay:.1s">
+        <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2a3626"/>
+              <stop offset="100%" stop-color="#4a6040"/>
+            </linearGradient>
+          </defs>
+          <rect width="480" height="200" fill="url(#card-grad)" rx="2"/>
+          <!-- Motif décoratif -->
+          <ellipse cx="400" cy="100" rx="130" ry="180" stroke="rgba(255,255,255,.07)" stroke-width="1" fill="none"/>
+          <ellipse cx="400" cy="100" rx="80" ry="120" stroke="rgba(255,255,255,.05)" stroke-width="1" fill="none"/>
+          <line x1="400" y1="-80" x2="400" y2="280" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <!-- Contenu carte -->
+          <text x="48" y="62" font-size="9" fill="rgba(212,174,122,.7)" font-family="'DM Sans',sans-serif" letter-spacing="3">MASSAGE THAÏ · NUAD BORAN</text>
+          <text x="46" y="102" font-size="26" fill="#faf8f4" font-family="'Playfair Display',serif" font-weight="300">Le Temple du Corps</text>
+          <text x="46" y="125" font-size="11" fill="rgba(250,248,244,.45)" font-family="'DM Sans',sans-serif" font-style="italic">Jérôme Fischer · Praticien en massage bien-être</text>
+          <line x1="46" y1="140" x2="240" y2="140" stroke="rgba(212,174,122,.3)" stroke-width="1"/>
+          <text x="46" y="160" font-size="10" fill="rgba(250,248,244,.5)" font-family="'DM Sans',sans-serif">📞 06 09 71 53 44</text>
+          <text x="46" y="178" font-size="10" fill="rgba(250,248,244,.5)" font-family="'DM Sans',sans-serif">✉  jeromef16000@hotmail.fr</text>
+          <text x="46" y="196" font-size="10" fill="rgba(250,248,244,.4)" font-family="'DM Sans',sans-serif">📍 Franche-Comté · 25 · 70 · 90 · À domicile</text>
+          <!-- Logo décoratif -->
+          <circle cx="430" cy="100" r="35" stroke="rgba(212,174,122,.25)" stroke-width="1.5" fill="none"/>
+          <text x="430" y="93" text-anchor="middle" font-size="18" fill="rgba(255,255,255,.2)" font-family="'Playfair Display',serif">🌿</text>
+          <text x="430" y="112" text-anchor="middle" font-size="8" fill="rgba(212,174,122,.4)" font-family="'DM Sans',sans-serif" letter-spacing="1">TEMPLE</text>
+        </svg>
+      </div>
+
+      <h3>Bon à savoir</h3>
+      <p>Le massage thaï se pratique <strong>habillé</strong>, au sol sur un matelas que j'apporte. Prévoyez une tenue souple (legging, jogging). Prévoir un espace d'environ 2m × 2m.</p>
+      <h3>Tarifs</h3>
+      <p>Établis sur devis selon la formule et votre localisation. Contactez-moi pour une proposition personnalisée sans engagement.</p>
+      <h3>Annulation</h3>
+      <p>Toute annulation doit être signalée <strong>24h à l'avance</strong>.</p>
+    </div>
+    <div class="reveal" style="transition-delay:.2s">
+      <div class="fg-row">
+        <div class="fg"><label>Prénom *</label><input type="text" id="fn" placeholder="Marie"/></div>
+        <div class="fg"><label>Nom *</label><input type="text" id="ln" placeholder="Dupont"/></div>
+      </div>
+      <div class="fg"><label>Email *</label><input type="email" id="em" placeholder="marie@email.com"/></div>
+      <div class="fg"><label>Téléphone *</label><input type="tel" id="ph" placeholder="+33 6 00 00 00 00"/></div>
+      <div class="fg"><label>Ville / Commune *</label><input type="text" id="city" placeholder="Besançon, Belfort, Vesoul…"/></div>
+      <div class="fg">
+        <label>Formule souhaitée *</label>
+        <select id="srv">
+          <option value="">Choisir une formule…</option>
+          <option>Découverte — 60 min</option>
+          <option>Équilibre — 90 min</option>
+          <option>Sérénité — 120 min</option>
+          <option>Séance Duo</option>
+          <option>Bon Cadeau</option>
+          <option>Abonnement</option>
+          <option>Je ne sais pas encore</option>
+        </select>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Date souhaitée</label><input type="date" id="dt"/></div>
+        <div class="fg">
+          <label>Créneau préféré</label>
+          <select id="tm">
+            <option>Matin (8h–12h)</option>
+            <option>Après-midi (12h–16h)</option>
+            <option>Fin de journée (16h–19h)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Message (facultatif)</label><textarea id="msg" placeholder="Allergies, contre-indications, questions, espace disponible…"></textarea></div>
+      <button class="form-btn" onclick="sendForm()">Prendre rendez-vous →</button>
+      <div class="form-ok" id="formOk">✓ Cal.com s'ouvre dans un nouvel onglet pour finaliser votre réservation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="f-brand">
+      <p>Le <span>Temple</span> du Corps</p>
+      <small>Massage thaï à domicile en Franche-Comté — Doubs · Haute-Saône · Territoire de Belfort.</small>
+    </div>
+    <div class="f-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#massage">Le massage thaï</a></li>
+        <li><a href="#formules">Formules</a></li>
+        <li><a href="#photos">Photos</a></li>
+    <li><a href="#zones">Zones</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Formules</h4>
+      <ul>
+        <li><span>Découverte — 60 min</span></li>
+        <li><span>Équilibre — 90 min</span></li>
+        <li><span>Sérénité — 120 min</span></li>
+        <li><span>Duo</span></li>
+        <li><span>Bon Cadeau</span></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:0609715344">06 09 71 53 44</a></li>
+        <li>jeromef16000@hotmail.fr</li>
+        <li><span>Lun–Ven · 8h–19h</span></li>
+        <li><span>Doubs · 70 · 90</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <p>© 2025 Le Temple du Corps — Jérôme Fischer. Tous droits réservés.</p>
+    <p>
+      <a href="#" onclick="openM('legal')">Mentions légales</a> &nbsp;·&nbsp;
+      <a href="#" onclick="openM('rgpd')">Confidentialité</a> &nbsp;·&nbsp;
+      <a href="#" onclick="openM('cgv')">CGV</a>
+    </p>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-bg" id="m-legal" onclick="bgClose(event,'legal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeM('legal')">×</button>
+    <h2>Mentions Légales</h2>
+    <div class="modal-hr"></div>
+    <h3>Éditeur du site</h3>
+    <p>Le Temple du Corps — Jérôme Fischer, Praticien en massage thaï bien-être<br>Franche-Comté (25, 70, 90)<br>Tél. : 06 09 71 53 44 · jeromef16000@hotmail.fr<br><em>À compléter : SIRET, adresse professionnelle</em></p>
+    <h3>Activité</h3>
+    <p>Massages de bien-être à titre non médical. Les soins proposés ne se substituent pas à un avis ou un traitement médical.</p>
+    <h3>Hébergement</h3>
+    <p>Netlify Inc., 44 Montgomery Street, Suite 300, San Francisco CA 94104, USA</p>
+    <h3>Propriété intellectuelle</h3>
+    <p>Tous les contenus sont la propriété de Le Temple du Corps. Toute reproduction sans autorisation écrite préalable est interdite.</p>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-rgpd" onclick="bgClose(event,'rgpd')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeM('rgpd')">×</button>
+    <h2>Politique de Confidentialité</h2>
+    <div class="modal-hr"></div>
+    <h3>Données collectées</h3>
+    <p>Nom, prénom, email, téléphone, ville — uniquement pour la gestion des prises de rendez-vous. Aucune donnée n'est revendue à des tiers.</p>
+    <h3>Finalité</h3>
+    <p>Répondre aux demandes de rendez-vous, établir des devis et vous informer de nos offres avec votre accord.</p>
+    <h3>Conservation</h3>
+    <p>Données conservées 3 ans après le dernier contact, puis supprimées.</p>
+    <h3>Vos droits (RGPD)</h3>
+    <p>Droits d'accès, rectification et suppression. Contact : jeromef16000@hotmail.fr</p>
+    <h3>Cookies</h3>
+    <p>Ce site n'utilise pas de cookies publicitaires ni de traceurs tiers.</p>
+  </div>
+</div>
+
+<div class="modal-bg" id="m-cgv" onclick="bgClose(event,'cgv')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeM('cgv')">×</button>
+    <h2>Conditions Générales de Vente</h2>
+    <div class="modal-hr"></div>
+    <h3>1 · Objet</h3>
+    <p>Prestations de massage thaï bien-être à domicile en Franche-Comté. Ces massages sont des massages de détente, sans visée thérapeutique ni médicale.</p>
+    <h3>2 · Tarifs</h3>
+    <p>Tarifs établis sur devis, communiqués avant toute prestation. Aucun frais caché.</p>
+    <h3>3 · Réservation</h3>
+    <p>La réservation est confirmée après accord mutuel (email ou SMS). Le client s'assure de disposer d'un espace suffisant (environ 2m × 2m au sol).</p>
+    <h3>4 · Annulation</h3>
+    <p>Annulation gratuite jusqu'à 24h avant la séance. Au-delà, les frais de déplacement peuvent être facturés.</p>
+    <h3>5 · Contre-indications</h3>
+    <p>Le massage thaï est déconseillé en cas de grossesse (1er trimestre), fièvre, blessure récente ou certaines pathologies cardiaques. Merci de le signaler avant la séance.</p>
+    <h3>6 · Litiges</h3>
+    <p>En cas de différend, une solution amiable sera recherchée en priorité. Droit applicable : droit français.</p>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('stuck',scrollY>60);
+});
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.getElementById('dt').min=new Date().toISOString().split('T')[0];
+const CAL_LINK='https://cal.com/jerome-fischer-ozrkr1/15min';
+function loadPhoto(input,imgId){
+  if(!input.files||!input.files[0])return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById(imgId);
+    img.src=e.target.result;
+    img.style.display='block';
+    img.closest('.photo-item').classList.add('has-photo');
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function sendForm(){
+  const req=['fn','ln','em','ph','city','srv'];
+  if(req.some(id=>!document.getElementById(id).value.trim())){
+    alert('Merci de renseigner tous les champs obligatoires (*).');return;
+  }
+  const btn=document.querySelector('.form-btn');
+  btn.disabled=true;btn.style.opacity='.6';btn.textContent='Redirection vers Cal.com…';
+  setTimeout(()=>{
+    window.open(CAL_LINK,'_blank');
+    btn.disabled=false;btn.style.opacity='1';btn.textContent='Prendre rendez-vous →';
+  },600);
+}
+function openM(id){document.getElementById('m-'+id).classList.add('on');document.body.style.overflow='hidden';}
+function closeM(id){document.getElementById('m-'+id).classList.remove('on');document.body.style.overflow='';}
+function bgClose(e,id){if(e.target===document.getElementById('m-'+id))closeM(id);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['legal','rgpd','cgv'].forEach(closeM);});
+function openMenu(){document.getElementById('mobMenu').classList.add('open');document.body.style.overflow='hidden';}
+function closeMenu(){document.getElementById('mobMenu').classList.remove('open');document.body.style.overflow='';}
+</script>
+</body>
+</html>
