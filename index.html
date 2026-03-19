@@ -570,54 +570,46 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
       <div class="carte-wrap">
         <!-- Carte de visite SVG (optionnelle) -->
+          <div class="fg-row">
+        <div class="fg">
+          <label for="nom">Nom et prénom</label>
+          <input id="nom" placeholder="Votre nom complet"/>
+        </div>
+        <div class="fg">
+          <label for="ville">Ville</label>
+          <input id="ville" placeholder="Votre ville"/>
+        </div>
       </div>
-    </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="Votre email"/>
+        </div>
+        <div class="fg">
+          <label for="tel">Téléphone</label>
+          <input id="tel" type="tel" placeholder="Votre téléphone"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label for="type">Type de séance</label>
+        <select id="type">
+          <option>Découverte (60 min)</option>
+          <option>Équilibre (90 min)</option>
+          <option>Sérénité (120 min)</option>
+          <option>Bon cadeau</option>
+          <option>Duo</option>
+          <option>Abonnement</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="message">Votre demande</label>
+        <textarea id="message" placeholder="Précisez vos disponibilités, vos besoins, etc."></textarea>
+      </div>
 
-    <div>
-      <form onsubmit="event.preventDefault();showOk();">
-        <div class="fg-row">
-          <div class="fg">
-            <label for="nom">Nom et prénom</label>
-            <input id="nom" required/>
-          </div>
-          <div class="fg">
-            <label for="ville">Ville</label>
-            <input id="ville"/>
-          </div>
-        </div>
-        <div class="fg-row">
-          <div class="fg">
-            <label for="email">Email</label>
-            <input id="email" type="email" required/>
-          </div>
-          <div class="fg">
-            <label for="tel">Téléphone</label>
-            <input id="tel" type="tel"/>
-          </div>
-        </div>
-        <div class="fg">
-          <label for="type">Type de séance</label>
-          <select id="type">
-            <option>Découverte (60 min)</option>
-            <option>Équilibre (90 min)</option>
-            <option>Sérénité (120 min)</option>
-            <option>Bon cadeau</option>
-            <option>Duo</option>
-            <option>Abonnement</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label for="message">Votre demande</label>
-          <textarea id="message" placeholder="Précisez vos disponibilités, vos besoins, etc."></textarea>
-        </div>
-        <button class="form-btn" type="submit">Envoyer ma demande</button>
-      </form>
-      <div class="form-ok" id="formOk">
-        Merci pour votre message. Je vous répondrai dans les plus brefs délais pour confirmer le rendez-vous ou établir un devis personnalisé.
-      </div>
-    </div>
-  </div>
-</section>
+      <a class="form-btn"
+         href="mailto:jeromefischer087@gmail.com?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
+        Envoyer ma demande
+      </a>
 
 <!-- FOOTER -->
 <footer>
