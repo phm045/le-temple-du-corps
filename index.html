@@ -506,6 +506,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 <section id="contact">
   <div class="s-kicker">Prendre rendez-vous</div>
   <h2 class="s-title">Contact &amp; <em>disponibilités</em></h2>
+
   <div class="contact-wrap">
     <!-- Colonne gauche : infos pratiques -->
     <div class="contact-info">
@@ -524,35 +525,32 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
         <div class="chip"><span class="chip-icon">📞</span><span>06 09 71 53 44</span></div>
         <div class="chip"><span class="chip-icon">✉️</span><span>jeromefischer087@gmail.com</span></div>
         <div class="chip"><span class="chip-icon">📍</span><span>Franche-Comté (25, 70, 90)</span></div>
-       <div class="paypal-button" style="margin-top: 15px;">
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-    <input type="hidden" name="cmd" value="_xclick">
-    <!-- Adresse PayPal qui reçoit le paiement -->
-    <input type="hidden" name="business" value="jeromefischer087@gmail.com">
 
-    <!-- Infos sur ce que tu vends -->
-    <input type="hidden" name="item_name" value="Prestation de service">
-    <input type="hidden" name="currency_code" value="EUR">
-    <input type="hidden" name="amount" value="70.00">
-
-    <!-- Bouton visuel -->
-    <input type="image"
-      src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif"
-      border="0" name="submit" alt="Payer avec PayPal">
-    <img alt="" border="0"
-      src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif"
-      width="1" height="1">
-  </form>
-</div>
-
+        <!-- Bouton PayPal -->
+        <div class="paypal-button" style="margin-top: 15px;">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="jeromefischer087@gmail.com">
+            <input type="hidden" name="item_name" value="Prestation de service">
+            <input type="hidden" name="currency_code" value="EUR">
+            <input type="hidden" name="amount" value="70.00">
+            <input type="image"
+              src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif"
+              border="0" name="submit" alt="Payer avec PayPal">
+            <img alt="" border="0"
+              src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif"
+              width="1" height="1">
+          </form>
+        </div>
       </div>
 
+      <!-- Carte de visite (optionnelle) -->
       <div class="carte-wrap">
-        <!-- Carte de visite SVG (optionnelle) -->
+        <!-- Carte de visite SVG -->
       </div>
     </div>
 
-    <!-- Colonne droite : zones + boutons -->
+    <!-- Colonne droite : zones + boutons + flyer -->
     <div>
       <h3>Zones desservies</h3>
       <div class="zones-list" style="margin-top:.5rem;">
@@ -578,25 +576,37 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
           </div>
         </div>
       </div>
+
       <p class="zones-note" style="margin-top:1rem;">
         Je me déplace uniquement en Franche-Comté (25, 70, 90).
       </p>
 
+      <!-- BOUTON TÉLÉCHARGEMENT FLYER -->
+      <div class="zone-telechargement" style="margin-top:1.8rem;padding:1.5rem;background:var(--white);border-left:3px solid var(--sage);">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:.8rem;">
+          Télécharger le flyer
+        </h3>
+        <a href="docs/flyer.pdf"
+           class="btn-download"
+           download
+           style="display:inline-block;padding:.8rem 1.6rem;background:var(--sage-d);color:#fff;text-decoration:none;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;">
+          Télécharger le flyer (PDF)
+        </a>
+      </div>
+
+      <!-- Boutons de contact -->
       <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.8rem;">
-        <!-- Bouton email -->
         <a class="form-btn"
            href="mailto:jeromefischer087@gmail.com?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
           Me contacter par email
         </a>
 
-        <!-- Bouton téléphone -->
         <a class="form-btn"
            href="tel:+33609715344"
            style="background:var(--sage);">
           M’appeler au 06 09 71 53 44
         </a>
 
-        <!-- Bouton WhatsApp -->
         <a class="form-btn"
            href="https://wa.me/33609715344"
            target="_blank"
