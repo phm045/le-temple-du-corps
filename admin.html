@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Administration — Le Temple du Corps</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:      #f2efe9;
+  --bg2:     #e9e5dd;
+  --bg3:     #ddd8ce;
+  --ink:     #1c2018;
+  --ink2:    #3a4232;
+  --sage:    #6b7c5e;
+  --sage-l:  #8fa07f;
+  --sage-d:  #3f4e35;
+  --moss:    #2a3626;
+  --gold:    #b8935a;
+  --gold-l:  #d4ae7a;
+  --white:   #faf8f4;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;min-height:100vh;}
+
+/* LOGIN SCREEN */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;min-height:100vh;
+  background:var(--bg);
+}
+.login-box{
+  background:var(--white);padding:3rem 2.5rem;max-width:380px;width:90%;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+.login-box h1{
+  font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;
+  margin-bottom:.4rem;color:var(--ink);
+}
+.login-box p{
+  font-size:.78rem;color:var(--sage);margin-bottom:2rem;font-weight:300;
+}
+.login-box label{
+  display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage-d);margin-bottom:.5rem;
+}
+.login-box input[type="password"]{
+  width:100%;padding:.8rem 1rem;border:1px solid var(--bg3);background:var(--bg);
+  font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);
+  outline:none;transition:border-color .3s;
+}
+.login-box input[type="password"]:focus{border-color:var(--gold);}
+.login-box button{
+  width:100%;padding:1rem;background:var(--moss);color:var(--white);border:none;
+  font-family:'DM Sans',sans-serif;font-size:.66rem;font-weight:300;
+  letter-spacing:.22em;text-transform:uppercase;cursor:pointer;
+  transition:background .3s;margin-top:1.2rem;
+}
+.login-box button:hover{background:var(--gold);}
+.login-error{
+  display:none;margin-top:1rem;padding:.7rem 1rem;background:#fdf0ef;
+  border-left:3px solid #c0392b;font-size:.78rem;color:#c0392b;
+}
+.login-back{
+  display:block;text-align:center;margin-top:1.5rem;font-size:.72rem;
+  color:var(--sage);text-decoration:none;letter-spacing:.1em;
+}
+.login-back:hover{color:var(--gold);}
+
+/* ADMIN DASHBOARD */
+#admin-dashboard{display:none;}
+
+.admin-header{
+  background:var(--moss);padding:1.2rem 4vw;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.admin-header h1{
+  font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:300;
+  color:var(--white);
+}
+.admin-header-right{display:flex;align-items:center;gap:1.2rem;}
+.admin-user{font-size:.68rem;color:rgba(255,255,255,.6);letter-spacing:.08em;}
+.admin-logout{
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--white);background:rgba(255,255,255,.12);
+  padding:.5rem 1rem;text-decoration:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:background .3s;
+}
+.admin-logout:hover{background:var(--gold);}
+
+.admin-nav{
+  background:var(--white);border-bottom:1px solid var(--bg3);
+  padding:.8rem 4vw;display:flex;gap:1.5rem;
+}
+.admin-nav a{
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sage);text-decoration:none;padding:.4rem .8rem;
+  transition:color .3s,background .3s;
+}
+.admin-nav a.active,.admin-nav a:hover{
+  color:var(--ink);background:var(--bg2);
+}
+
+.admin-body{padding:2.5rem 4vw;max-width:1200px;margin:0 auto;}
+
+.admin-section-title{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;
+  margin-bottom:.5rem;
+}
+.admin-section-sub{
+  font-size:.78rem;color:var(--sage);font-weight:300;margin-bottom:2rem;
+}
+
+/* STATS CARDS */
+.stats-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.2rem;margin-bottom:3rem;
+}
+.stat-card{
+  background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);
+}
+.stat-card-label{
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);margin-bottom:.5rem;
+}
+.stat-card-value{
+  font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--ink);
+}
+.stat-card-note{font-size:.72rem;color:var(--sage-l);margin-top:.3rem;}
+
+/* TABS */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* CALENDAR EMBED */
+.cal-embed-wrap{
+  background:var(--white);padding:1.5rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);min-height:600px;
+}
+
+/* BOOKINGS LIST */
+.bookings-section{margin-top:2rem;}
+.booking-card{
+  background:var(--white);padding:1.2rem 1.5rem;margin-bottom:.8rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-left:3px solid var(--sage);transition:border-color .3s;
+}
+.booking-card:hover{border-color:var(--gold);}
+.booking-info h4{
+  font-family:'Playfair Display',serif;font-size:.95rem;font-weight:400;
+  margin-bottom:.25rem;
+}
+.booking-info p{font-size:.75rem;color:var(--sage);font-weight:300;}
+.booking-status{
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:.35rem .8rem;
+}
+.booking-status.confirmed{background:#e8f5e9;color:#2e7d32;}
+.booking-status.pending{background:#fff8e1;color:#f57f17;}
+.booking-status.cancelled{background:#fce4ec;color:#c62828;}
+
+/* QUICK ACTIONS */
+.quick-actions{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1rem;margin-top:2rem;
+}
+.quick-action{
+  background:var(--white);padding:1.5rem;text-decoration:none;
+  color:var(--ink);transition:box-shadow .3s,transform .2s;
+  border-left:3px solid var(--bg3);
+}
+.quick-action:hover{
+  box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-2px);
+  border-color:var(--gold);
+}
+.quick-action h4{
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sage-d);margin-bottom:.4rem;
+}
+.quick-action p{font-size:.78rem;color:var(--sage);font-weight:300;}
+
+/* CAL LINK SECTION */
+.cal-link-box{
+  background:var(--white);padding:1.5rem;margin-top:2rem;
+  border-left:3px solid var(--gold);
+}
+.cal-link-box h3{
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;
+  margin-bottom:.8rem;
+}
+.cal-link-url{
+  display:flex;align-items:center;gap:.8rem;
+  background:var(--bg);padding:.6rem 1rem;font-size:.82rem;
+  color:var(--ink2);word-break:break-all;
+}
+.cal-link-url button{
+  background:var(--sage-d);color:var(--white);border:none;
+  padding:.4rem .8rem;font-family:'DM Sans',sans-serif;
+  font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;transition:background .3s;
+}
+.cal-link-url button:hover{background:var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .admin-header{flex-direction:column;gap:.6rem;text-align:center;}
+  .admin-header-right{flex-direction:column;gap:.5rem;}
+  .admin-nav{flex-wrap:wrap;gap:.5rem;}
+  .stats-row{grid-template-columns:1fr;}
+  .booking-card{flex-direction:column;align-items:flex-start;gap:.6rem;}
+  .quick-actions{grid-template-columns:1fr;}
+  .cal-link-url{flex-direction:column;}
+  .login-box{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Administration</h1>
+    <p>Le Temple du Corps — Espace réservé</p>
+    <form id="login-form" onsubmit="return handleLogin(event)">
+      <label for="pwd">Mot de passe</label>
+      <input type="password" id="pwd" placeholder="Entrez votre mot de passe" autocomplete="current-password" required/>
+      <button type="submit">Accéder au tableau de bord</button>
+    </form>
+    <div id="login-error" class="login-error">Mot de passe incorrect. Veuillez réessayer.</div>
+    <a href="index.html" class="login-back">← Retour au site</a>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div id="admin-dashboard">
+
+  <!-- Header -->
+  <div class="admin-header">
+    <h1>Le Temple du Corps — Administration</h1>
+    <div class="admin-header-right">
+      <span class="admin-user">jeromef16000@hotmail.fr</span>
+      <button class="admin-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="admin-nav">
+    <a href="#" class="active" onclick="showTab('overview',this)">Tableau de bord</a>
+    <a href="#" onclick="showTab('calendar',this)">Calendrier</a>
+    <a href="#" onclick="showTab('bookings',this)">Réservations</a>
+    <a href="#" onclick="showTab('settings',this)">Paramètres</a>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- TAB: OVERVIEW -->
+    <div id="tab-overview" class="tab-content active">
+      <h2 class="admin-section-title">Tableau de bord</h2>
+      <p class="admin-section-sub">Bienvenue, Jérôme. Voici un aperçu de votre activité.</p>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-label">Lien de réservation</div>
+          <div class="stat-card-value" style="font-size:1rem;word-break:break-all;">
+            <a href="https://cal.com/jerome-fischer-ozrkr1" target="_blank" style="color:var(--sage-d);text-decoration:underline;">
+              cal.com/jerome-fischer-ozrkr1
+            </a>
+          </div>
+          <div class="stat-card-note">Votre page Cal.com</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Compte PayPal</div>
+          <div class="stat-card-value" style="font-size:.9rem;">jeromef16000@hotmail.fr</div>
+          <div class="stat-card-note">Paiements en ligne actifs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Téléphone</div>
+          <div class="stat-card-value" style="font-size:1.1rem;">06 09 71 53 44</div>
+          <div class="stat-card-note">Contact direct</div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <h3 style="font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sage-d);margin-bottom:1rem;">Actions rapides</h3>
+      <div class="quick-actions">
+        <a class="quick-action" href="https://cal.com/bookings/upcoming" target="_blank">
+          <h4>Voir mes RDV</h4>
+          <p>Consulter et gérer les rendez-vous à venir sur Cal.com</p>
+        </a>
+        <a class="quick-action" href="https://cal.com/event-types" target="_blank">
+          <h4>Types d'événements</h4>
+          <p>Modifier vos formules, durées et disponibilités</p>
+        </a>
+        <a class="quick-action" href="https://cal.com/availability" target="_blank">
+          <h4>Disponibilités</h4>
+          <p>Ajuster vos horaires et jours de disponibilité</p>
+        </a>
+        <a class="quick-action" href="https://www.paypal.com/myaccount/summary" target="_blank">
+          <h4>PayPal</h4>
+          <p>Consulter les paiements reçus et l'historique</p>
+        </a>
+      </div>
+
+      <!-- Cal link to share -->
+      <div class="cal-link-box">
+        <h3>Votre lien de réservation à partager</h3>
+        <div class="cal-link-url">
+          <span id="cal-link-text">https://cal.com/jerome-fischer-ozrkr1</span>
+          <button onclick="copyCalLink()">Copier</button>
+        </div>
+        <p style="font-size:.72rem;color:var(--sage-l);margin-top:.6rem;">
+          Partagez ce lien avec vos clients pour qu'ils puissent réserver directement.
+        </p>
+      </div>
+    </div>
+
+    <!-- TAB: CALENDAR -->
+    <div id="tab-calendar" class="tab-content">
+      <h2 class="admin-section-title">Calendrier des réservations</h2>
+      <p class="admin-section-sub">Votre planning Cal.com intégré. Cliquez sur un créneau pour gérer la réservation.</p>
+      <div class="cal-embed-wrap">
+        <div id="cal-inline" style="width:100%;height:100%;overflow:auto;min-height:600px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB: BOOKINGS -->
+    <div id="tab-bookings" class="tab-content">
+      <h2 class="admin-section-title">Réservations</h2>
+      <p class="admin-section-sub">Gérez vos rendez-vous directement depuis Cal.com.</p>
+
+      <div class="stats-row">
+        <a class="stat-card" href="https://cal.com/bookings/upcoming" target="_blank" style="text-decoration:none;cursor:pointer;">
+          <div class="stat-card-label">À venir</div>
+          <div class="stat-card-value">📅</div>
+          <div class="stat-card-note">Voir les RDV confirmés</div>
+        </a>
+        <a class="stat-card" href="https://cal.com/bookings/unconfirmed" target="_blank" style="text-decoration:none;cursor:pointer;">
+          <div class="stat-card-label">En attente</div>
+          <div class="stat-card-value">⏳</div>
+          <div class="stat-card-note">RDV à confirmer</div>
+        </a>
+        <a class="stat-card" href="https://cal.com/bookings/past" target="_blank" style="text-decoration:none;cursor:pointer;">
+          <div class="stat-card-label">Passés</div>
+          <div class="stat-card-value">✓</div>
+          <div class="stat-card-note">Historique des RDV</div>
+        </a>
+        <a class="stat-card" href="https://cal.com/bookings/cancelled" target="_blank" style="text-decoration:none;cursor:pointer;">
+          <div class="stat-card-label">Annulés</div>
+          <div class="stat-card-value">✕</div>
+          <div class="stat-card-note">RDV annulés</div>
+        </a>
+      </div>
+
+      <div class="cal-link-box">
+        <h3>Gestion complète</h3>
+        <p style="font-size:.82rem;color:var(--ink2);font-weight:300;line-height:1.7;margin-bottom:1rem;">
+          Pour une gestion avancée de vos réservations (confirmation, annulation, reprogrammation, notes),
+          accédez directement à votre tableau de bord Cal.com.
+        </p>
+        <a href="https://cal.com/bookings/upcoming" target="_blank"
+           style="display:inline-block;padding:.8rem 1.6rem;background:var(--sage-d);color:var(--white);text-decoration:none;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;transition:background .3s;">
+          Ouvrir Cal.com
+        </a>
+      </div>
+    </div>
+
+    <!-- TAB: SETTINGS -->
+    <div id="tab-settings" class="tab-content">
+      <h2 class="admin-section-title">Paramètres</h2>
+      <p class="admin-section-sub">Informations de votre compte et liens utiles.</p>
+
+      <div style="display:grid;gap:1.5rem;max-width:600px;">
+        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
+          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Compte Cal.com</h4>
+          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">jeromefischer087@gmail.com</p>
+          <a href="https://cal.com/settings/my-account/profile" target="_blank"
+             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
+            Modifier le profil Cal.com →
+          </a>
+        </div>
+
+        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
+          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Compte PayPal</h4>
+          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">jeromef16000@hotmail.fr</p>
+          <a href="https://www.paypal.com/myaccount/settings" target="_blank"
+             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
+            Paramètres PayPal →
+          </a>
+        </div>
+
+        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
+          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Site web</h4>
+          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">phm045.github.io/le-temple-du-corps</p>
+          <a href="https://github.com/phm045/le-temple-du-corps" target="_blank"
+             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
+            Dépôt GitHub →
+          </a>
+        </div>
+
+        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--gold);">
+          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Sécurité</h4>
+          <p style="font-size:.82rem;color:var(--ink2);font-weight:300;line-height:1.7;">
+            Cette page est protégée par mot de passe. Pour modifier le mot de passe,
+            contactez votre administrateur ou mettez à jour le fichier admin.html.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /admin-body -->
+</div><!-- /admin-dashboard -->
+
+<!-- Cal.com embed script -->
+<script>
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal;
+    let ar = arguments;
+    if (!cal.loaded) {
+      cal.ns = {};
+      cal.q = cal.q || [];
+      d.head.appendChild(d.createElement("script")).src = A;
+      cal.loaded = true;
+    }
+    if (ar[0] === L) {
+      const api = function () { p(api, arguments); };
+      const namespace = ar[1];
+      api.q = api.q || [];
+      if (typeof namespace === "string") {
+        cal.ns[namespace] = cal.ns[namespace] || api;
+        p(cal.ns[namespace], ar);
+        p(cal, ["initNamespace", namespace]);
+      } else {
+        p(cal, ar);
+      }
+      return;
+    }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", "admin-cal", { origin: "https://cal.com" });
+</script>
+
+<script>
+// Password hash (SHA-256)
+const HASH = "71692283164686a882477dd0cc47b006fb16e4cbfef87c62deb980e9de1b66a4";
+
+// Check if already authenticated
+if (sessionStorage.getItem("admin_auth") === "true") {
+  showDashboard();
+}
+
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const pwd = document.getElementById('pwd').value;
+  const hash = await sha256(pwd);
+  if (hash === HASH) {
+    sessionStorage.setItem("admin_auth", "true");
+    showDashboard();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+  return false;
+}
+
+function showDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-dashboard').style.display = 'block';
+  // Load Cal.com embed
+  Cal.ns["admin-cal"]("inline", {
+    elementOrSelector: "#cal-inline",
+    calLink: "jerome-fischer-ozrkr1",
+    layout: "month_view",
+    config: { theme: "light" }
+  });
+  Cal.ns["admin-cal"]("ui", {
+    theme: "light",
+    styles: { branding: { brandColor: "#3f4e35" } },
+    hideEventTypeDetails: false,
+    layout: "month_view"
+  });
+}
+
+function logout() {
+  sessionStorage.removeItem("admin_auth");
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function showTab(tabId, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  el.classList.add('active');
+}
+
+function copyCalLink() {
+  const text = document.getElementById('cal-link-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copié !';
+    setTimeout(() => btn.textContent = 'Copier', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
