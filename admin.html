@@ -354,7 +354,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
         <h4>&#128336; Disponibilités</h4>
         <p>Ajuster vos horaires et jours de travail</p>
       </button>
-      <button class="quick-action" onclick="openExternal('https://www.paypal.com/myaccount/summary')">
+      <button class="quick-action" onclick="openPayPalPopup()">
         <h4>&#128179; PayPal</h4>
         <p>Paiements reçus et historique</p>
       </button>
@@ -397,7 +397,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
   </div><!-- /admin-body -->
 </div><!-- /admin-dashboard -->
 
-<!-- ===== POP-UP MODAL ===== -->
+<!-- ===== POP-UP MODAL (iframe) ===== -->
 <div class="popup-overlay" id="popup-overlay" onclick="closePopupOutside(event)">
   <div class="popup-container">
     <div class="popup-header">
@@ -412,6 +412,62 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
         <span>Chargement...</span>
       </div>
       <iframe id="popup-iframe" src="about:blank" onload="hideLoader()"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ===== POP-UP PAYPAL (interne, sans iframe) ===== -->
+<div class="popup-overlay" id="paypal-overlay" onclick="if(event.target===this)closePayPalPopup()">
+  <div class="popup-container" style="max-width:560px;height:auto;max-height:90vh;overflow-y:auto;">
+    <div class="popup-header">
+      <span class="popup-title">PayPal — Gestion</span>
+      <div class="popup-actions">
+        <button class="popup-close" onclick="closePayPalPopup()" aria-label="Fermer">&times;</button>
+      </div>
+    </div>
+    <div style="padding:1.5rem;">
+      <!-- Account info -->
+      <div style="background:var(--bg);padding:1rem 1.2rem;margin-bottom:1.2rem;border-left:3px solid var(--gold);">
+        <div style="font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:.3rem;">Compte PayPal</div>
+        <div style="font-size:1rem;color:var(--ink);font-weight:400;">jeromef16000@hotmail.fr</div>
+        <div style="font-size:.7rem;color:var(--sage-l);margin-top:.2rem;">Paiements en ligne actifs</div>
+      </div>
+
+      <!-- PayPal action links -->
+      <div style="display:grid;gap:.6rem;">
+        <a href="https://www.paypal.com/myaccount/summary" target="_blank" style="display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--white);border-left:3px solid var(--sage);text-decoration:none;transition:border-color .3s,box-shadow .3s;" onmouseover="this.style.borderLeftColor='var(--gold)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'" onmouseout="this.style.borderLeftColor='var(--sage)';this.style.boxShadow='none'">
+          <span style="font-size:1.3rem;">&#128200;</span>
+          <div>
+            <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage-d);font-weight:400;">Tableau de bord</div>
+            <div style="font-size:.72rem;color:var(--sage);font-weight:300;">Solde, résumé et activité récente</div>
+          </div>
+        </a>
+        <a href="https://www.paypal.com/myaccount/transactions" target="_blank" style="display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--white);border-left:3px solid var(--sage);text-decoration:none;transition:border-color .3s,box-shadow .3s;" onmouseover="this.style.borderLeftColor='var(--gold)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'" onmouseout="this.style.borderLeftColor='var(--sage)';this.style.boxShadow='none'">
+          <span style="font-size:1.3rem;">&#128176;</span>
+          <div>
+            <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage-d);font-weight:400;">Transactions</div>
+            <div style="font-size:.72rem;color:var(--sage);font-weight:300;">Historique des paiements reçus</div>
+          </div>
+        </a>
+        <a href="https://www.paypal.com/billing/plans" target="_blank" style="display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--white);border-left:3px solid var(--sage);text-decoration:none;transition:border-color .3s,box-shadow .3s;" onmouseover="this.style.borderLeftColor='var(--gold)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'" onmouseout="this.style.borderLeftColor='var(--sage)';this.style.boxShadow='none'">
+          <span style="font-size:1.3rem;">&#128203;</span>
+          <div>
+            <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage-d);font-weight:400;">Factures & Abonnements</div>
+            <div style="font-size:.72rem;color:var(--sage);font-weight:300;">Gérer les paiements récurrents</div>
+          </div>
+        </a>
+        <a href="https://www.paypal.com/myaccount/settings" target="_blank" style="display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:var(--white);border-left:3px solid var(--sage);text-decoration:none;transition:border-color .3s,box-shadow .3s;" onmouseover="this.style.borderLeftColor='var(--gold)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'" onmouseout="this.style.borderLeftColor='var(--sage)';this.style.boxShadow='none'">
+          <span style="font-size:1.3rem;">&#9881;</span>
+          <div>
+            <div style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage-d);font-weight:400;">Paramètres</div>
+            <div style="font-size:.72rem;color:var(--sage);font-weight:300;">Profil, sécurité et préférences</div>
+          </div>
+        </a>
+      </div>
+
+      <p style="font-size:.65rem;color:var(--sage-l);margin-top:1rem;line-height:1.5;">
+        Chaque lien s'ouvre dans un nouvel onglet vers PayPal.
+      </p>
     </div>
   </div>
 </div>
@@ -551,9 +607,20 @@ function openInNewTab() {
   }
 }
 
-// Open external sites that block iframes (PayPal, etc.)
-function openExternal(url) {
-  window.open(url, '_blank');
+// PayPal pop-up (custom, no iframe)
+function openPayPalPopup() {
+  const overlay = document.getElementById('paypal-overlay');
+  overlay.style.display = 'flex';
+  requestAnimationFrame(() => overlay.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+}
+function closePayPalPopup() {
+  const overlay = document.getElementById('paypal-overlay');
+  overlay.classList.remove('open');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 200);
 }
 
 // Close with Escape key
