@@ -90,19 +90,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 }
 .admin-logout:hover{background:var(--gold);}
 
-.admin-nav{
-  background:var(--white);border-bottom:1px solid var(--bg3);
-  padding:.8rem 4vw;display:flex;gap:1.5rem;
-}
-.admin-nav a{
-  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--sage);text-decoration:none;padding:.4rem .8rem;
-  transition:color .3s,background .3s;
-}
-.admin-nav a.active,.admin-nav a:hover{
-  color:var(--ink);background:var(--bg2);
-}
-
 .admin-body{padding:2.5rem 4vw;max-width:1200px;margin:0 auto;}
 
 .admin-section-title{
@@ -130,37 +117,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 }
 .stat-card-note{font-size:.72rem;color:var(--sage-l);margin-top:.3rem;}
 
-/* TABS */
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-
-/* CALENDAR EMBED */
-.cal-embed-wrap{
-  background:var(--white);padding:1.5rem;
-  box-shadow:0 2px 12px rgba(0,0,0,.04);min-height:600px;
-}
-
-/* BOOKINGS LIST */
-.bookings-section{margin-top:2rem;}
-.booking-card{
-  background:var(--white);padding:1.2rem 1.5rem;margin-bottom:.8rem;
-  display:flex;align-items:center;justify-content:space-between;
-  border-left:3px solid var(--sage);transition:border-color .3s;
-}
-.booking-card:hover{border-color:var(--gold);}
-.booking-info h4{
-  font-family:'Playfair Display',serif;font-size:.95rem;font-weight:400;
-  margin-bottom:.25rem;
-}
-.booking-info p{font-size:.75rem;color:var(--sage);font-weight:300;}
-.booking-status{
-  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
-  padding:.35rem .8rem;
-}
-.booking-status.confirmed{background:#e8f5e9;color:#2e7d32;}
-.booking-status.pending{background:#fff8e1;color:#f57f17;}
-.booking-status.cancelled{background:#fce4ec;color:#c62828;}
-
 /* QUICK ACTIONS */
 .quick-actions{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -169,11 +125,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 .quick-action{
   background:var(--white);padding:1.5rem;text-decoration:none;
   color:var(--ink);transition:box-shadow .3s,transform .2s;
-  border-left:3px solid var(--bg3);
+  border-left:3px solid var(--bg3);cursor:pointer;border-right:none;border-top:none;border-bottom:none;
+  font-family:'DM Sans',sans-serif;text-align:left;
 }
 .quick-action:hover{
   box-shadow:0 4px 16px rgba(0,0,0,.06);transform:translateY(-2px);
-  border-color:var(--gold);
+  border-left-color:var(--gold);
 }
 .quick-action h4{
   font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
@@ -203,16 +160,80 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 }
 .cal-link-url button:hover{background:var(--gold);}
 
+/* CALENDAR EMBED */
+.cal-embed-wrap{
+  background:var(--white);padding:1.5rem;margin-top:2rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);min-height:600px;
+}
+
+/* ========== POP-UP MODAL ========== */
+.popup-overlay{
+  display:none;position:fixed;inset:0;z-index:9000;
+  background:rgba(28,32,24,.6);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s ease;
+}
+.popup-overlay.open{
+  display:flex;opacity:1;
+}
+.popup-container{
+  background:var(--white);width:94vw;max-width:1100px;height:88vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  animation:popIn .3s ease forwards;
+  position:relative;
+}
+@keyframes popIn{
+  from{transform:scale(.95) translateY(10px);opacity:0;}
+  to{transform:scale(1) translateY(0);opacity:1;}
+}
+.popup-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.2rem;background:var(--moss);flex-shrink:0;
+}
+.popup-title{
+  font-family:'Playfair Display',serif;font-size:.95rem;font-weight:300;
+  color:var(--white);
+}
+.popup-actions{display:flex;align-items:center;gap:.6rem;}
+.popup-btn{
+  background:rgba(255,255,255,.12);border:none;color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:.58rem;letter-spacing:.15em;
+  text-transform:uppercase;padding:.45rem .9rem;cursor:pointer;
+  transition:background .3s;
+}
+.popup-btn:hover{background:var(--gold);}
+.popup-close{
+  background:none;border:none;color:rgba(255,255,255,.7);
+  font-size:1.4rem;cursor:pointer;line-height:1;padding:0 .3rem;
+  transition:color .3s;
+}
+.popup-close:hover{color:var(--white);}
+.popup-body{
+  flex:1;overflow:hidden;position:relative;
+}
+.popup-body iframe{
+  width:100%;height:100%;border:none;
+}
+.popup-loader{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);
+}
+.popup-loader span{
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);animation:pulse 1.5s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .admin-header{flex-direction:column;gap:.6rem;text-align:center;}
   .admin-header-right{flex-direction:column;gap:.5rem;}
-  .admin-nav{flex-wrap:wrap;gap:.5rem;}
   .stats-row{grid-template-columns:1fr;}
-  .booking-card{flex-direction:column;align-items:flex-start;gap:.6rem;}
   .quick-actions{grid-template-columns:1fr;}
   .cal-link-url{flex-direction:column;}
   .login-box{padding:2rem 1.5rem;}
+  .popup-container{width:100vw;height:100vh;max-width:none;}
 }
 </style>
 </head>
@@ -229,7 +250,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
       <button type="submit">Accéder au tableau de bord</button>
     </form>
     <div id="login-error" class="login-error">Mot de passe incorrect. Veuillez réessayer.</div>
-    <a href="index.html" class="login-back">← Retour au site</a>
+    <a href="index.html" class="login-back">&larr; Retour au site</a>
   </div>
 </div>
 
@@ -238,179 +259,117 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 
   <!-- Header -->
   <div class="admin-header">
-    <h1>Le Temple du Corps — Administration</h1>
+    <h1>Le Temple du Corps &mdash; Administration</h1>
     <div class="admin-header-right">
       <span class="admin-user">jeromef16000@hotmail.fr</span>
       <button class="admin-logout" onclick="logout()">Déconnexion</button>
     </div>
   </div>
 
-  <!-- Navigation -->
-  <div class="admin-nav">
-    <a href="#" class="active" onclick="showTab('overview',this)">Tableau de bord</a>
-    <a href="#" onclick="showTab('calendar',this)">Calendrier</a>
-    <a href="#" onclick="showTab('bookings',this)">Réservations</a>
-    <a href="#" onclick="showTab('settings',this)">Paramètres</a>
-  </div>
-
   <div class="admin-body">
 
-    <!-- TAB: OVERVIEW -->
-    <div id="tab-overview" class="tab-content active">
-      <h2 class="admin-section-title">Tableau de bord</h2>
-      <p class="admin-section-sub">Bienvenue, Jérôme. Voici un aperçu de votre activité.</p>
+    <h2 class="admin-section-title">Tableau de bord</h2>
+    <p class="admin-section-sub">Bienvenue, Jérôme. Tout est accessible directement depuis cette page.</p>
 
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-card-label">Lien de réservation</div>
-          <div class="stat-card-value" style="font-size:1rem;word-break:break-all;">
-            <a href="https://cal.com/jerome-fischer-ozrkr1" target="_blank" style="color:var(--sage-d);text-decoration:underline;">
-              cal.com/jerome-fischer-ozrkr1
-            </a>
-          </div>
-          <div class="stat-card-note">Votre page Cal.com</div>
+    <!-- Info cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-label">Lien de réservation</div>
+        <div class="stat-card-value" style="font-size:1rem;word-break:break-all;">
+          <a href="#" onclick="openPopup('Réservation Cal.com','https://cal.com/jerome-fischer-ozrkr1');return false;" style="color:var(--sage-d);text-decoration:underline;">
+            cal.com/jerome-fischer-ozrkr1
+          </a>
         </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Compte PayPal</div>
-          <div class="stat-card-value" style="font-size:.9rem;">jeromef16000@hotmail.fr</div>
-          <div class="stat-card-note">Paiements en ligne actifs</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Téléphone</div>
-          <div class="stat-card-value" style="font-size:1.1rem;">06 09 71 53 44</div>
-          <div class="stat-card-note">Contact direct</div>
-        </div>
+        <div class="stat-card-note">Cliquez pour ouvrir</div>
       </div>
-
-      <!-- Quick actions -->
-      <h3 style="font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sage-d);margin-bottom:1rem;">Actions rapides</h3>
-      <div class="quick-actions">
-        <a class="quick-action" href="https://cal.com/bookings/upcoming" target="_blank">
-          <h4>Voir mes RDV</h4>
-          <p>Consulter et gérer les rendez-vous à venir sur Cal.com</p>
-        </a>
-        <a class="quick-action" href="https://cal.com/event-types" target="_blank">
-          <h4>Types d'événements</h4>
-          <p>Modifier vos formules, durées et disponibilités</p>
-        </a>
-        <a class="quick-action" href="https://cal.com/availability" target="_blank">
-          <h4>Disponibilités</h4>
-          <p>Ajuster vos horaires et jours de disponibilité</p>
-        </a>
-        <a class="quick-action" href="https://www.paypal.com/myaccount/summary" target="_blank">
-          <h4>PayPal</h4>
-          <p>Consulter les paiements reçus et l'historique</p>
-        </a>
+      <div class="stat-card">
+        <div class="stat-card-label">Compte PayPal</div>
+        <div class="stat-card-value" style="font-size:.9rem;">jeromef16000@hotmail.fr</div>
+        <div class="stat-card-note">Paiements en ligne actifs</div>
       </div>
-
-      <!-- Cal link to share -->
-      <div class="cal-link-box">
-        <h3>Votre lien de réservation à partager</h3>
-        <div class="cal-link-url">
-          <span id="cal-link-text">https://cal.com/jerome-fischer-ozrkr1</span>
-          <button onclick="copyCalLink()">Copier</button>
-        </div>
-        <p style="font-size:.72rem;color:var(--sage-l);margin-top:.6rem;">
-          Partagez ce lien avec vos clients pour qu'ils puissent réserver directement.
-        </p>
+      <div class="stat-card">
+        <div class="stat-card-label">Téléphone</div>
+        <div class="stat-card-value" style="font-size:1.1rem;">06 09 71 53 44</div>
+        <div class="stat-card-note">Contact direct</div>
       </div>
     </div>
 
-    <!-- TAB: CALENDAR -->
-    <div id="tab-calendar" class="tab-content">
-      <h2 class="admin-section-title">Calendrier des réservations</h2>
-      <p class="admin-section-sub">Votre planning Cal.com intégré. Cliquez sur un créneau pour gérer la réservation.</p>
-      <div class="cal-embed-wrap">
-        <div id="cal-inline" style="width:100%;height:100%;overflow:auto;min-height:600px;"></div>
-      </div>
+    <!-- Quick actions - all open in pop-ups -->
+    <h3 style="font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sage-d);margin-bottom:1rem;">Actions rapides</h3>
+    <div class="quick-actions">
+      <button class="quick-action" onclick="openPopup('Mes rendez-vous','https://cal.com/bookings/upcoming')">
+        <h4>&#128197; Mes RDV</h4>
+        <p>Consulter et gérer les rendez-vous à venir</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('Types d\'événements','https://cal.com/event-types')">
+        <h4>&#128203; Formules</h4>
+        <p>Modifier vos formules, durées et prix</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('Disponibilités','https://cal.com/availability')">
+        <h4>&#128336; Disponibilités</h4>
+        <p>Ajuster vos horaires et jours de travail</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('PayPal','https://www.paypal.com/myaccount/summary')">
+        <h4>&#128179; PayPal</h4>
+        <p>Paiements reçus et historique</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('RDV en attente','https://cal.com/bookings/unconfirmed')">
+        <h4>&#9203; En attente</h4>
+        <p>RDV à confirmer</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('Historique RDV','https://cal.com/bookings/past')">
+        <h4>&#9989; Historique</h4>
+        <p>Rendez-vous passés</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('RDV annulés','https://cal.com/bookings/cancelled')">
+        <h4>&#10005; Annulés</h4>
+        <p>Rendez-vous annulés</p>
+      </button>
+      <button class="quick-action" onclick="openPopup('Profil Cal.com','https://cal.com/settings/my-account/profile')">
+        <h4>&#9881; Paramètres</h4>
+        <p>Modifier votre profil Cal.com</p>
+      </button>
     </div>
 
-    <!-- TAB: BOOKINGS -->
-    <div id="tab-bookings" class="tab-content">
-      <h2 class="admin-section-title">Réservations</h2>
-      <p class="admin-section-sub">Gérez vos rendez-vous directement depuis Cal.com.</p>
-
-      <div class="stats-row">
-        <a class="stat-card" href="https://cal.com/bookings/upcoming" target="_blank" style="text-decoration:none;cursor:pointer;">
-          <div class="stat-card-label">À venir</div>
-          <div class="stat-card-value">📅</div>
-          <div class="stat-card-note">Voir les RDV confirmés</div>
-        </a>
-        <a class="stat-card" href="https://cal.com/bookings/unconfirmed" target="_blank" style="text-decoration:none;cursor:pointer;">
-          <div class="stat-card-label">En attente</div>
-          <div class="stat-card-value">⏳</div>
-          <div class="stat-card-note">RDV à confirmer</div>
-        </a>
-        <a class="stat-card" href="https://cal.com/bookings/past" target="_blank" style="text-decoration:none;cursor:pointer;">
-          <div class="stat-card-label">Passés</div>
-          <div class="stat-card-value">✓</div>
-          <div class="stat-card-note">Historique des RDV</div>
-        </a>
-        <a class="stat-card" href="https://cal.com/bookings/cancelled" target="_blank" style="text-decoration:none;cursor:pointer;">
-          <div class="stat-card-label">Annulés</div>
-          <div class="stat-card-value">✕</div>
-          <div class="stat-card-note">RDV annulés</div>
-        </a>
+    <!-- Cal link to share -->
+    <div class="cal-link-box">
+      <h3>Votre lien de réservation à partager</h3>
+      <div class="cal-link-url">
+        <span id="cal-link-text">https://cal.com/jerome-fischer-ozrkr1</span>
+        <button onclick="copyCalLink()">Copier</button>
       </div>
-
-      <div class="cal-link-box">
-        <h3>Gestion complète</h3>
-        <p style="font-size:.82rem;color:var(--ink2);font-weight:300;line-height:1.7;margin-bottom:1rem;">
-          Pour une gestion avancée de vos réservations (confirmation, annulation, reprogrammation, notes),
-          accédez directement à votre tableau de bord Cal.com.
-        </p>
-        <a href="https://cal.com/bookings/upcoming" target="_blank"
-           style="display:inline-block;padding:.8rem 1.6rem;background:var(--sage-d);color:var(--white);text-decoration:none;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;transition:background .3s;">
-          Ouvrir Cal.com
-        </a>
-      </div>
+      <p style="font-size:.72rem;color:var(--sage-l);margin-top:.6rem;">
+        Partagez ce lien avec vos clients pour qu'ils puissent réserver directement.
+      </p>
     </div>
 
-    <!-- TAB: SETTINGS -->
-    <div id="tab-settings" class="tab-content">
-      <h2 class="admin-section-title">Paramètres</h2>
-      <p class="admin-section-sub">Informations de votre compte et liens utiles.</p>
-
-      <div style="display:grid;gap:1.5rem;max-width:600px;">
-        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
-          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Compte Cal.com</h4>
-          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">jeromefischer087@gmail.com</p>
-          <a href="https://cal.com/settings/my-account/profile" target="_blank"
-             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
-            Modifier le profil Cal.com →
-          </a>
-        </div>
-
-        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
-          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Compte PayPal</h4>
-          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">jeromef16000@hotmail.fr</p>
-          <a href="https://www.paypal.com/myaccount/settings" target="_blank"
-             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
-            Paramètres PayPal →
-          </a>
-        </div>
-
-        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--sage);">
-          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Site web</h4>
-          <p style="font-size:.85rem;color:var(--ink2);font-weight:300;">phm045.github.io/le-temple-du-corps</p>
-          <a href="https://github.com/phm045/le-temple-du-corps" target="_blank"
-             style="display:inline-block;margin-top:.8rem;font-size:.7rem;color:var(--gold);text-decoration:underline;">
-            Dépôt GitHub →
-          </a>
-        </div>
-
-        <div style="background:var(--white);padding:1.5rem;border-left:3px solid var(--gold);">
-          <h4 style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.8rem;">Sécurité</h4>
-          <p style="font-size:.82rem;color:var(--ink2);font-weight:300;line-height:1.7;">
-            Cette page est protégée par mot de passe. Pour modifier le mot de passe,
-            contactez votre administrateur ou mettez à jour le fichier admin.html.
-          </p>
-        </div>
-      </div>
+    <!-- Inline calendar -->
+    <div class="cal-embed-wrap">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem;">Calendrier des réservations</h3>
+      <div id="cal-inline" style="width:100%;height:100%;overflow:auto;min-height:550px;"></div>
     </div>
 
   </div><!-- /admin-body -->
 </div><!-- /admin-dashboard -->
+
+<!-- ===== POP-UP MODAL ===== -->
+<div class="popup-overlay" id="popup-overlay" onclick="closePopupOutside(event)">
+  <div class="popup-container">
+    <div class="popup-header">
+      <span class="popup-title" id="popup-title">Chargement...</span>
+      <div class="popup-actions">
+        <button class="popup-btn" id="popup-newtab" onclick="openInNewTab()">Ouvrir dans un nouvel onglet</button>
+        <button class="popup-close" onclick="closePopup()" aria-label="Fermer">&times;</button>
+      </div>
+    </div>
+    <div class="popup-body">
+      <div class="popup-loader" id="popup-loader">
+        <span>Chargement...</span>
+      </div>
+      <iframe id="popup-iframe" src="about:blank" onload="hideLoader()"></iframe>
+    </div>
+  </div>
+</div>
 
 <!-- Cal.com embed script -->
 <script>
@@ -450,6 +409,8 @@ Cal("init", "admin-cal", { origin: "https://cal.com" });
 // Password hash (SHA-256)
 const HASH = "71692283164686a882477dd0cc47b006fb16e4cbfef87c62deb980e9de1b66a4";
 
+let currentPopupUrl = '';
+
 // Check if already authenticated
 if (sessionStorage.getItem("admin_auth") === "true") {
   showDashboard();
@@ -480,7 +441,7 @@ async function handleLogin(e) {
 function showDashboard() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-dashboard').style.display = 'block';
-  // Load Cal.com embed
+  // Load Cal.com inline embed
   Cal.ns["admin-cal"]("inline", {
     elementOrSelector: "#cal-inline",
     calLink: "jerome-fischer-ozrkr1",
@@ -503,12 +464,52 @@ function logout() {
   document.getElementById('login-error').style.display = 'none';
 }
 
-function showTab(tabId, el) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
-  document.getElementById('tab-' + tabId).classList.add('active');
-  el.classList.add('active');
+// ===== POP-UP FUNCTIONS =====
+function openPopup(title, url) {
+  currentPopupUrl = url;
+  document.getElementById('popup-title').textContent = title;
+  document.getElementById('popup-loader').style.display = 'flex';
+  document.getElementById('popup-iframe').src = url;
+  const overlay = document.getElementById('popup-overlay');
+  overlay.style.display = 'flex';
+  // Trigger animation
+  requestAnimationFrame(() => overlay.classList.add('open'));
+  document.body.style.overflow = 'hidden';
 }
+
+function closePopup() {
+  const overlay = document.getElementById('popup-overlay');
+  overlay.classList.remove('open');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.getElementById('popup-iframe').src = 'about:blank';
+    document.body.style.overflow = '';
+  }, 200);
+}
+
+function closePopupOutside(e) {
+  if (e.target === document.getElementById('popup-overlay')) {
+    closePopup();
+  }
+}
+
+function hideLoader() {
+  const iframe = document.getElementById('popup-iframe');
+  if (iframe.src !== 'about:blank') {
+    document.getElementById('popup-loader').style.display = 'none';
+  }
+}
+
+function openInNewTab() {
+  if (currentPopupUrl) {
+    window.open(currentPopupUrl, '_blank');
+  }
+}
+
+// Close with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePopup();
+});
 
 function copyCalLink() {
   const text = document.getElementById('cal-link-text').textContent;
