@@ -237,6 +237,20 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 .modal-bg{display:none;position:fixed;inset:0;z-index:900;background:rgba(26,35,22,.82);align-items:center;justify-content:center;padding:2rem;}
 .modal-bg.on{display:flex;}
 .modal-box{background:var(--white);max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:3rem;position:relative;}
+
+/* Cal.com popup */
+.cal-popup{display:none;position:fixed;inset:0;z-index:950;background:rgba(26,35,22,.85);align-items:center;justify-content:center;padding:1.5rem;}
+.cal-popup.on{display:flex;}
+.cal-popup-box{background:var(--white);width:100%;max-width:520px;height:90vh;max-height:700px;position:relative;border-radius:8px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;}
+.cal-popup-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--bg3);background:var(--bg);flex-shrink:0;}
+.cal-popup-header h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin:0;}
+.cal-popup-close{background:none;border:none;font-size:1.8rem;cursor:pointer;color:var(--sage-l);line-height:1;padding:0 .3rem;transition:color .2s;}
+.cal-popup-close:hover{color:var(--ink);}
+.cal-popup iframe{flex:1;width:100%;border:none;}
+@media(max-width:560px){
+  .cal-popup{padding:.5rem;}
+  .cal-popup-box{max-width:100%;height:95vh;max-height:none;border-radius:6px;}
+}
 .modal-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--sage-l);line-height:1;}
 .modal-box h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;color:var(--ink);}
 .modal-hr{width:3rem;height:1px;background:var(--gold);margin:1.3rem 0;}
@@ -380,7 +394,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
     <li><a href="#contact">Zones</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a class="nav-btn" href="https://cal.com/jerome-fischer-ozrkr1/15min" target="_blank">Prendre RDV</a>
+  <a class="nav-btn" href="#" onclick="openCalPopup();return false;">Prendre RDV</a>
   <div class="burger" onclick="openMenu()"><span></span><span></span><span></span></div>
 </nav>
 
@@ -391,7 +405,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   <a href="#formules" onclick="closeMenu()">Formules</a>
   <a href="#photos" onclick="closeMenu()">Photos</a>
   <a href="#contact" onclick="closeMenu()">Zones & Contact</a>
-  <a class="mob-cta" href="https://cal.com/jerome-fischer-ozrkr1/15min" target="_blank">Prendre RDV</a>
+  <a class="mob-cta" href="#" onclick="closeMenu();openCalPopup();return false;">Prendre RDV</a>
 </div>
 
 <!-- HERO -->
@@ -770,6 +784,17 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   </div>
 </footer>
 
+<!-- POPUP CAL.COM -->
+<div class="cal-popup" id="calPopup">
+  <div class="cal-popup-box">
+    <div class="cal-popup-header">
+      <h3>Prendre rendez-vous</h3>
+      <button class="cal-popup-close" onclick="closeCalPopup()">&times;</button>
+    </div>
+    <iframe id="calFrame" src="" loading="lazy"></iframe>
+  </div>
+</div>
+
 <!-- MODALS CONTENU -->
 <div class="modal-bg" id="modal-mentions">
   <div class="modal-box">
@@ -834,6 +859,27 @@ function openModal(id){
 function closeModal(id){
   document.getElementById('modal-'+id).classList.remove('on');
 }
+
+/* Cal.com popup */
+function openCalPopup(){
+  const popup = document.getElementById('calPopup');
+  const frame = document.getElementById('calFrame');
+  if(!frame.src || frame.src === window.location.href){
+    frame.src = 'https://cal.com/jerome-fischer-ozrkr1/15min';
+  }
+  popup.classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeCalPopup(){
+  document.getElementById('calPopup').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.getElementById('calPopup').addEventListener('click',function(e){
+  if(e.target===this) closeCalPopup();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape') closeCalPopup();
+});
 
 /* DIAPORAMA */
 let currentSlide = 0;
