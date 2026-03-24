@@ -205,12 +205,13 @@ form{margin-top:1rem;}
 .reveal.in{opacity:1;transform:none;}
 
 /* BURGER */
-.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.burger span{display:block;width:22px;height:1px;background:var(--ink);}
-.mob-menu{display:none;position:fixed;inset:0;z-index:400;background:var(--white);flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.burger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:transform .3s,opacity .3s;}
+.mob-menu{display:none;position:fixed;inset:0;z-index:9000;background:var(--white);flex-direction:column;align-items:center;justify-content:center;gap:1.6rem;}
 .mob-menu.open{display:flex;}
-.mob-menu a{font-family:'Playfair Display',serif;font-size:2rem;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none;}
-.mob-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--sage-l);}
+.mob-menu a{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none;padding:.5rem 1rem;min-height:48px;display:flex;align-items:center;}
+.mob-menu .mob-cta{font-family:'DM Sans',sans-serif;font-size:.7rem;font-style:normal;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--white);background:var(--moss);padding:.9rem 2rem;margin-top:.5rem;min-height:48px;}
+.mob-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;font-size:2.2rem;cursor:pointer;color:var(--sage-l);min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;}
 
 /* FOOTER */
 footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
@@ -239,31 +240,110 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 .modal-box h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;color:var(--sage-d);margin:1.5rem 0 .5rem;}
 .modal-box p{font-size:.83rem;font-weight:300;line-height:1.85;color:var(--ink2);}
 
+/* ===================== MOBILE OPTIMIZATIONS ===================== */
+
+/* Touch-friendly targets */
+@media(hover:none) and (pointer:coarse){
+  .nav-btn,.cta-main,.cta-ghost,.f-devis,.form-btn,.slider-btn,.btn-download{
+    min-height:48px;display:inline-flex;align-items:center;justify-content:center;
+  }
+  .slider-dot{width:12px;height:12px;}
+  .burger{padding:10px;min-width:44px;min-height:44px;justify-content:center;align-items:center;}
+  .chip{min-height:44px;}
+}
+
 @media(max-width:960px){
   .nav-links,.nav-btn{display:none;}
   .burger{display:flex;}
-  #accueil{grid-template-columns:1fr;}
+  #accueil{grid-template-columns:1fr;min-height:auto;}
   .hero-r{display:none;}
-  .hero-l{padding:8rem 6vw 5rem;}
-  section{padding:5rem 6vw;}
-  .massage-wrap{grid-template-columns:1fr;gap:3rem;}
-  .form-head{grid-template-columns:1fr;gap:1.5rem;}
-  .formules-grid{grid-template-columns:1fr;}
-  .f-card.large{grid-column:auto;grid-template-columns:1fr;}
-  .f-large-mid{border:none;padding:0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:1.5rem 0;margin:1rem 0;}
-  .bien-grid{grid-template-columns:1fr 1fr;}
-  .zones-wrap{grid-template-columns:1fr;gap:2.5rem;}
-  .contact-wrap{grid-template-columns:1fr;gap:3rem;}
-  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
-  .footer-bot{flex-direction:column;text-align:center;}
-  .quote-band{padding:4rem 6vw;gap:2rem;}
-  .stats{flex-direction:column;gap:1.5rem;}
+  .hero-l{padding:6rem 6vw 3rem;}
+  .hero-h1{font-size:clamp(2.4rem,8vw,3.4rem);margin-bottom:.6rem;}
+  .hero-sub{font-size:.85rem;line-height:1.85;margin-bottom:2rem;}
+  .hero-kicker{margin-bottom:1.4rem;}
+  .hero-ctas{gap:1.2rem;}
+  .scroll-cue{bottom:1.5rem;}
+  section{padding:4rem 6vw;}
+  .s-title{font-size:clamp(1.7rem,5.5vw,2.6rem);}
+
+  /* Stats */
+  .stats{flex-direction:column;gap:1rem;padding:2.4rem 6vw;}
   .stats-div{display:none;}
+  .stat-n{font-size:2rem;}
+  .stat-l{font-size:.55rem;}
+
+  /* Bannière */
+  .banniere-wrap{height:180px;}
+
+  /* Massage */
+  .massage-wrap{grid-template-columns:1fr;gap:2.5rem;}
+
+  /* Quote */
+  .quote-band{padding:3rem 6vw;gap:1.5rem;flex-direction:column;}
+  .quote-line{width:40px;min-height:2px;height:2px;}
+  .quote-txt{font-size:clamp(1.1rem,3.5vw,1.5rem);}
+
+  /* Formules */
+  .form-head{grid-template-columns:1fr;gap:1.2rem;margin-bottom:3rem;}
+  .formules-grid{grid-template-columns:1fr;gap:0;}
+  .f-card{padding:2rem 1.6rem;}
+  .f-card.large{grid-column:auto;grid-template-columns:1fr;gap:0;padding:2rem 1.6rem;}
+  .f-large-mid{border:none;padding:0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:1.5rem 0;margin:1rem 0;}
+
+  /* Bienfaits */
+  .bien-grid{grid-template-columns:1fr 1fr;gap:2px;}
+  .bien-card{padding:1.6rem 1.2rem;}
+  .bien-name{font-size:.95rem;}
+  .bien-txt{font-size:.76rem;}
+
+  /* Zones */
+  .zones-wrap{grid-template-columns:1fr;gap:2rem;}
+
+  /* Contact */
+  .contact-wrap{grid-template-columns:1fr;gap:2.5rem;}
   .fg-row{grid-template-columns:1fr;}
+
+  /* Photos slider */
+  .slide img{max-height:340px;border-radius:4px;}
+  .slider-controls{gap:.5rem;}
+  .slider-btn{font-size:.65rem;padding:.5rem .7rem;letter-spacing:.1em;}
+
+  /* Footer */
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
+  .footer-bot{flex-direction:column;text-align:center;gap:.6rem;}
+
+  /* Modal */
+  .modal-box{padding:2rem 1.5rem;margin:1rem;}
 }
+
 @media(max-width:560px){
+  .hero-l{padding:5.5rem 5vw 2.5rem;}
+  .hero-h1{font-size:clamp(2rem,9vw,2.8rem);}
+  .hero-zone{font-size:.65rem;}
+  .hero-sub{max-width:none;}
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:1rem;}
+  .cta-main{text-align:center;padding:.9rem 1.8rem;}
+  .cta-ghost{text-align:center;padding:.6rem 0;}
+  section{padding:3.5rem 5vw;}
+
+  /* Stats compact */
+  .stats{padding:2rem 5vw;gap:.8rem;}
+
+  /* Quote */
+  .quote-band{padding:2.5rem 5vw;}
+
+  /* Bienfaits 1 col */
   .bien-grid{grid-template-columns:1fr;}
-  .footer-top{grid-template-columns:1fr;}
+
+  /* Footer 1 col */
+  .footer-top{grid-template-columns:1fr;gap:1.8rem;}
+
+  /* Slider swipe-friendly */
+  .slider{touch-action:pan-y;overflow:hidden;}
+  .slider-btn{padding:.45rem .6rem;font-size:.6rem;}
+
+  /* Contact buttons full-width */
+  .zone-telechargement{padding:1.2rem;}
 }
 </style>
 </head>
@@ -285,13 +365,13 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 </nav>
 
 <div class="mob-menu" id="mobMenu">
-  <button class="mob-close" onclick="closeMenu()">×</button>
+  <button class="mob-close" onclick="closeMenu()" aria-label="Fermer le menu">×</button>
   <a href="#accueil" onclick="closeMenu()">Accueil</a>
   <a href="#massage" onclick="closeMenu()">Le massage thaï</a>
   <a href="#formules" onclick="closeMenu()">Formules</a>
   <a href="#photos" onclick="closeMenu()">Photos</a>
-  <a href="#contact" onclick="closeMenu()">Zones</a>
-  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" onclick="closeMenu()">Zones & Contact</a>
+  <a class="mob-cta" href="https://cal.com/jerome-fischer-ozrkr1/15min" target="_blank">Prendre RDV</a>
 </div>
 
 <!-- HERO -->
@@ -699,8 +779,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 </div>
 
 <script>
-function openMenu(){document.getElementById('mobMenu').classList.add('open');}
-function closeMenu(){document.getElementById('mobMenu').classList.remove('open');}
+// openMenu & closeMenu defined after slider code (with body scroll lock)
 
 const nav = document.getElementById('nav');
 window.addEventListener('scroll',()=>{
@@ -727,6 +806,7 @@ function closeModal(id){
 
 /* DIAPORAMA */
 let currentSlide = 0;
+let autoplayTimer;
 function showSlide(i){
   const slides = document.querySelectorAll('.slide');
   const dots   = document.querySelectorAll('.slider-dot');
@@ -742,7 +822,50 @@ function showSlide(i){
 function nextSlide(){ showSlide(currentSlide+1); }
 function prevSlide(){ showSlide(currentSlide-1); }
 function goSlide(i){ showSlide(i); }
-setInterval(()=>{ nextSlide(); }, 7000);
+function resetAutoplay(){
+  clearInterval(autoplayTimer);
+  autoplayTimer = setInterval(()=>{ nextSlide(); }, 7000);
+}
+autoplayTimer = setInterval(()=>{ nextSlide(); }, 7000);
+
+/* TOUCH SWIPE for slider */
+(function(){
+  const slider = document.querySelector('.slider');
+  if(!slider) return;
+  let startX = 0, startY = 0, diffX = 0, isMoving = false;
+  slider.addEventListener('touchstart', function(e){
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isMoving = true;
+  }, {passive:true});
+  slider.addEventListener('touchmove', function(e){
+    if(!isMoving) return;
+    diffX = e.touches[0].clientX - startX;
+    const diffY = e.touches[0].clientY - startY;
+    if(Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10){
+      e.preventDefault();
+    }
+  }, {passive:false});
+  slider.addEventListener('touchend', function(){
+    if(!isMoving) return;
+    isMoving = false;
+    if(Math.abs(diffX) > 50){
+      if(diffX < 0) nextSlide(); else prevSlide();
+      resetAutoplay();
+    }
+    diffX = 0;
+  }, {passive:true});
+})();
+
+/* Prevent body scroll when mobile menu open */
+function openMenu(){
+  document.getElementById('mobMenu').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  document.getElementById('mobMenu').classList.remove('open');
+  document.body.style.overflow='';  
+}
 </script>
 </body>
 </html>
