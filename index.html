@@ -635,9 +635,23 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
       </div>
 
-      <!-- Carte de visite (optionnelle) -->
-      <div class="carte-wrap">
-        <!-- Carte de visite SVG -->
+      <!-- Boutons de contact -->
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.8rem;">
+        <a class="form-btn"
+           href="mailto:jeromef16000@hotmail.fr?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
+          Me contacter par email
+        </a>
+        <a class="form-btn"
+           href="tel:+33609715344"
+           style="background:var(--sage);">
+          M’appeler au 06 09 71 53 44
+        </a>
+        <a class="form-btn"
+           href="https://wa.me/33609715344"
+           target="_blank"
+           style="background:#25D366;">
+          M’écrire sur WhatsApp
+        </a>
       </div>
     </div>
 
@@ -682,27 +696,6 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
            download
            style="display:inline-block;padding:.8rem 1.6rem;background:var(--sage-d);color:#fff;text-decoration:none;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;">
           Télécharger le flyer (PNG)
-        </a>
-      </div>
-
-      <!-- Boutons de contact -->
-      <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:1.8rem;">
-        <a class="form-btn"
-           href="mailto:jeromef16000@hotmail.fr?subject=Demande%20de%20rendez-vous%20-%20Le%20Temple%20du%20Corps">
-          Me contacter par email
-        </a>
-
-        <a class="form-btn"
-           href="tel:+33609715344"
-           style="background:var(--sage);">
-          M’appeler au 06 09 71 53 44
-        </a>
-
-        <a class="form-btn"
-           href="https://wa.me/33609715344"
-           target="_blank"
-           style="background:#25D366;">
-          M’écrire sur WhatsApp
         </a>
       </div>
 
@@ -772,7 +765,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   </div>
   <div class="footer-bot">
     <p>© Le Temple du Corps. Tous droits réservés.</p>
-    <a href="admin.html" style="font-size:.55rem;color:rgba(250,248,244,.2);text-decoration:none;margin-left:1rem;" title="Administration">Admin</a>
+    <a href="admin.html" style="font-size:.75rem;color:rgba(250,248,244,.45);text-decoration:none;margin-left:1rem;padding:.4rem .8rem;border:1px solid rgba(250,248,244,.15);transition:color .3s,border-color .3s;" title="Administration" onmouseover="this.style.color='var(--gold-l)';this.style.borderColor='var(--gold-l)'" onmouseout="this.style.color='rgba(250,248,244,.45)';this.style.borderColor='rgba(250,248,244,.15)'">Admin</a>
     <a href="#accueil">Retour en haut</a>
   </div>
 </footer>
