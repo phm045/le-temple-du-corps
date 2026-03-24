@@ -632,31 +632,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
         <div class="chip"><span class="chip-icon">✉️</span><span>jeromef16000@hotmail</span></div>
         <div class="chip"><span class="chip-icon">📍</span><span>Franche-Comté (25, 70, 90)</span></div>
 
-        <!-- Bouton PayPal -->
-        <div class="paypal-button" style="margin-top: 20px; background:var(--white); padding:1.5rem; border-left:3px solid var(--gold);">
-          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem;color:var(--ink);">Paiement en ligne</h3>
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:flex;flex-direction:column;gap:.8rem;">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="jeromef16000@hotmail.fr">
-            <input type="hidden" name="item_name" value="Prestation Le Temple du Corps">
-            <input type="hidden" name="currency_code" value="EUR">
-            <input type="hidden" name="no_shipping" value="1">
-            <input type="hidden" name="return" value="https://phm045.github.io/le-temple-du-corps/">
-            <input type="hidden" name="cancel_return" value="https://phm045.github.io/le-temple-du-corps/#contact">
-            <label for="paypal-amount" style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);">
-              Montant à régler (€)
-            </label>
-            <input type="number" id="paypal-amount" name="amount" min="1" step="0.01" placeholder="Ex : 70.00" required
-              style="width:100%;padding:.7rem 1rem;border:1px solid var(--bg3);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .3s;"
-              onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--bg3)'">
-            <button type="submit" class="form-btn" style="background:var(--gold);margin-top:.2rem;">
-              Acheter — Payer via PayPal
-            </button>
-            <p style="font-size:.7rem;color:var(--sage-l);line-height:1.5;margin:0;">
-              Paiement sécurisé via PayPal. Vous serez redirigé vers PayPal pour finaliser le règlement.
-            </p>
-          </form>
-        </div>
+
       </div>
 
       <!-- Carte de visite (optionnelle) -->
@@ -728,6 +704,32 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
            style="background:#25D366;">
           M’écrire sur WhatsApp
         </a>
+      </div>
+
+      <!-- Paiement en ligne -->
+      <div class="paypal-button" style="margin-top:1.8rem;background:var(--white);padding:1.5rem;border-left:3px solid var(--gold);">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem;color:var(--ink);">Paiement en ligne</h3>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:flex;flex-direction:column;gap:.8rem;">
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="jeromef16000@hotmail.fr">
+          <input type="hidden" name="item_name" value="Prestation Le Temple du Corps">
+          <input type="hidden" name="currency_code" value="EUR">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="https://phm045.github.io/le-temple-du-corps/">
+          <input type="hidden" name="cancel_return" value="https://phm045.github.io/le-temple-du-corps/#contact">
+          <label for="paypal-amount" style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);">
+            Montant à régler (€)
+          </label>
+          <input type="number" id="paypal-amount" name="amount" min="1" step="0.01" placeholder="Ex : 70.00" required
+            style="width:100%;padding:.7rem 1rem;border:1px solid var(--bg3);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .3s;"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--bg3)'">
+          <button type="submit" class="form-btn" style="background:var(--gold);margin-top:.2rem;">
+            Acheter — Payer via PayPal
+          </button>
+          <p style="font-size:.7rem;color:var(--sage-l);line-height:1.5;margin:0;">
+            Paiement sécurisé via PayPal. Vous serez redirigé vers PayPal pour finaliser le règlement.
+          </p>
+        </form>
       </div>
     </div>
   </div>
