@@ -55,6 +55,7 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 
 /* Hero right */
 .hero-r{position:relative;overflow:hidden;background:linear-gradient(150deg,#c8d4be 0%,#9aaf87 45%,#6b8558 100%);}
+.hero-r-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;opacity:.92;}
 .hero-r-visual{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .hero-r-visual svg{width:100%;height:100%;}
 .hero-badge{position:absolute;bottom:3rem;right:3rem;width:115px;height:115px;border:1px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:spin 25s linear infinite;}
@@ -77,6 +78,7 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 /* BANNIÈRE */
 .banniere-wrap{width:100%;height:340px;overflow:hidden;position:relative;background:linear-gradient(135deg,#2d3d28 0%,#4a6040 40%,#7a9a6a 100%);}
 .banniere-wrap svg{width:100%;height:100%;}
+.banniere-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;}
 
 /* SECTIONS GÉNÉRALES */
 section{padding:7rem 8vw;}
@@ -93,9 +95,10 @@ section{padding:7rem 8vw;}
 .trait{display:flex;align-items:flex-start;gap:1rem;}
 .trait-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.5rem;}
 .trait-txt{font-size:.84rem;font-weight:300;line-height:1.7;color:var(--ink2);}
-.massage-visual{display:flex;flex-direction:column;gap:8px;}
+.massage-visual{display:flex;flex-direction:column;gap:12px;}
 .mv-img{border-radius:6px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18);}
 .mv-img svg{width:100%;display:block;}
+.mv-img img{width:100%;display:block;object-fit:cover;}
 
 /* QUOTE */
 .quote-band{background:var(--bg3);padding:5rem 8vw;display:flex;gap:4rem;align-items:center;}
@@ -404,8 +407,8 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
     </div>
   </div>
   <div class="hero-r">
+    <img class="hero-r-img" src="hero-massage.jpg" alt="Massage thaï professionnel — Le Temple du Corps" loading="eager">
     <div class="hero-r-visual">
-      <!-- Tu peux remettre ici ton grand SVG décoratif d'origine -->
     </div>
     <div class="hero-badge">
       <div class="hero-badge-in">
@@ -430,6 +433,11 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   <div class="stats-div"></div>
 </div>
 
+<!-- BANNIÈRE ZEN -->
+<div class="banniere-wrap">
+  <img src="banniere-zen.jpg" alt="Pierres zen en équilibre dans un jardin de bambous" loading="lazy">
+</div>
+
 <!-- LE MASSAGE THAÏ -->
 <section id="massage">
   <div class="s-kicker">L'art ancestral</div>
@@ -447,7 +455,8 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       </div>
     </div>
     <div class="massage-visual reveal" style="transition-delay:.2s">
-      <!-- Remets ici tes deux SVG de visuels massage si tu le souhaites -->
+      <div class="mv-img"><img src="massage-thai-stretch.jpg" alt="Massage thaï traditionnel — étirements passifs" loading="lazy"></div>
+      <div class="mv-img"><img src="massage-accessoires.jpg" alt="Huiles essentielles et accessoires de massage" loading="lazy"></div>
     </div>
   </div>
 </section>
