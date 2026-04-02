@@ -30,21 +30,5 @@
     "commentaire": "Je recommande",
     "date": "2026-04-02",
     "statut": "approved"
-  },
-  {
-    "nom": "Test Visiteur",
-    "ville": "Paris",
-    "note": 4,
-    "commentaire": "Test de soumission automatique",
-    "date": "2026-04-02",
-    "statut": "pending"
-  },
-  {
-    "nom": "Test Visiteur",
-    "ville": "Paris",
-    "note": 4,
-    "commentaire": "Test de soumission automatique",
-    "date": "2026-04-02",
-    "statut": "pending"
   }
 ]
