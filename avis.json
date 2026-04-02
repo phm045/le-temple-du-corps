@@ -22,5 +22,21 @@
     "commentaire": "J'ai opté pour un massage à domicile et c'était parfait. Ponctualité, écoute, et un vrai moment de détente. Merci !",
     "date": "2026-01-20",
     "statut": "approved"
+  },
+  {
+    "nom": "Philippe",
+    "ville": "Belfort",
+    "note": 5,
+    "commentaire": "Je recommande",
+    "date": "2026-04-02",
+    "statut": "approved"
+  },
+  {
+    "nom": "Marie",
+    "ville": "Montbéliard",
+    "note": 4,
+    "commentaire": "Très bon massage, je reviendrai",
+    "date": "2026-04-02",
+    "statut": "pending"
   }
 ]
