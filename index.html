@@ -1090,7 +1090,9 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS ===== */
-const JSONBLOB_URL = "https://jsonblob.com/api/jsonBlob/019d4e4e-4f55-7ab7-8b52-1f6a5a238549";
+const GH_TOKEN = "REMPLACER_PAR_VOTRE_TOKEN";
+const GH_REPO = "phm045/le-temple-du-corps";
+const GH_FILE = "avis.json";
 const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
 let avisRating = 0;
 
@@ -1104,6 +1106,27 @@ function setRating(n){
   avisRating = n;
   const stars = document.querySelectorAll('#starsInput span');
   stars.forEach((s,i) => s.classList.toggle('lit', i < n));
+}
+
+async function updateAvisOnGitHub(newAvisArray){
+  var getResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+    headers: { 'Authorization': 'token ' + GH_TOKEN }
+  });
+  var fileData = await getResp.json();
+  var sha = fileData.sha;
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(newAvisArray, null, 2))));
+  await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'token ' + GH_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Nouvel avis client',
+      content: content,
+      sha: sha
+    })
+  });
 }
 
 function submitAvis(e){
@@ -1131,11 +1154,8 @@ function submitAvis(e){
     })
   }).catch(function(){/* email notification is best-effort */});
 
-  /* Add new avis to JSONBlob with status "pending" */
-  fetch(JSONBLOB_URL, {
-    method: 'GET',
-    headers: {'Content-Type':'application/json'}
-  })
+  /* Add new avis to GitHub avis.json with status "pending" */
+  fetch('./avis.json?t=' + Date.now())
   .then(function(r){ return r.json(); })
   .then(function(avisArray){
     if(!Array.isArray(avisArray)) avisArray = [];
@@ -1147,11 +1167,7 @@ function submitAvis(e){
       date: new Date().toISOString().slice(0,10),
       statut: 'pending'
     });
-    return fetch(JSONBLOB_URL, {
-      method: 'PUT',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(avisArray)
-    });
+    return updateAvisOnGitHub(avisArray);
   })
   .then(function(){
     document.getElementById('avisForm').style.display = 'none';
@@ -1218,10 +1234,7 @@ function renderAvis(approved){
 }
 
 function loadApprovedAvis(){
-  fetch(JSONBLOB_URL, {
-    method: 'GET',
-    headers: {'Content-Type':'application/json'}
-  })
+  fetch('./avis.json?t=' + Date.now())
   .then(function(r){ return r.json(); })
   .then(function(avisArray){
     if(!Array.isArray(avisArray)) avisArray = [];

@@ -690,7 +690,9 @@ function copyCalLink() {
 }
 
 /* ===== GESTION DES AVIS ===== */
-const JSONBLOB_URL = "https://jsonblob.com/api/jsonBlob/019d4e4e-4f55-7ab7-8b52-1f6a5a238549";
+const GH_TOKEN = "REMPLACER_PAR_VOTRE_TOKEN";
+const GH_REPO = "phm045/le-temple-du-corps";
+const GH_FILE = "avis.json";
 let currentAvisTab = 'pending';
 let allAvis = [];
 
@@ -709,10 +711,7 @@ function switchAvisTab(tab){
 }
 
 function loadAvis(){
-  fetch(JSONBLOB_URL, {
-    method: 'GET',
-    headers: {'Content-Type':'application/json'}
-  })
+  fetch('./avis.json?t=' + Date.now())
   .then(r => r.json())
   .then(data => {
     allAvis = Array.isArray(data) ? data : [];
@@ -723,18 +722,31 @@ function loadAvis(){
   });
 }
 
-function saveAvisToBlob(){
-  return fetch(JSONBLOB_URL, {
+async function updateAvisOnGitHub(newAvisArray){
+  var getResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+    headers: { 'Authorization': 'token ' + GH_TOKEN }
+  });
+  var fileData = await getResp.json();
+  var sha = fileData.sha;
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(newAvisArray, null, 2))));
+  await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
     method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(allAvis)
+    headers: {
+      'Authorization': 'token ' + GH_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Mise à jour avis client',
+      content: content,
+      sha: sha
+    })
   });
 }
 
 function approveAvis(idx){
   if(idx < 0 || idx >= allAvis.length) return;
   allAvis[idx].statut = 'approved';
-  saveAvisToBlob()
+  updateAvisOnGitHub(allAvis)
     .then(() => renderAvisAdmin())
     .catch(() => alert('Erreur lors de la sauvegarde. Veuillez réessayer.'));
 }
@@ -743,7 +755,7 @@ function deleteAvis(idx){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
   if(idx < 0 || idx >= allAvis.length) return;
   allAvis.splice(idx, 1);
-  saveAvisToBlob()
+  updateAvisOnGitHub(allAvis)
     .then(() => renderAvisAdmin())
     .catch(() => alert('Erreur lors de la sauvegarde. Veuillez réessayer.'));
 }
