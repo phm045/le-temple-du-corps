@@ -1090,7 +1090,7 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS (Google Sheets) ===== */
-const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg/gviz/tq?tqx=out:csv&sheet=Avis&tq=' + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
+const SHEET_ID = '1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg';
 let avisRating = 0;
 
 function setRating(n){
@@ -1117,22 +1117,6 @@ function submitAvis(e){
   document.getElementById('avisForm').style.display = 'none';
   document.getElementById('avisFormOk').style.display = 'block';
   return false;
-}
-
-function parseCSV(text){
-  const lines = text.trim().split('\n');
-  if(lines.length < 2) return [];
-  return lines.slice(1).map(line => {
-    const cols = [];
-    let cur = '', inQ = false;
-    for(let i = 0; i < line.length; i++){
-      if(line[i] === '"'){ inQ = !inQ; }
-      else if(line[i] === ',' && !inQ){ cols.push(cur); cur = ''; }
-      else { cur += line[i]; }
-    }
-    cols.push(cur);
-    return { nom: cols[0]||'', ville: cols[1]||'', note: parseInt(cols[2])||5, message: cols[3]||'' };
-  });
 }
 
 function renderAvis(approved){
@@ -1173,9 +1157,20 @@ function renderAvis(approved){
 }
 
 function loadApprovedAvis(){
-  fetch(SHEET_CSV)
+  const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&sheet=Avis&tq=' + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
+  fetch(url)
   .then(r => r.text())
-  .then(csv => renderAvis(parseCSV(csv)))
+  .then(txt => {
+    const json = JSON.parse(txt.replace(/^\/\*O_o\*\/\n.*setResponse\(/, '').replace(/\);?$/, ''));
+    const rows = (json.table && json.table.rows) || [];
+    const approved = rows.map(r => ({
+      nom: (r.c[0] && r.c[0].v) || 'Anonyme',
+      ville: (r.c[1] && r.c[1].v) || '',
+      note: (r.c[2] && r.c[2].v) || 5,
+      message: (r.c[3] && r.c[3].v) || ''
+    }));
+    renderAvis(approved);
+  })
   .catch(() => renderAvis([]));
 }
 
