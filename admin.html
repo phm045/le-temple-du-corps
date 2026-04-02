@@ -326,6 +326,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
     <form id="login-form" onsubmit="return handleLogin(event)">
       <label for="pwd">Mot de passe</label>
       <input type="password" id="pwd" placeholder="Entrez votre mot de passe" autocomplete="current-password" required/>
+      <label for="gh-token" style="margin-top:1rem;">Token GitHub</label>
+      <input type="password" id="gh-token" placeholder="ghp_xxxx..." autocomplete="off" required/>
+      <p style="font-size:.65rem;color:var(--sage-l);margin-top:.4rem;line-height:1.4;">Nécessaire pour gérer les avis. <a href="https://github.com/settings/tokens/new?scopes=repo&description=le-temple-du-corps-admin" target="_blank" style="color:var(--gold);">Créer un token</a></p>
       <button type="submit">Accéder au tableau de bord</button>
     </form>
     <div id="login-error" class="login-error">Mot de passe incorrect. Veuillez réessayer.</div>
@@ -579,9 +582,11 @@ async function sha256(message) {
 async function handleLogin(e) {
   e.preventDefault();
   const pwd = document.getElementById('pwd').value;
+  const token = document.getElementById('gh-token').value.trim();
   const hash = await sha256(pwd);
   if (hash === HASH) {
     sessionStorage.setItem("admin_auth", "true");
+    if(token){ sessionStorage.setItem('gh_token', token); ghToken = token; }
     showDashboard();
   } else {
     document.getElementById('login-error').style.display = 'block';
@@ -690,9 +695,9 @@ function copyCalLink() {
 }
 
 /* ===== GESTION DES AVIS ===== */
-const GH_TOKEN = "REMPLACER_PAR_VOTRE_TOKEN";
 const GH_REPO = "phm045/le-temple-du-corps";
 const GH_FILE = "avis.json";
+let ghToken = sessionStorage.getItem('gh_token') || '';
 let currentAvisTab = 'pending';
 let allAvis = [];
 
@@ -723,16 +728,18 @@ function loadAvis(){
 }
 
 async function updateAvisOnGitHub(newAvisArray){
+  if(!ghToken){ alert('Token GitHub manquant. Reconnectez-vous.'); return; }
   var getResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
-    headers: { 'Authorization': 'token ' + GH_TOKEN }
+    headers: { 'Authorization': 'token ' + ghToken }
   });
+  if(!getResp.ok) throw new Error('Erreur GitHub: ' + getResp.status);
   var fileData = await getResp.json();
   var sha = fileData.sha;
   var content = btoa(unescape(encodeURIComponent(JSON.stringify(newAvisArray, null, 2))));
-  await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
+  var putResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
     method: 'PUT',
     headers: {
-      'Authorization': 'token ' + GH_TOKEN,
+      'Authorization': 'token ' + ghToken,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -741,6 +748,7 @@ async function updateAvisOnGitHub(newAvisArray){
       sha: sha
     })
   });
+  if(!putResp.ok) throw new Error('Erreur GitHub: ' + putResp.status);
 }
 
 function approveAvis(idx){

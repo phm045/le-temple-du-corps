@@ -1090,9 +1090,6 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS ===== */
-const GH_TOKEN = "REMPLACER_PAR_VOTRE_TOKEN";
-const GH_REPO = "phm045/le-temple-du-corps";
-const GH_FILE = "avis.json";
 const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
 let avisRating = 0;
 
@@ -1108,27 +1105,6 @@ function setRating(n){
   stars.forEach((s,i) => s.classList.toggle('lit', i < n));
 }
 
-async function updateAvisOnGitHub(newAvisArray){
-  var getResp = await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
-    headers: { 'Authorization': 'token ' + GH_TOKEN }
-  });
-  var fileData = await getResp.json();
-  var sha = fileData.sha;
-  var content = btoa(unescape(encodeURIComponent(JSON.stringify(newAvisArray, null, 2))));
-  await fetch('https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + GH_TOKEN,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: 'Nouvel avis client',
-      content: content,
-      sha: sha
-    })
-  });
-}
-
 function submitAvis(e){
   e.preventDefault();
   if(avisRating === 0){ alert('Veuillez sélectionner une note.'); return false; }
@@ -1139,7 +1115,6 @@ function submitAvis(e){
   const ville = document.getElementById('avis-ville').value.trim();
   const message = document.getElementById('avis-message').value.trim();
 
-  /* Notify via Web3Forms email */
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -1152,22 +1127,6 @@ function submitAvis(e){
       'Note': avisRating + '/5',
       'Message': message
     })
-  }).catch(function(){/* email notification is best-effort */});
-
-  /* Add new avis to GitHub avis.json with status "pending" */
-  fetch('./avis.json?t=' + Date.now())
-  .then(function(r){ return r.json(); })
-  .then(function(avisArray){
-    if(!Array.isArray(avisArray)) avisArray = [];
-    avisArray.push({
-      nom: nom,
-      ville: ville,
-      note: avisRating,
-      commentaire: message,
-      date: new Date().toISOString().slice(0,10),
-      statut: 'pending'
-    });
-    return updateAvisOnGitHub(avisArray);
   })
   .then(function(){
     document.getElementById('avisForm').style.display = 'none';
@@ -1178,7 +1137,6 @@ function submitAvis(e){
   })
   .catch(function(){
     document.getElementById('avisForm').style.display = 'none';
-    document.getElementById('avisFormOk').innerHTML = 'Merci pour votre avis ! Il sera visible après validation par notre équipe.';
     document.getElementById('avisFormOk').style.display = 'block';
     avisRating = 0;
     document.getElementById('avisForm').reset();
