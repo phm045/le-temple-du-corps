@@ -1217,31 +1217,46 @@ function loadApprovedAvis(){
   /* Merge two sources: Google Sheets (legacy) + localStorage (new submissions) */
   var localApproved = getLocalAvis().filter(function(a){ return a.status === 'approved'; });
 
+  /* Use JSONP (script-tag injection) to avoid CORS restrictions on the
+     Google Visualization API — fetch() is blocked because the endpoint
+     does not send Access-Control-Allow-Origin headers. */
+  var cbName = '_gvizAvisCallback';
   var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
-    + '/gviz/tq?tqx=out:json&sheet=Avis&tq='
+    + '/gviz/tq?tqx=responseHandler:' + cbName + '&sheet=Avis&tq='
     + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
 
-  fetch(url)
-  .then(function(r){ return r.text(); })
-  .then(function(txt){
-    /* Strip JSONP wrapper — handle varying formats */
-    var cleaned = txt.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
-    var json = JSON.parse(cleaned);
-    var rows = (json.table && json.table.rows) || [];
-    var sheetApproved = rows.map(function(r){
-      return {
-        nom: (r.c[0] && r.c[0].v) || 'Anonyme',
-        ville: (r.c[1] && r.c[1].v) || '',
-        note: parseGvizNote(r.c[2] && r.c[2].v),
-        message: (r.c[3] && r.c[3].v) || ''
-      };
-    });
-    renderAvis(sheetApproved.concat(localApproved));
-  })
-  .catch(function(){
-    /* If Google Sheets fails, still show locally approved reviews */
+  var timeoutId = setTimeout(function(){
+    /* If the script fails to load within 8 seconds, show local reviews only */
+    window[cbName] = function(){};
     renderAvis(localApproved);
-  });
+  }, 8000);
+
+  window[cbName] = function(json){
+    clearTimeout(timeoutId);
+    try {
+      var rows = (json.table && json.table.rows) || [];
+      var sheetApproved = rows.map(function(r){
+        return {
+          nom: (r.c[0] && r.c[0].v) || 'Anonyme',
+          ville: (r.c[1] && r.c[1].v) || '',
+          note: parseGvizNote(r.c[2] && r.c[2].v),
+          message: (r.c[3] && r.c[3].v) || ''
+        };
+      });
+      renderAvis(sheetApproved.concat(localApproved));
+    } catch(e){
+      renderAvis(localApproved);
+    }
+  };
+
+  var script = document.createElement('script');
+  script.src = url;
+  script.onerror = function(){
+    clearTimeout(timeoutId);
+    renderAvis(localApproved);
+    script.remove();
+  };
+  document.head.appendChild(script);
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
