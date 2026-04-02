@@ -163,8 +163,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 .avis-admin-btn.approve:hover{background:var(--sage);}
 .avis-admin-btn.reject{background:var(--bg3);color:var(--ink2);}
 .avis-admin-btn.reject:hover{background:#c0392b;color:var(--white);}
-.avis-admin-btn.unapprove{background:var(--bg3);color:var(--ink2);}
-.avis-admin-btn.unapprove:hover{background:var(--gold);color:var(--white);}
 .avis-admin-empty{padding:2rem;text-align:center;font-size:.82rem;color:var(--sage-l);font-weight:300;background:var(--white);}
 
 @media(max-width:768px){
@@ -721,11 +719,6 @@ function approveAvis(id){
   const a = list.find(x => x.id === id);
   if(a){ a.status = 'approved'; saveAvis(list); renderAvisAdmin(); }
 }
-function unapproveAvis(id){
-  const list = getAvis();
-  const a = list.find(x => x.id === id);
-  if(a){ a.status = 'pending'; saveAvis(list); renderAvisAdmin(); }
-}
 function deleteAvis(id){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
   const list = getAvis().filter(x => x.id !== id);
@@ -768,7 +761,7 @@ function renderAvisAdmin(){
       + '<div class="avis-admin-card-actions">'
       + (safeStatus === 'pending'
         ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a.id + ')">Approuver</button>'
-        : '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(' + a.id + ')">Retirer</button>')
+        : '')
       + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a.id + ')">Supprimer</button>'
       + '</div></div></div>';
   });
