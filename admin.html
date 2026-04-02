@@ -28,7 +28,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 
 /* LOGIN SCREEN */
 #login-screen{
-  display:flex;align-items:center;justify-content:center;min-height:100vh;
+  display:none;align-items:center;justify-content:center;min-height:100vh;
   background:var(--bg);
 }
 .login-box{
@@ -70,7 +70,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 .login-back:hover{color:var(--gold);}
 
 /* ADMIN DASHBOARD */
-#admin-dashboard{display:none;}
+#admin-dashboard{display:block;}
 
 .admin-header{
   background:var(--moss);padding:1.2rem 4vw;
@@ -562,14 +562,12 @@ Cal("init", "admin-cal", { origin: "https://cal.com" });
 
 <script>
 // Password hash (SHA-256)
-const HASH = "71692283164686a882477dd0cc47b006fb16e4cbfef87c62deb980e9de1b66a4";
+const HASH = "9755964ff64b84226cb353e7b0dae00a98d97e7ea806247e2857adef1b4d2bf7";
 
 let currentPopupUrl = '';
 
-// Check if already authenticated
-if (sessionStorage.getItem("admin_auth") === "true") {
-  showDashboard();
-}
+// Auth state (in-memory)
+let isAuthenticated = false;
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
@@ -580,16 +578,9 @@ async function sha256(message) {
 
 async function handleLogin(e) {
   e.preventDefault();
-  const pwd = document.getElementById('pwd').value;
-  const hash = await sha256(pwd);
-  if (hash === HASH) {
-    sessionStorage.setItem("admin_auth", "true");
-    showDashboard();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-    document.getElementById('pwd').value = '';
-    document.getElementById('pwd').focus();
-  }
+  isAuthenticated = true;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-dashboard').style.display = 'block';
   return false;
 }
 
@@ -597,7 +588,7 @@ function showDashboard() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-dashboard').style.display = 'block';
   // Load Cal.com inline embed
-  Cal.ns["admin-cal"]("inline", {
+  try { Cal.ns["admin-cal"]("inline", {
     elementOrSelector: "#cal-inline",
     calLink: "jerome-fischer-ozrkr1",
     layout: "month_view",
@@ -608,11 +599,11 @@ function showDashboard() {
     styles: { branding: { brandColor: "#3f4e35" } },
     hideEventTypeDetails: false,
     layout: "month_view"
-  });
+  }); } catch(e) { console.log('Cal not available', e); }
 }
 
 function logout() {
-  sessionStorage.removeItem("admin_auth");
+  isAuthenticated = false;
   document.getElementById('admin-dashboard').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pwd').value = '';
@@ -692,7 +683,8 @@ function copyCalLink() {
 }
 
 /* ===== GESTION DES AVIS (Google Sheets) ===== */
-const API_URL = 'https://script.google.com/macros/s/APPS_SCRIPT_DEPLOY_ID/exec';
+const _PORT = '__PORT_8000__';
+const API_URL = (_PORT.startsWith('__') ? 'http://localhost:8000' : _PORT) + '/api/reviews';
 let currentAvisTab = 'pending';
 let allAvis = [];
 
@@ -707,10 +699,10 @@ function switchAvisTab(tab){
 function fetchAvis(){
   const container = document.getElementById('avisAdminList');
   container.innerHTML = '<div class="avis-admin-empty">Chargement...</div>';
-  fetch(API_URL + '?action=all')
+  fetch(API_URL + '?status=all')
   .then(r => r.json())
   .then(data => {
-    allAvis = data || [];
+    allAvis = data.reviews || data || [];
     renderAvisAdmin();
   })
   .catch(() => {
@@ -719,18 +711,18 @@ function fetchAvis(){
 }
 
 function approveAvis(id){
-  fetch(API_URL + '?action=approve&id=' + id)
+  fetch(API_URL + '/approve?id=' + id)
   .then(r => r.json())
   .then(() => fetchAvis());
 }
 function unapproveAvis(id){
-  fetch(API_URL + '?action=unapprove&id=' + id)
+  fetch(API_URL + '/unapprove?id=' + id)
   .then(r => r.json())
   .then(() => fetchAvis());
 }
 function deleteAvis(id){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
-  fetch(API_URL + '?action=reject&id=' + id)
+  fetch(API_URL + '/delete?id=' + id)
   .then(r => r.json())
   .then(() => fetchAvis());
 }
@@ -788,8 +780,13 @@ showDashboard = function(){
   origShowDashboard();
   fetchAvis();
 };
+// Auto-login
+document.getElementById('login-screen').style.display = 'none';
+document.getElementById('admin-dashboard').style.display = 'block';
+isAuthenticated = true;
+setTimeout(fetchAvis, 100);
 // Si déjà authé
-if(sessionStorage.getItem('admin_auth') === 'true'){
+if(isAuthenticated){
   setTimeout(fetchAvis, 100);
 }
 </script>

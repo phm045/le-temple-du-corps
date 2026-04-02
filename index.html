@@ -1090,7 +1090,8 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS (Google Sheets) ===== */
-const API_URL = 'https://script.google.com/macros/s/APPS_SCRIPT_DEPLOY_ID/exec';
+const _PORT = '__PORT_8000__';
+const API_URL = (_PORT.startsWith('__') ? 'http://localhost:8000' : _PORT) + '/api/reviews';
 let avisRating = 0;
 
 function setRating(n){
@@ -1113,7 +1114,7 @@ function submitAvis(e){
   };
   fetch(API_URL, {
     method: 'POST',
-    headers: {'Content-Type':'text/plain'},
+    headers: {'Content-Type':'application/json'},
     body: JSON.stringify(data)
   })
   .then(r => r.json())
@@ -1134,9 +1135,10 @@ function loadApprovedAvis(){
   const globalBar = document.getElementById('avisGlobal');
   grid.innerHTML = '<div class="avis-empty">Chargement des avis...</div>';
   
-  fetch(API_URL + '?action=approved')
+  fetch(API_URL + '?status=approved')
   .then(r => r.json())
-  .then(approved => {
+  .then(data => {
+    const approved = data.reviews || data || [];
     if(!approved || approved.length === 0){
       grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>';
       globalBar.style.display = 'none';
