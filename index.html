@@ -359,6 +359,10 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   section{padding:4rem 6vw;}
   .s-title{font-size:clamp(1.7rem,5.5vw,2.6rem);}
 
+  /* Nav logo mobile */
+  .nav-logo{font-size:1.1rem;gap:.4rem;}
+  .nav-logo img{height:30px;}
+
   /* Pub banner compact */
   .pub-banner{font-size:.85rem;}
 
@@ -416,6 +420,10 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 }
 
 @media(max-width:560px){
+  /* Nav logo small mobile */
+  .nav-logo{font-size:1rem;gap:.35rem;}
+  .nav-logo img{height:26px;}
+
   .hero-l{padding:5rem 5vw 1.5rem;}
   .hero-r{height:50vw;max-height:240px;}
   .hero-h1{font-size:clamp(2rem,9vw,2.8rem);}
@@ -437,6 +445,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Footer 1 col */
   .footer-top{grid-template-columns:1fr;gap:1.8rem;}
+  .f-brand img{height:40px !important;}
 
   /* Slider swipe-friendly */
   .slider{touch-action:pan-y;overflow:hidden;}
