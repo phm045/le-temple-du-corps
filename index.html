@@ -45,7 +45,7 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .hero-l{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:9rem 3rem 5rem 8vw;position:relative;z-index:1;}
 .hero-kicker{display:flex;align-items:center;justify-content:center;gap:.9rem;font-size:.62rem;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
 .hero-kicker-bar{width:2.2rem;height:1px;background:var(--gold);}
-.hero-badge-img{width:clamp(220px,26vw,320px);height:auto;margin-bottom:1.8rem;display:block;margin-left:auto;margin-right:auto;filter:drop-shadow(0 4px 16px rgba(184,147,90,.25));animation:badge-spin 30s linear infinite;}
+.hero-badge-img{width:clamp(220px,26vw,320px);height:auto;margin-bottom:1.8rem;display:block;margin-left:auto;margin-right:auto;filter:drop-shadow(0 4px 16px rgba(184,147,90,.25));animation:badge-appear 2s ease-out both;}
 .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,5.6rem);font-weight:300;line-height:1.04;color:var(--ink);margin-bottom:1rem;}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 .hero-h1 em{font-style:italic;color:var(--sage);}
@@ -67,7 +67,7 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .hero-badge-in big{display:block;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);line-height:1.15;}
 .hero-badge-in small{font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);}
 @keyframes spin{to{transform:rotate(360deg);}}
-@keyframes badge-spin{to{transform:rotate(360deg);}}
+@keyframes badge-appear{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
 .scroll-cue{position:absolute;bottom:2.5rem;left:8vw;display:flex;align-items:center;gap:.8rem;z-index:2;}
 .scroll-cue span{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sage-l);}
 .scroll-bar{width:35px;height:1px;background:linear-gradient(to right,var(--sage-l),transparent);animation:pulse 2s ease-in-out infinite;}
