@@ -1115,6 +1115,7 @@ function submitAvis(e){
   const ville = document.getElementById('avis-ville').value.trim();
   const message = document.getElementById('avis-message').value.trim();
 
+  /* 1. Email via Web3Forms */
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -1127,6 +1128,25 @@ function submitAvis(e){
       'Note': avisRating + '/5',
       'Message': message
     })
+  }).catch(function(){});
+
+  /* 2. Ajouter au fichier avis.json via GitHub API */
+  fetch(GH_API, { headers: { 'Authorization': 'token ' + GH_PAT } })
+  .then(function(r){ return r.json(); })
+  .then(function(fileData){
+    var current = JSON.parse(atob(fileData.content));
+    current.push({
+      nom: nom, ville: ville, note: avisRating,
+      commentaire: message,
+      date: new Date().toISOString().slice(0,10),
+      statut: 'pending'
+    });
+    var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2))));
+    return fetch(GH_API, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GH_PAT, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Nouvel avis client', content: encoded, sha: fileData.sha })
+    });
   })
   .then(function(){
     document.getElementById('avisForm').style.display = 'none';
