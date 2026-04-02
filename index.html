@@ -37,6 +37,8 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s;}
 .nav-links a:hover{color:var(--sage-d);}
 .nav-links a:hover::after{transform:scaleX(1);}
+.nav-pay{font-size:.65rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:.5rem 1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:background .3s,color .3s;}
+.nav-pay:hover{background:var(--gold);color:var(--white);}
 .nav-btn{font-size:.65rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--white);background:var(--moss);padding:.65rem 1.4rem;text-decoration:none;transition:background .3s,transform .2s;}
 .nav-btn:hover{background:var(--gold);transform:translateY(-2px);}
 
@@ -565,6 +567,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
     <li><a href="#contact">Zones</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <a class="nav-pay" href="#paiement"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Payer</a>
   <a class="nav-btn" href="#" onclick="openCalPopup();return false;">Prendre RDV</a>
   <div class="burger" onclick="openMenu()"><span></span><span></span><span></span></div>
 </nav>
@@ -577,6 +580,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   <a href="#avis" onclick="closeMenu()">Avis</a>
   <a href="#photos" onclick="closeMenu()">Photos</a>
   <a href="#contact" onclick="closeMenu()">Zones & Contact</a>
+  <a href="#paiement" onclick="closeMenu()" style="font-size:1rem;">Payer en ligne</a>
   <a class="mob-cta" href="#" onclick="closeMenu();openCalPopup();return false;">Prendre RDV</a>
 </div>
 
@@ -941,7 +945,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       </div>
 
       <!-- Paiement en ligne -->
-      <div class="paypal-button" style="margin-top:1.8rem;background:var(--white);padding:1.5rem;border-left:3px solid var(--gold);">
+      <div id="paiement" class="paypal-button" style="margin-top:1.8rem;background:var(--white);padding:1.5rem;border-left:3px solid var(--gold);">
         <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:1rem;color:var(--ink);">Paiement en ligne</h3>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:flex;flex-direction:column;gap:.8rem;">
           <input type="hidden" name="cmd" value="_xclick">
