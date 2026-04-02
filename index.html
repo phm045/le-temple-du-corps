@@ -1089,7 +1089,8 @@ function closeMenu(){
   document.body.style.overflow='';  
 }
 
-/* ===== SYSTÈME D'AVIS ===== */
+/* ===== SYSTÈME D'AVIS (Google Sheets) ===== */
+const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg/gviz/tq?tqx=out:csv&sheet=Avis&tq=' + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
 let avisRating = 0;
 
 function setRating(n){
@@ -1118,20 +1119,31 @@ function submitAvis(e){
   return false;
 }
 
-function loadApprovedAvis(){
-  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
-  const approved = all.filter(a => a.status === 'approved');
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  if(lines.length < 2) return [];
+  return lines.slice(1).map(line => {
+    const cols = [];
+    let cur = '', inQ = false;
+    for(let i = 0; i < line.length; i++){
+      if(line[i] === '"'){ inQ = !inQ; }
+      else if(line[i] === ',' && !inQ){ cols.push(cur); cur = ''; }
+      else { cur += line[i]; }
+    }
+    cols.push(cur);
+    return { nom: cols[0]||'', ville: cols[1]||'', note: parseInt(cols[2])||5, message: cols[3]||'' };
+  });
+}
+
+function renderAvis(approved){
   const grid = document.getElementById('avisGrid');
   const globalBar = document.getElementById('avisGlobal');
-  
-  if(approved.length === 0){
+  if(!approved || approved.length === 0){
     grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>';
     globalBar.style.display = 'none';
     return;
   }
-  
-  let html = '';
-  let totalStars = 0;
+  let html = '', totalStars = 0;
   approved.forEach((a, i) => {
     totalStars += a.note;
     const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
@@ -1148,21 +1160,25 @@ function loadApprovedAvis(){
       </div>`;
   });
   grid.innerHTML = html;
-  
   const avg = (totalStars / approved.length).toFixed(1);
   document.getElementById('avisScoreNum').textContent = avg;
   const fullStars = Math.round(totalStars / approved.length);
   document.getElementById('avisScoreStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
   document.getElementById('avisScoreLabel').textContent = 'Note moyenne · ' + approved.length + ' avis';
   globalBar.style.display = 'flex';
-  
   setTimeout(() => {
     grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
     globalBar.classList.add('in');
   }, 100);
 }
 
-// Charger les avis au chargement de la page
+function loadApprovedAvis(){
+  fetch(SHEET_CSV)
+  .then(r => r.text())
+  .then(csv => renderAvis(parseCSV(csv)))
+  .catch(() => renderAvis([]));
+}
+
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
 </script>
 </body>
