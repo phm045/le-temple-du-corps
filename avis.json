@@ -1,6 +1,34 @@
 [
-  {"nom":"Sophie L.","ville":"Belfort","note":5,"commentaire":"Un massage thaï absolument incroyable. Je me suis sentie revivre après une séance. Professionnalisme et douceur au rendez-vous.","date":"2025-12-10","statut":"approved"},
-  {"nom":"Marc D.","ville":"Héricourt","note":5,"commentaire":"Grâce aux séances d'étirements, j'ai retrouvé une vraie souplesse. Le cadre est apaisant et les conseils sont personnalisés.","date":"2025-11-15","statut":"approved"},
-  {"nom":"Claire B.","ville":"Lure","note":5,"commentaire":"J'ai opté pour un massage à domicile et c'était parfait. Ponctualité, écoute, et un vrai moment de détente. Merci !","date":"2026-01-20","statut":"approved"},
-  {"nom":"Philippe","ville":"Belfort","note":5,"commentaire":"Je recommande","date":"2026-04-02","statut":"approved"}
+  {
+    "nom": "Sophie L.",
+    "ville": "Belfort",
+    "note": 5,
+    "commentaire": "Un massage thaï absolument incroyable. Je me suis sentie revivre après une séance. Professionnalisme et douceur au rendez-vous.",
+    "date": "2025-12-10",
+    "statut": "approved"
+  },
+  {
+    "nom": "Marc D.",
+    "ville": "Héricourt",
+    "note": 5,
+    "commentaire": "Grâce aux séances d'étirements, j'ai retrouvé une vraie souplesse. Le cadre est apaisant et les conseils sont personnalisés.",
+    "date": "2025-11-15",
+    "statut": "approved"
+  },
+  {
+    "nom": "Claire B.",
+    "ville": "Lure",
+    "note": 5,
+    "commentaire": "J'ai opté pour un massage à domicile et c'était parfait. Ponctualité, écoute, et un vrai moment de détente. Merci !",
+    "date": "2026-01-20",
+    "statut": "approved"
+  },
+  {
+    "nom": "Philippe",
+    "ville": "Belfort",
+    "note": 5,
+    "commentaire": "Je recommande",
+    "date": "2026-04-02",
+    "statut": "approved"
+  }
 ]
