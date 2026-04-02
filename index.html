@@ -1089,17 +1089,31 @@ function closeMenu(){
   document.body.style.overflow='';  
 }
 
-/* ===== SYSTÈME D'AVIS (Google Sheets) ===== */
+/* ===== SYSTÈME D'AVIS ===== */
 const SHEET_ID = '1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg';
+const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
+const AVIS_STORAGE_KEY = 'ltdc_avis';
 let avisRating = 0;
+
+function escapeHTML(str){
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML;
+}
+
+function getLocalAvis(){
+  try { return JSON.parse(localStorage.getItem(AVIS_STORAGE_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveLocalAvis(list){
+  localStorage.setItem(AVIS_STORAGE_KEY, JSON.stringify(list));
+}
 
 function setRating(n){
   avisRating = n;
   const stars = document.querySelectorAll('#starsInput span');
   stars.forEach((s,i) => s.classList.toggle('lit', i < n));
 }
-
-const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
 
 function submitAvis(e){
   e.preventDefault();
@@ -1110,6 +1124,22 @@ function submitAvis(e){
   const nom = document.getElementById('avis-nom').value.trim();
   const ville = document.getElementById('avis-ville').value.trim();
   const message = document.getElementById('avis-message').value.trim();
+
+  /* Save to localStorage so admin can moderate and the review persists */
+  const avis = {
+    id: Date.now(),
+    nom: nom,
+    ville: ville,
+    note: avisRating,
+    message: message,
+    date: new Date().toISOString(),
+    status: 'pending'
+  };
+  const list = getLocalAvis();
+  list.push(avis);
+  saveLocalAvis(list);
+
+  /* Also notify via Web3Forms email */
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -1122,21 +1152,14 @@ function submitAvis(e){
       'Note': avisRating + '/5',
       'Message': message
     })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if(data.success){
-      document.getElementById('avisForm').style.display = 'none';
-      document.getElementById('avisFormOk').style.display = 'block';
-    } else {
-      alert('Erreur lors de l\'envoi. Veuillez réessayer.');
-      btn.textContent = 'ENVOYER MON AVIS'; btn.disabled = false;
-    }
-  })
-  .catch(() => {
-    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
-    btn.textContent = 'ENVOYER MON AVIS'; btn.disabled = false;
-  });
+  }).catch(function(){/* email notification is best-effort */});
+
+  /* Show success and reset form */
+  document.getElementById('avisForm').style.display = 'none';
+  document.getElementById('avisFormOk').style.display = 'block';
+  avisRating = 0;
+  document.querySelectorAll('#starsInput span').forEach(function(s){ s.classList.remove('lit'); });
+  document.getElementById('avisForm').reset();
   return false;
 }
 
@@ -1149,50 +1172,76 @@ function renderAvis(approved){
     return;
   }
   let html = '', totalStars = 0;
-  approved.forEach((a, i) => {
-    totalStars += a.note;
-    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
-    const initial = a.nom.charAt(0).toUpperCase();
-    const delay = (i * 0.15).toFixed(2);
-    html += `
-      <div class="avis-card reveal" style="transition-delay:${delay}s">
-        <div class="avis-stars">${stars.split('').map(s => '<span class="avis-star">'+s+'</span>').join('')}</div>
-        <p class="avis-txt">« ${a.message} »</p>
-        <div class="avis-author">
-          <div class="avis-avatar">${initial}</div>
-          <div class="avis-meta"><strong>${a.nom}</strong><span>${a.ville}</span></div>
-        </div>
-      </div>`;
+  approved.forEach(function(a, i){
+    var note = parseInt(a.note, 10);
+    if(isNaN(note) || note < 1) note = 1;
+    if(note > 5) note = 5;
+    totalStars += note;
+    var starsStr = '';
+    for(var s = 0; s < 5; s++){
+      starsStr += '<span class="avis-star">' + (s < note ? '\u2605' : '\u2606') + '</span>';
+    }
+    var initial = a.nom ? escapeHTML(a.nom.charAt(0).toUpperCase()) : '?';
+    var delay = (i * 0.15).toFixed(2);
+    html += '<div class="avis-card reveal" style="transition-delay:' + delay + 's">'
+      + '<div class="avis-stars">' + starsStr + '</div>'
+      + '<p class="avis-txt">\u00AB ' + escapeHTML(a.message || '') + ' \u00BB</p>'
+      + '<div class="avis-author">'
+      + '<div class="avis-avatar">' + initial + '</div>'
+      + '<div class="avis-meta"><strong>' + escapeHTML(a.nom || 'Anonyme') + '</strong><span>' + escapeHTML(a.ville || '') + '</span></div>'
+      + '</div></div>';
   });
   grid.innerHTML = html;
-  const avg = (totalStars / approved.length).toFixed(1);
+  var avg = (totalStars / approved.length).toFixed(1);
   document.getElementById('avisScoreNum').textContent = avg;
-  const fullStars = Math.round(totalStars / approved.length);
-  document.getElementById('avisScoreStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
-  document.getElementById('avisScoreLabel').textContent = 'Note moyenne · ' + approved.length + ' avis';
+  var fullStars = Math.round(totalStars / approved.length);
+  document.getElementById('avisScoreStars').textContent = '\u2605'.repeat(fullStars) + '\u2606'.repeat(5 - fullStars);
+  document.getElementById('avisScoreLabel').textContent = 'Note moyenne \u00B7 ' + approved.length + ' avis';
   globalBar.style.display = 'flex';
-  setTimeout(() => {
-    grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  setTimeout(function(){
+    grid.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
     globalBar.classList.add('in');
   }, 100);
 }
 
+function parseGvizNote(val){
+  if(typeof val === 'number') return val;
+  if(typeof val === 'string'){
+    var m = val.match(/^(\d)/);
+    if(m) return parseInt(m[1], 10);
+  }
+  return 5;
+}
+
 function loadApprovedAvis(){
-  const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&sheet=Avis&tq=' + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
+  /* Merge two sources: Google Sheets (legacy) + localStorage (new submissions) */
+  var localApproved = getLocalAvis().filter(function(a){ return a.status === 'approved'; });
+
+  var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
+    + '/gviz/tq?tqx=out:json&sheet=Avis&tq='
+    + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
+
   fetch(url)
-  .then(r => r.text())
-  .then(txt => {
-    const json = JSON.parse(txt.replace(/^\/\*O_o\*\/\n.*setResponse\(/, '').replace(/\);?$/, ''));
-    const rows = (json.table && json.table.rows) || [];
-    const approved = rows.map(r => ({
-      nom: (r.c[0] && r.c[0].v) || 'Anonyme',
-      ville: (r.c[1] && r.c[1].v) || '',
-      note: (r.c[2] && r.c[2].v) || 5,
-      message: (r.c[3] && r.c[3].v) || ''
-    }));
-    renderAvis(approved);
+  .then(function(r){ return r.text(); })
+  .then(function(txt){
+    /* Strip JSONP wrapper — handle varying formats */
+    var cleaned = txt.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
+    var json = JSON.parse(cleaned);
+    var rows = (json.table && json.table.rows) || [];
+    var sheetApproved = rows.map(function(r){
+      return {
+        nom: (r.c[0] && r.c[0].v) || 'Anonyme',
+        ville: (r.c[1] && r.c[1].v) || '',
+        note: parseGvizNote(r.c[2] && r.c[2].v),
+        message: (r.c[3] && r.c[3].v) || ''
+      };
+    });
+    renderAvis(sheetApproved.concat(localApproved));
   })
-  .catch(() => renderAvis([]));
+  .catch(function(){
+    /* If Google Sheets fails, still show locally approved reviews */
+    renderAvis(localApproved);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);

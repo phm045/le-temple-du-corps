@@ -694,6 +694,12 @@ function copyCalLink() {
 /* ===== GESTION DES AVIS ===== */
 let currentAvisTab = 'pending';
 
+function escapeHTML(str){
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML;
+}
+
 function switchAvisTab(tab){
   currentAvisTab = tab;
   document.querySelectorAll('.avis-admin-tab').forEach((t,i) => {
@@ -703,7 +709,8 @@ function switchAvisTab(tab){
 }
 
 function getAvis(){
-  return JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
+  try { return JSON.parse(localStorage.getItem('ltdc_avis') || '[]'); }
+  catch(e){ return []; }
 }
 function saveAvis(list){
   localStorage.setItem('ltdc_avis', JSON.stringify(list));
@@ -730,41 +737,40 @@ function renderAvisAdmin(){
   const all = getAvis();
   const pending = all.filter(a => a.status === 'pending');
   const approved = all.filter(a => a.status === 'approved');
-  
+
   document.getElementById('pendingCount').textContent = pending.length;
   document.getElementById('approvedCount').textContent = approved.length;
-  
+
   const list = currentAvisTab === 'pending' ? pending : approved;
   const container = document.getElementById('avisAdminList');
-  
+
   if(list.length === 0){
-    container.innerHTML = '<div class="avis-admin-empty">' + 
+    container.innerHTML = '<div class="avis-admin-empty">' +
       (currentAvisTab === 'pending' ? 'Aucun avis en attente de validation.' : 'Aucun avis approuvé pour le moment.') + '</div>';
     return;
   }
-  
+
   let html = '';
   list.forEach(a => {
-    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
-    const date = new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
-    html += `
-      <div class="avis-admin-card ${a.status}">
-        <div class="avis-admin-card-body">
-          <div class="avis-admin-card-header">
-            <span class="avis-admin-card-author">${a.nom} — ${a.ville}</span>
-            <span class="avis-admin-card-date">${date}</span>
-          </div>
-          <div class="avis-admin-card-stars">${stars}</div>
-          <p class="avis-admin-card-txt">« ${a.message} »</p>
-          <div class="avis-admin-card-actions">
-            ${a.status === 'pending' ? 
-              '<button class="avis-admin-btn approve" onclick="approveAvis('+a.id+')">Approuver</button>' : 
-              '<button class="avis-admin-btn unapprove" onclick="unapproveAvis('+a.id+')">Retirer</button>'
-            }
-            <button class="avis-admin-btn reject" onclick="deleteAvis(${a.id})">Supprimer</button>
-          </div>
-        </div>
-      </div>`;
+    const note = parseInt(a.note, 10) || 0;
+    const clampedNote = Math.max(0, Math.min(5, note));
+    const stars = '\u2605'.repeat(clampedNote) + '\u2606'.repeat(5 - clampedNote);
+    const date = a.date ? new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}) : '';
+    const safeStatus = a.status === 'approved' ? 'approved' : 'pending';
+    html += '<div class="avis-admin-card ' + safeStatus + '">'
+      + '<div class="avis-admin-card-body">'
+      + '<div class="avis-admin-card-header">'
+      + '<span class="avis-admin-card-author">' + escapeHTML(a.nom || '') + ' \u2014 ' + escapeHTML(a.ville || '') + '</span>'
+      + '<span class="avis-admin-card-date">' + escapeHTML(date) + '</span>'
+      + '</div>'
+      + '<div class="avis-admin-card-stars">' + stars + '</div>'
+      + '<p class="avis-admin-card-txt">\u00AB ' + escapeHTML(a.message || '') + ' \u00BB</p>'
+      + '<div class="avis-admin-card-actions">'
+      + (safeStatus === 'pending'
+        ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a.id + ')">Approuver</button>'
+        : '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(' + a.id + ')">Retirer</button>')
+      + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a.id + ')">Supprimer</button>'
+      + '</div></div></div>';
   });
   container.innerHTML = html;
 }
