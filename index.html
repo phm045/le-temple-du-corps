@@ -344,15 +344,20 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   .nav-links,.nav-btn{display:none;}
   .burger{display:flex;}
   #accueil{grid-template-columns:1fr;min-height:auto;}
-  .hero-r{display:none;}
-  .hero-l{padding:6rem 6vw 3rem;}
+  .hero-r{display:block;height:45vw;max-height:280px;position:relative;overflow:hidden;}
+  .hero-r-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;}
+  .hero-badge{display:none;}
+  .hero-l{padding:6rem 6vw 2rem;}
   .hero-h1{font-size:clamp(2.4rem,8vw,3.4rem);margin-bottom:.6rem;}
-  .hero-sub{font-size:.85rem;line-height:1.85;margin-bottom:2rem;}
-  .hero-kicker{margin-bottom:1.4rem;}
+  .hero-sub{font-size:.85rem;line-height:1.85;margin-bottom:1.5rem;}
+  .hero-kicker{margin-bottom:1rem;}
   .hero-ctas{gap:1.2rem;}
-  .scroll-cue{bottom:1.5rem;}
+  .scroll-cue{display:none;}
   section{padding:4rem 6vw;}
   .s-title{font-size:clamp(1.7rem,5.5vw,2.6rem);}
+
+  /* Pub banner compact */
+  .pub-banner{font-size:.85rem;}
 
   /* Stats */
   .stats{flex-direction:column;gap:1rem;padding:2.4rem 6vw;}
@@ -399,13 +404,17 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   /* Footer */
   .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
   .footer-bot{flex-direction:column;text-align:center;gap:.6rem;}
+  /* Footer touch-friendly links */
+  .f-col ul li{margin-bottom:0;}
+  .f-col ul li a,.f-col ul li span{display:block;padding:.45rem 0;min-height:44px;display:flex;align-items:center;}
 
   /* Modal */
   .modal-box{padding:2rem 1.5rem;margin:1rem;}
 }
 
 @media(max-width:560px){
-  .hero-l{padding:5.5rem 5vw 2.5rem;}
+  .hero-l{padding:5rem 5vw 1.5rem;}
+  .hero-r{height:50vw;max-height:240px;}
   .hero-h1{font-size:clamp(2rem,9vw,2.8rem);}
   .hero-zone{font-size:.65rem;}
   .hero-sub{max-width:none;}
@@ -449,6 +458,10 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Form buttons full width */
   .form-btn{min-height:48px;}
+
+  /* Avis section mobile */
+  .avis-global{padding:1.2rem;}
+  .avis-score{font-size:2.4rem;}
 }
 </style>
 </head>
@@ -872,7 +885,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
           <label for="paypal-amount" style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);">
             Montant à régler (€)
           </label>
-          <input type="number" id="paypal-amount" name="amount" min="1" step="0.01" placeholder="Entrer votre montant et cliquer sur le bouton acheter" required
+          <input type="number" id="paypal-amount" name="amount" min="1" step="0.01" placeholder="Entrer votre montant et cliquer sur le bouton acheter" data-mobile-placeholder="Votre montant (€)" data-desktop-placeholder="Entrer votre montant et cliquer sur le bouton acheter" required
             style="width:100%;padding:.7rem 1rem;border:1px solid var(--bg3);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .3s;"
             onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--bg3)'">
           <button type="submit" class="form-btn" style="background:var(--gold);margin-top:.2rem;">
@@ -1227,6 +1240,19 @@ function loadApprovedAvis(){
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
+
+/* Responsive placeholder for PayPal input */
+function updatePaypalPlaceholder(){
+  var el=document.getElementById('paypal-amount');
+  if(!el)return;
+  if(window.innerWidth<=560){
+    el.placeholder=el.getAttribute('data-mobile-placeholder')||el.placeholder;
+  }else{
+    el.placeholder=el.getAttribute('data-desktop-placeholder')||el.placeholder;
+  }
+}
+window.addEventListener('resize',updatePaypalPlaceholder);
+updatePaypalPlaceholder();
 </script>
 </body>
 </html>
