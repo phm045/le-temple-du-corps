@@ -1099,23 +1099,44 @@ function setRating(n){
   stars.forEach((s,i) => s.classList.toggle('lit', i < n));
 }
 
+const W3F_KEY = 'YOUR_WEB3FORMS_KEY';
+
 function submitAvis(e){
   e.preventDefault();
   if(avisRating === 0){ alert('Veuillez sélectionner une note.'); return false; }
-  const avis = {
-    id: Date.now(),
-    nom: document.getElementById('avis-nom').value.trim(),
-    ville: document.getElementById('avis-ville').value.trim(),
-    note: avisRating,
-    message: document.getElementById('avis-message').value.trim(),
-    date: new Date().toISOString(),
-    status: 'pending'
-  };
-  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
-  all.push(avis);
-  localStorage.setItem('ltdc_avis', JSON.stringify(all));
-  document.getElementById('avisForm').style.display = 'none';
-  document.getElementById('avisFormOk').style.display = 'block';
+  const btn = document.querySelector('.avis-form-btn');
+  btn.textContent = 'ENVOI EN COURS...';
+  btn.disabled = true;
+  const nom = document.getElementById('avis-nom').value.trim();
+  const ville = document.getElementById('avis-ville').value.trim();
+  const message = document.getElementById('avis-message').value.trim();
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      access_key: W3F_KEY,
+      subject: 'Nouvel avis client — Le Temple du Corps',
+      from_name: 'Le Temple du Corps — Avis',
+      'Prénom': nom,
+      'Ville': ville,
+      'Note': avisRating + '/5',
+      'Message': message
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.success){
+      document.getElementById('avisForm').style.display = 'none';
+      document.getElementById('avisFormOk').style.display = 'block';
+    } else {
+      alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+      btn.textContent = 'ENVOYER MON AVIS'; btn.disabled = false;
+    }
+  })
+  .catch(() => {
+    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+    btn.textContent = 'ENVOYER MON AVIS'; btn.disabled = false;
+  });
   return false;
 }
 
