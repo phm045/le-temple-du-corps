@@ -104,16 +104,17 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .pub-banner-sep{width:1px;height:36px;background:rgba(255,255,255,.1);flex-shrink:0;}
 
 @media(max-width:768px){
-  .pub-banner a{min-height:auto;}
-  .pub-banner-bg{flex-direction:column;gap:.6rem;padding:.8rem 3rem .8rem 5vw;text-align:center;}
-  .pub-banner-img{width:44px;height:44px;}
+  .pub-banner a{min-height:56px;}
+  .pub-banner-bg{flex-direction:column;gap:.5rem;padding:.7rem 3.5rem .7rem 4vw;text-align:center;}
+  .pub-banner-img{width:40px;height:40px;}
   .pub-banner-desc{display:none;}
-  .pub-banner-cta{font-size:.55rem;padding:.35rem .8rem;}
+  .pub-banner-cta{font-size:.55rem;padding:.5rem .9rem;min-height:38px;display:inline-flex;align-items:center;}
   .pub-banner-sep{display:none;}
+  .pub-banner-close{padding:12px;font-size:1.3rem;right:.3rem;min-width:42px;min-height:42px;display:flex;align-items:center;justify-content:center;}
 }
 
 /* SECTIONS GÉNÉRALES */
-section{padding:7rem 8vw;}
+section{padding:7rem 8vw;scroll-margin-top:70px;}
 .s-kicker{display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;}
 .s-kicker::before{content:'';width:1.8rem;height:1px;background:var(--gold);}
 .s-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3.4rem);font-weight:300;line-height:1.1;color:var(--ink);}
@@ -280,7 +281,7 @@ form{margin-top:1rem;}
 }
 
 /* REVEAL */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease;}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
 .reveal.in{opacity:1;transform:none;}
 
 /* BURGER */
@@ -350,7 +351,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   .nav-links,.nav-btn{display:none;}
   .burger{display:flex;}
   #accueil{grid-template-columns:1fr;min-height:auto;}
-  .hero-r{display:block;height:45vw;max-height:280px;position:relative;overflow:hidden;}
+  .hero-r{display:block;height:52vw;max-height:320px;position:relative;overflow:hidden;order:-1;}
   .hero-r-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;}
   .hero-badge{display:none;}
   .hero-l{padding:6rem 6vw 2rem;}
@@ -398,6 +399,21 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   .f-card-name{font-size:1.25rem;}
   .f-card-desc{font-size:.84rem;margin-bottom:1.4rem;}
 
+  /* Titre section massage — éviter le ? seul sur sa ligne */
+  .s-title{font-size:clamp(1.6rem,5vw,2.6rem);line-height:1.15;}
+
+  /* Supprimer les delays sur mobile — évite les espaces vides */
+  .reveal{transition-delay:0s !important;}
+
+  /* Sections — compenser la nav fixe */
+  section{scroll-margin-top:65px;}
+
+  /* Boutons contact — espacement tactile uniforme */
+  .form-btn{min-height:52px;font-size:.65rem;}
+
+  /* Slider — boutons plus grands */
+  .slider-btn{padding:.6rem 1rem;font-size:.65rem;letter-spacing:.12em;}
+
   /* Bienfaits */
   .bien-grid{grid-template-columns:1fr 1fr;gap:2px;}
   .bien-card{padding:1.6rem 1.2rem;}
@@ -414,7 +430,10 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   /* Photos slider */
   .slide img{max-height:340px;border-radius:4px;}
   .slider-controls{gap:.5rem;}
-  .slider-btn{font-size:.65rem;padding:.5rem .7rem;letter-spacing:.1em;}
+  .slider-btn{font-size:.65rem;padding:.6rem 1rem;letter-spacing:.1em;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;}
+  .slider-dot{width:10px;height:10px;}
+  .slider-dots{gap:.5rem;}
+  .avis-cta{min-height:48px;display:flex;align-items:center;justify-content:center;padding:.7rem 1.4rem;}
 
   /* Footer */
   .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
@@ -463,8 +482,17 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Modal abonnements - tableau compact */
   #modal-abonnements .modal-box{padding:1.5rem 1rem;}
-  #modal-abonnements table{font-size:.75rem;}
-  #modal-abonnements td,#modal-abonnements th{padding:.45rem 0 !important;}
+  #modal-abonnements table{font-size:.72rem;}
+  #modal-abonnements td,#modal-abonnements th{padding:.4rem 0 !important;}
+
+  /* Titre h1 hero encore plus petit */
+  .hero-h1{font-size:clamp(1.85rem,8vw,2.4rem);}
+
+  /* Texte hero left-align pour lisibilité */
+  .hero-sub,.hero-kicker{text-align:left;}
+
+  /* S-title très petit écran */
+  .s-title{font-size:clamp(1.5rem,7.5vw,2rem);}
 
   /* Slider swipe-friendly */
   .slider{touch-action:pan-y;overflow:hidden;}
@@ -852,7 +880,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
         <a class="form-btn"
            href="https://wa.me/33609715344"
            target="_blank"
-           style="background:#25D366;">
+           style="background:var(--moss);">
           M’écrire sur WhatsApp
         </a>
       </div>
@@ -1149,7 +1177,7 @@ window.addEventListener('scroll',()=>{
 const reveals = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
-},{threshold:.15});
+},{threshold:.05,rootMargin:'0px 0px -40px 0px'});
 reveals.forEach(el=>obs.observe(el));
 
 function showOk(){
