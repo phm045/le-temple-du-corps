@@ -1090,59 +1090,14 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS ===== */
+const JSONBLOB_URL = "https://jsonblob.com/api/jsonBlob/019d4e4e-4f55-7ab7-8b52-1f6a5a238549";
 const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
-const AVIS_STORAGE_KEY = 'ltdc_avis';
 let avisRating = 0;
-
-/*
- * Avis en dur — visibles par TOUS les visiteurs (ne dépendent pas de localStorage).
- * Ces avis proviennent de l'ancien système Google Sheets et des témoignages originaux.
- * Pour ajouter un avis manuellement, ajouter un objet au tableau ci-dessous :
- *   { nom: 'Prénom N.', ville: 'Ville', note: 5, message: 'Texte...', date: 'AAAA-MM-JJ' }
- */
-var AVIS_HARDCODED = [
-  {
-    nom: 'Sophie L.',
-    ville: 'Belfort',
-    note: 5,
-    message: 'Un moment de pure détente. Jérôme est très professionnel, à l\'écoute et ses gestes sont précis. Je recommande vivement pour quiconque souhaite découvrir le massage thaï.',
-    date: '2025-01-15'
-  },
-  {
-    nom: 'Marc D.',
-    ville: 'Héricourt',
-    note: 5,
-    message: 'Première expérience de massage thaï et quelle découverte ! Les étirements sont incroyablement libérateurs. Je me suis senti léger pendant plusieurs jours après la séance.',
-    date: '2025-02-03'
-  },
-  {
-    nom: 'Claire B.',
-    ville: 'Lure',
-    note: 5,
-    message: 'Le fait que Jérôme se déplace à domicile change tout. Pas besoin de reprendre la voiture après, on reste dans sa bulle de bien-être. Service impeccable et très humain.',
-    date: '2025-02-20'
-  },
-  {
-    nom: 'Philippe',
-    ville: 'Belfort',
-    note: 5,
-    message: 'Je recommande',
-    date: '2026-04-02'
-  }
-];
 
 function escapeHTML(str){
   const d = document.createElement('div');
   d.appendChild(document.createTextNode(str));
   return d.innerHTML;
-}
-
-function getLocalAvis(){
-  try { return JSON.parse(localStorage.getItem(AVIS_STORAGE_KEY) || '[]'); }
-  catch(e){ return []; }
-}
-function saveLocalAvis(list){
-  localStorage.setItem(AVIS_STORAGE_KEY, JSON.stringify(list));
 }
 
 function setRating(n){
@@ -1161,21 +1116,7 @@ function submitAvis(e){
   const ville = document.getElementById('avis-ville').value.trim();
   const message = document.getElementById('avis-message').value.trim();
 
-  /* Save to localStorage so admin can moderate and the review persists */
-  const avis = {
-    id: Date.now(),
-    nom: nom,
-    ville: ville,
-    note: avisRating,
-    message: message,
-    date: new Date().toISOString(),
-    status: 'pending'
-  };
-  const list = getLocalAvis();
-  list.push(avis);
-  saveLocalAvis(list);
-
-  /* Also notify via Web3Forms email */
+  /* Notify via Web3Forms email */
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
@@ -1190,12 +1131,47 @@ function submitAvis(e){
     })
   }).catch(function(){/* email notification is best-effort */});
 
-  /* Show success and reset form */
-  document.getElementById('avisForm').style.display = 'none';
-  document.getElementById('avisFormOk').style.display = 'block';
-  avisRating = 0;
-  document.querySelectorAll('#starsInput span').forEach(function(s){ s.classList.remove('lit'); });
-  document.getElementById('avisForm').reset();
+  /* Add new avis to JSONBlob with status "pending" */
+  fetch(JSONBLOB_URL, {
+    method: 'GET',
+    headers: {'Content-Type':'application/json'}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(avisArray){
+    if(!Array.isArray(avisArray)) avisArray = [];
+    avisArray.push({
+      nom: nom,
+      ville: ville,
+      note: avisRating,
+      commentaire: message,
+      date: new Date().toISOString().slice(0,10),
+      statut: 'pending'
+    });
+    return fetch(JSONBLOB_URL, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(avisArray)
+    });
+  })
+  .then(function(){
+    document.getElementById('avisForm').style.display = 'none';
+    document.getElementById('avisFormOk').style.display = 'block';
+    avisRating = 0;
+    document.querySelectorAll('#starsInput span').forEach(function(s){ s.classList.remove('lit'); });
+    document.getElementById('avisForm').reset();
+  })
+  .catch(function(){
+    document.getElementById('avisForm').style.display = 'none';
+    document.getElementById('avisFormOk').innerHTML = 'Merci pour votre avis ! Il sera visible après validation par notre équipe.';
+    document.getElementById('avisFormOk').style.display = 'block';
+    avisRating = 0;
+    document.getElementById('avisForm').reset();
+  })
+  .finally(function(){
+    btn.textContent = 'ENVOYER MON AVIS';
+    btn.disabled = false;
+  });
+
   return false;
 }
 
@@ -1217,11 +1193,12 @@ function renderAvis(approved){
     for(var s = 0; s < 5; s++){
       starsStr += '<span class="avis-star">' + (s < note ? '\u2605' : '\u2606') + '</span>';
     }
+    var text = a.commentaire || a.message || '';
     var initial = a.nom ? escapeHTML(a.nom.charAt(0).toUpperCase()) : '?';
     var delay = (i * 0.15).toFixed(2);
     html += '<div class="avis-card reveal" style="transition-delay:' + delay + 's">'
       + '<div class="avis-stars">' + starsStr + '</div>'
-      + '<p class="avis-txt">\u00AB ' + escapeHTML(a.message || '') + ' \u00BB</p>'
+      + '<p class="avis-txt">\u00AB ' + escapeHTML(text) + ' \u00BB</p>'
       + '<div class="avis-author">'
       + '<div class="avis-avatar">' + initial + '</div>'
       + '<div class="avis-meta"><strong>' + escapeHTML(a.nom || 'Anonyme') + '</strong><span>' + escapeHTML(a.ville || '') + '</span></div>'
@@ -1241,10 +1218,19 @@ function renderAvis(approved){
 }
 
 function loadApprovedAvis(){
-  var localApproved = getLocalAvis().filter(function(a){ return a.status === 'approved'; });
-  /* Combine hardcoded avis (visible by all visitors) + localStorage approved avis */
-  var allApproved = AVIS_HARDCODED.concat(localApproved);
-  renderAvis(allApproved);
+  fetch(JSONBLOB_URL, {
+    method: 'GET',
+    headers: {'Content-Type':'application/json'}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(avisArray){
+    if(!Array.isArray(avisArray)) avisArray = [];
+    var approved = avisArray.filter(function(a){ return a.statut === 'approved'; });
+    renderAvis(approved);
+  })
+  .catch(function(){
+    document.getElementById('avisGrid').innerHTML = '<div class="avis-empty">Impossible de charger les avis pour le moment. Veuillez réessayer plus tard.</div>';
+  });
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
