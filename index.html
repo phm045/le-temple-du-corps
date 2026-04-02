@@ -653,9 +653,9 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       <div>
         <span class="f-card-icon" style="color:var(--gold-l);display:block;margin-bottom:1.3rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.5-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.5 6-4z"/><path d="M12 12c2 2.5 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.5-6 4z"/></svg></span>
         <div class="f-card-name">Abonnement</div>
-        <div class="f-card-dur">Séances régulières</div>
-        <p class="f-card-desc">Pour faire du massage thaï une pratique de bien-être régulière. Tarif préférentiel sur les séances mensuelles ou bimensuelles.</p>
-        <a class="f-devis" href="#contact">En savoir plus</a>
+        <div class="f-card-dur">Carnets de séances</div>
+        <p class="f-card-desc">Pour faire du massage thaï une pratique régulière. Carnets de 5 ou 10 séances avec tarif préférentiel, valables sur toutes les formules.</p>
+        <a class="f-devis" href="#" onclick="openModal('abonnements');return false;">Voir les abonnements</a>
       </div>
     </div>
   </div>
@@ -972,6 +972,119 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 </div>
 
 <!-- MODALS CONTENU -->
+<div class="modal-bg" id="modal-abonnements">
+  <div class="modal-box" style="max-width:720px;">
+    <button class="modal-close" onclick="closeModal('abonnements')">×</button>
+    <h2>Carnets de séances</h2>
+    <div class="modal-hr"></div>
+    <p style="margin-bottom:1.8rem;">Offrez-vous le massage thaï comme une pratique régulière. Nos carnets sont valables sur toutes les formules (30 min, 1h, 1h30, Duo et Accès bien-être).</p>
+
+    <!-- Carnet 5 séances -->
+    <div style="background:var(--bg2);padding:1.6rem 2rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
+        <h3 style="margin:0;">Carnet 5 séances</h3>
+        <span style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:.2rem .6rem;">−5%</span>
+      </div>
+      <p style="margin-bottom:1.2rem;color:var(--sage-d);font-size:.75rem;letter-spacing:.08em;">Valable 6 mois · Utilisable sur toutes les formules</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem;font-weight:300;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--bg3);">
+            <th style="text-align:left;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Formule</th>
+            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
+            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 5</th>
+            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--bg3);">
+            <td style="padding:.55rem 0;color:var(--ink2);">Accès bien-être <span style="font-size:.65rem;color:var(--sage-l);">(jacuzzi · hammam · sauna)</span></td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">35 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">166 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">33,20 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--bg3);">
+            <td style="padding:.55rem 0;color:var(--ink2);">Massage 30 min</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">30 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">142 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">28,40 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--bg3);">
+            <td style="padding:.55rem 0;color:var(--ink2);">Massage 1h</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">55 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">261 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">52,20 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--bg3);">
+            <td style="padding:.55rem 0;color:var(--ink2);">Massage 1h30</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">75 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">356 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">71,20 €</td>
+          </tr>
+          <tr>
+            <td style="padding:.55rem 0;color:var(--ink2);">Duo</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">100 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">475 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">95 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Carnet 10 séances -->
+    <div style="background:var(--moss);padding:1.6rem 2rem;margin-bottom:1.8rem;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
+        <h3 style="margin:0;color:var(--white);">Carnet 10 séances</h3>
+        <span style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-l);border:1px solid var(--gold-l);padding:.2rem .6rem;">−10%</span>
+      </div>
+      <p style="margin-bottom:1.2rem;color:rgba(250,248,244,.45);font-size:.75rem;letter-spacing:.08em;">Valable 12 mois · Utilisable sur toutes les formules</p>
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem;font-weight:300;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
+            <th style="text-align:left;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Formule</th>
+            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
+            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 10</th>
+            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+            <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Accès bien-être <span style="font-size:.65rem;color:rgba(250,248,244,.35);">(jacuzzi · hammam · sauna)</span></td>
+            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">35 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">315 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">31,50 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+            <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 30 min</td>
+            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">30 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">270 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">27 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+            <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 1h</td>
+            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">55 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">495 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">49,50 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
+            <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 1h30</td>
+            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">75 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">675 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">67,50 €</td>
+          </tr>
+          <tr>
+            <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Duo</td>
+            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">100 €</td>
+            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">900 €</td>
+            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">90 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a class="f-devis" href="#contact" onclick="closeModal('abonnements');" style="display:inline-flex;align-items:center;gap:.4rem;">Me contacter pour souscrire</a>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-mentions">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('mentions')">×</button>
