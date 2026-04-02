@@ -249,10 +249,29 @@ form{margin-top:1rem;}
 .avis-score-label{font-size:.72rem;font-weight:300;color:var(--ink2);}
 .avis-cta{margin-left:auto;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-d);border:1px solid var(--sage-l);padding:.55rem 1.2rem;text-decoration:none;transition:background .3s,color .3s;white-space:nowrap;}
 .avis-cta:hover{background:var(--sage-d);color:var(--white);}
+.avis-form-wrap{margin-top:3rem;background:var(--white);padding:2.5rem;}
+.avis-form-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--ink);margin-bottom:.3rem;}
+.avis-form-sub{font-size:.78rem;font-weight:300;color:var(--sage);margin-bottom:1.8rem;}
+.avis-form .fg{margin-bottom:1.2rem;}
+.avis-form .fg label{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-d);margin-bottom:.4rem;}
+.avis-form .fg input,.avis-form .fg textarea{width:100%;padding:.8rem 1rem;background:var(--bg);border:1px solid var(--bg3);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:300;color:var(--ink);outline:none;transition:border-color .3s;border-radius:0;}
+.avis-form .fg input:focus,.avis-form .fg textarea:focus{border-color:var(--sage);}
+.avis-form .fg textarea{height:100px;resize:vertical;}
+.avis-form .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.avis-stars-input{display:flex;gap:.3rem;margin-bottom:1.2rem;}
+.avis-stars-input span{font-size:1.6rem;color:var(--bg3);cursor:pointer;transition:color .2s;user-select:none;}
+.avis-stars-input span.lit{color:var(--gold);}
+.avis-stars-input span:hover{color:var(--gold);}
+.avis-form-btn{width:100%;padding:1rem;background:var(--sage-d);color:var(--white);border:none;font-family:'DM Sans',sans-serif;font-size:.66rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:background .3s;margin-top:.5rem;}
+.avis-form-btn:hover{background:var(--gold);}
+.avis-form-ok{display:none;background:var(--bg);border-left:3px solid var(--sage);padding:1rem 1.4rem;margin-top:1rem;font-size:.83rem;color:var(--sage-d);line-height:1.7;}
+.avis-empty{text-align:center;padding:3rem 1rem;color:var(--sage-l);font-size:.88rem;font-weight:300;}
 @media(max-width:768px){
   .avis-grid{grid-template-columns:1fr;gap:1.2rem;}
   .avis-global{flex-wrap:wrap;gap:1rem;padding:1.5rem;}
   .avis-cta{margin-left:0;width:100%;text-align:center;}
+  .avis-form-wrap{padding:1.5rem;}
+  .avis-form .fg-row{grid-template-columns:1fr;}
 }
 
 /* REVEAL */
@@ -645,42 +664,53 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   <div class="s-kicker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-right:.3rem;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Témoignages</div>
   <h2 class="s-title">Ce que disent nos <em>clients</em></h2>
 
-  <div class="avis-grid">
-    <div class="avis-card reveal">
-      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
-      <p class="avis-txt">« Un moment de pure détente. Jérôme est très professionnel, à l'écoute et ses gestes sont précis. Je recommande vivement pour quiconque souhaite découvrir le massage thaï. »</p>
-      <div class="avis-author">
-        <div class="avis-avatar">S</div>
-        <div class="avis-meta"><strong>Sophie L.</strong><span>Belfort</span></div>
-      </div>
-    </div>
-
-    <div class="avis-card reveal" style="transition-delay:.15s">
-      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
-      <p class="avis-txt">« Première expérience de massage thaï et quelle découverte ! Les étirements sont incroyablement libérateurs. Je me suis senti léger pendant plusieurs jours après la séance. »</p>
-      <div class="avis-author">
-        <div class="avis-avatar">M</div>
-        <div class="avis-meta"><strong>Marc D.</strong><span>Héricourt</span></div>
-      </div>
-    </div>
-
-    <div class="avis-card reveal" style="transition-delay:.3s">
-      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
-      <p class="avis-txt">« Le fait que Jérôme se déplace à domicile change tout. Pas besoin de reprendre la voiture après, on reste dans sa bulle de bien-être. Service impeccable et très humain. »</p>
-      <div class="avis-author">
-        <div class="avis-avatar">C</div>
-        <div class="avis-meta"><strong>Claire B.</strong><span>Lure</span></div>
-      </div>
-    </div>
+  <div class="avis-grid" id="avisGrid">
+    <!-- Les avis approuvés s'affichent ici dynamiquement -->
   </div>
 
-  <div class="avis-global reveal">
-    <div class="avis-score">5.0</div>
+  <div class="avis-global reveal" id="avisGlobal" style="display:none;">
+    <div class="avis-score" id="avisScoreNum">5.0</div>
     <div class="avis-score-info">
-      <div class="avis-score-stars">★★★★★</div>
-      <span class="avis-score-label">Note moyenne · Avis clients</span>
+      <div class="avis-score-stars" id="avisScoreStars">★★★★★</div>
+      <span class="avis-score-label" id="avisScoreLabel">Note moyenne · Avis clients</span>
     </div>
-    <a class="avis-cta" href="#contact">Laisser un avis</a>
+    <a class="avis-cta" href="#avis-form-section">Laisser un avis</a>
+  </div>
+
+  <!-- Formulaire d'avis -->
+  <div class="avis-form-wrap" id="avis-form-section">
+    <h3 class="avis-form-title">Laisser votre avis</h3>
+    <p class="avis-form-sub">Partagez votre expérience. Votre avis sera publié après validation.</p>
+    <form class="avis-form" id="avisForm" onsubmit="return submitAvis(event)">
+      <div class="fg-row">
+        <div class="fg">
+          <label for="avis-nom">Prénom</label>
+          <input type="text" id="avis-nom" placeholder="Votre prénom" required/>
+        </div>
+        <div class="fg">
+          <label for="avis-ville">Ville</label>
+          <input type="text" id="avis-ville" placeholder="Votre ville" required/>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Votre note</label>
+        <div class="avis-stars-input" id="starsInput">
+          <span onclick="setRating(1)">&#9733;</span>
+          <span onclick="setRating(2)">&#9733;</span>
+          <span onclick="setRating(3)">&#9733;</span>
+          <span onclick="setRating(4)">&#9733;</span>
+          <span onclick="setRating(5)">&#9733;</span>
+        </div>
+      </div>
+      <div class="fg">
+        <label for="avis-message">Votre avis</label>
+        <textarea id="avis-message" placeholder="Racontez votre expérience..." required></textarea>
+      </div>
+      <button type="submit" class="avis-form-btn">Envoyer mon avis</button>
+    </form>
+    <div class="avis-form-ok" id="avisFormOk">
+      Merci pour votre avis ! Il sera publié après validation par notre équipe.
+    </div>
   </div>
 </section>
 
@@ -1058,6 +1088,83 @@ function closeMenu(){
   document.getElementById('mobMenu').classList.remove('open');
   document.body.style.overflow='';  
 }
+
+/* ===== SYSTÈME D'AVIS ===== */
+let avisRating = 0;
+
+function setRating(n){
+  avisRating = n;
+  const stars = document.querySelectorAll('#starsInput span');
+  stars.forEach((s,i) => s.classList.toggle('lit', i < n));
+}
+
+function submitAvis(e){
+  e.preventDefault();
+  if(avisRating === 0){ alert('Veuillez sélectionner une note.'); return false; }
+  const avis = {
+    id: Date.now(),
+    nom: document.getElementById('avis-nom').value.trim(),
+    ville: document.getElementById('avis-ville').value.trim(),
+    note: avisRating,
+    message: document.getElementById('avis-message').value.trim(),
+    date: new Date().toISOString(),
+    status: 'pending'
+  };
+  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
+  all.push(avis);
+  localStorage.setItem('ltdc_avis', JSON.stringify(all));
+  document.getElementById('avisForm').style.display = 'none';
+  document.getElementById('avisFormOk').style.display = 'block';
+  return false;
+}
+
+function loadApprovedAvis(){
+  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
+  const approved = all.filter(a => a.status === 'approved');
+  const grid = document.getElementById('avisGrid');
+  const globalBar = document.getElementById('avisGlobal');
+  
+  if(approved.length === 0){
+    grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>';
+    globalBar.style.display = 'none';
+    return;
+  }
+  
+  let html = '';
+  let totalStars = 0;
+  approved.forEach((a, i) => {
+    totalStars += a.note;
+    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
+    const initial = a.nom.charAt(0).toUpperCase();
+    const delay = (i * 0.15).toFixed(2);
+    html += `
+      <div class="avis-card reveal" style="transition-delay:${delay}s">
+        <div class="avis-stars">${stars.split('').map(s => '<span class="avis-star">'+s+'</span>').join('')}</div>
+        <p class="avis-txt">« ${a.message} »</p>
+        <div class="avis-author">
+          <div class="avis-avatar">${initial}</div>
+          <div class="avis-meta"><strong>${a.nom}</strong><span>${a.ville}</span></div>
+        </div>
+      </div>`;
+  });
+  grid.innerHTML = html;
+  
+  const avg = (totalStars / approved.length).toFixed(1);
+  document.getElementById('avisScoreNum').textContent = avg;
+  const fullStars = Math.round(totalStars / approved.length);
+  document.getElementById('avisScoreStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+  document.getElementById('avisScoreLabel').textContent = 'Note moyenne · ' + approved.length + ' avis';
+  globalBar.style.display = 'flex';
+  
+  // Trigger reveal animation
+  setTimeout(() => {
+    grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    globalBar.classList.add('in');
+  }, 100);
+}
+
+// Charger les avis au chargement de la page
+document.addEventListener('DOMContentLoaded', loadApprovedAvis);
 </script>
 </body>
 </html>
