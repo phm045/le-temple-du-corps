@@ -324,7 +324,9 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 .cal-popup-header h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin:0;}
 .cal-popup-close{background:none;border:none;font-size:1.8rem;cursor:pointer;color:var(--sage-l);line-height:1;padding:0 .3rem;transition:color .2s;}
 .cal-popup-close:hover{color:var(--ink);}
-.cal-popup iframe{flex:1;width:100%;border:none;}
+.cal-loading{position:absolute;inset:0;top:57px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:var(--bg);color:var(--sage-d);font-size:.75rem;letter-spacing:.08em;}
+.cal-spinner{width:32px;height:32px;border:2px solid var(--bg3);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 @media(max-width:560px){
   .cal-popup{padding:.5rem;}
   .cal-popup-box{max-width:100%;height:95vh;max-height:none;border-radius:6px;}
@@ -1017,7 +1019,11 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       <h3>Prendre rendez-vous</h3>
       <button class="cal-popup-close" onclick="closeCalPopup()">&times;</button>
     </div>
-    <iframe id="calFrame" src="" loading="lazy"></iframe>
+    <div class="cal-loading" id="calLoading">
+      <div class="cal-spinner"></div>
+      <span>Chargement du calendrier…</span>
+    </div>
+    <iframe id="calFrame" src="" style="flex:1;width:100%;border:none;" onload="document.getElementById('calLoading').style.display='none';"></iframe>
   </div>
 </div>
 
@@ -1203,12 +1209,24 @@ function closeModal(id){
 function openCalPopup(){
   const popup = document.getElementById('calPopup');
   const frame = document.getElementById('calFrame');
-  if(!frame.src || frame.src === window.location.href){
+  const loading = document.getElementById('calLoading');
+  if(!frame.src || frame.src === window.location.href || frame.src === ''){
+    loading.style.display = 'flex';
     frame.src = 'https://cal.com/jerome-fischer-ozrkr1/15min';
   }
   popup.classList.add('on');
   document.body.style.overflow='hidden';
 }
+
+/* Préchargement Cal.com après 3s pour accélérer l'ouverture */
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    var f = document.getElementById('calFrame');
+    if(!f.src || f.src === '' || f.src === window.location.href){
+      f.src = 'https://cal.com/jerome-fischer-ozrkr1/15min';
+    }
+  }, 3000);
+});
 function closeCalPopup(){
   document.getElementById('calPopup').classList.remove('on');
   document.body.style.overflow='';
