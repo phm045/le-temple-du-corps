@@ -692,7 +692,10 @@ function copyCalLink() {
 }
 
 /* ===== GESTION DES AVIS ===== */
+const SHEET_ID = '1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg';
 let currentAvisTab = 'pending';
+/* Google Sheets approved reviews are stored here after JSONP fetch */
+let sheetApprovedAvis = [];
 
 function escapeHTML(str){
   const d = document.createElement('div');
@@ -733,10 +736,21 @@ function deleteAvis(id){
   renderAvisAdmin();
 }
 
+function parseGvizNote(val){
+  if(typeof val === 'number') return val;
+  if(typeof val === 'string'){
+    var m = val.match(/^(\d)/);
+    if(m) return parseInt(m[1], 10);
+  }
+  return 5;
+}
+
 function renderAvisAdmin(){
-  const all = getAvis();
-  const pending = all.filter(a => a.status === 'pending');
-  const approved = all.filter(a => a.status === 'approved');
+  const local = getAvis();
+  const pending = local.filter(a => a.status === 'pending');
+  /* Merge locally approved + Google Sheets approved (read-only from sheet) */
+  const localApproved = local.filter(a => a.status === 'approved');
+  const approved = sheetApprovedAvis.concat(localApproved);
 
   document.getElementById('pendingCount').textContent = pending.length;
   document.getElementById('approvedCount').textContent = approved.length;
@@ -757,33 +771,66 @@ function renderAvisAdmin(){
     const stars = '\u2605'.repeat(clampedNote) + '\u2606'.repeat(5 - clampedNote);
     const date = a.date ? new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}) : '';
     const safeStatus = a.status === 'approved' ? 'approved' : 'pending';
+    const isSheetReview = a.source === 'sheet';
     html += '<div class="avis-admin-card ' + safeStatus + '">'
       + '<div class="avis-admin-card-body">'
       + '<div class="avis-admin-card-header">'
       + '<span class="avis-admin-card-author">' + escapeHTML(a.nom || '') + ' \u2014 ' + escapeHTML(a.ville || '') + '</span>'
-      + '<span class="avis-admin-card-date">' + escapeHTML(date) + '</span>'
+      + '<span class="avis-admin-card-date">' + escapeHTML(date) + (isSheetReview ? ' (Google Sheets)' : '') + '</span>'
       + '</div>'
       + '<div class="avis-admin-card-stars">' + stars + '</div>'
       + '<p class="avis-admin-card-txt">\u00AB ' + escapeHTML(a.message || '') + ' \u00BB</p>'
       + '<div class="avis-admin-card-actions">'
-      + (safeStatus === 'pending'
-        ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a.id + ')">Approuver</button>'
-        : '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(' + a.id + ')">Retirer</button>')
-      + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a.id + ')">Supprimer</button>'
+      + (isSheetReview
+        ? ''
+        : (safeStatus === 'pending'
+          ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a.id + ')">Approuver</button>'
+          : '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(' + a.id + ')">Retirer</button>')
+        + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a.id + ')">Supprimer</button>')
       + '</div></div></div>';
   });
   container.innerHTML = html;
+}
+
+function loadSheetAvis(){
+  /* Fetch approved reviews from Google Sheets via JSONP to avoid CORS */
+  var cbName = '_gvizAdminCallback';
+  var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
+    + '/gviz/tq?tqx=responseHandler:' + cbName + '&sheet=Avis&tq='
+    + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
+
+  window[cbName] = function(json){
+    try {
+      var rows = (json.table && json.table.rows) || [];
+      sheetApprovedAvis = rows.map(function(r){
+        return {
+          nom: (r.c[0] && r.c[0].v) || 'Anonyme',
+          ville: (r.c[1] && r.c[1].v) || '',
+          note: parseGvizNote(r.c[2] && r.c[2].v),
+          message: (r.c[3] && r.c[3].v) || '',
+          status: 'approved',
+          source: 'sheet'
+        };
+      });
+    } catch(e){ sheetApprovedAvis = []; }
+    renderAvisAdmin();
+  };
+
+  var script = document.createElement('script');
+  script.src = url;
+  script.onerror = function(){ renderAvisAdmin(); script.remove(); };
+  document.head.appendChild(script);
 }
 
 // Charger les avis au démarrage du dashboard
 const origShowDashboard = showDashboard;
 showDashboard = function(){
   origShowDashboard();
-  renderAvisAdmin();
+  loadSheetAvis();
 };
-// Si déjà authé
+// Si déjà authé, charger directement
 if(sessionStorage.getItem('admin_auth') === 'true'){
-  setTimeout(renderAvisAdmin, 100);
+  loadSheetAvis();
 }
 </script>
 
