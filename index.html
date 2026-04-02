@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Le Temple du Corps — Massage Thaï à domicile · Franche-Comté</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
@@ -22,8 +22,8 @@
   --white:   #faf8f4;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;}
 
 /* NAV */
@@ -41,7 +41,7 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .nav-btn:hover{background:var(--gold);transform:translateY(-2px);}
 
 /* HERO */
-#accueil{min-height:100svh;display:grid;grid-template-columns:58% 42%;position:relative;overflow:hidden;}
+#accueil{min-height:100svh;min-height:100dvh;display:grid;grid-template-columns:58% 42%;position:relative;overflow:hidden;}
 .hero-l{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:9rem 3rem 5rem 8vw;position:relative;z-index:1;}
 .hero-kicker{display:flex;align-items:center;justify-content:center;gap:.9rem;font-size:.62rem;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
 .hero-kicker-bar{width:2.2rem;height:1px;background:var(--gold);}
@@ -350,7 +350,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 @media(max-width:960px){
   .nav-links,.nav-btn{display:none;}
   .burger{display:flex;}
-  #accueil{grid-template-columns:1fr;min-height:auto;}
+  #accueil{grid-template-columns:1fr;min-height:auto;min-height:unset;}
   .hero-r{display:block;height:52vw;max-height:320px;position:relative;overflow:hidden;order:-1;}
   .hero-r-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;}
   .hero-badge{display:none;}
@@ -496,10 +496,13 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Slider swipe-friendly */
   .slider{touch-action:pan-y;overflow:hidden;}
-  .slider-btn{padding:.45rem .6rem;font-size:.6rem;}
+  .slider-btn{padding:.55rem .75rem;font-size:.6rem;min-height:44px;min-width:44px;}
+  .slider-dot{width:12px;height:12px;}
+  .slider-dots{gap:.6rem;padding:.5rem 0;}
 
   /* Contact buttons full-width */
   .zone-telechargement{padding:1.2rem;}
+  .btn-download{min-height:48px;}
 
   /* PayPal block compact mobile */
   .paypal-button{margin-top:15px !important;padding:1.2rem !important;}
@@ -521,6 +524,11 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   /* Avis section mobile */
   .avis-global{padding:1.2rem;}
   .avis-score{font-size:2.4rem;}
+  .avis-cta{min-height:48px;width:100%;justify-content:center;}
+
+  /* Safe area iOS (notch / Dynamic Island / home indicator) */
+  nav{padding-top:max(1rem, env(safe-area-inset-top));}
+  footer{padding-bottom:max(2.5rem, env(safe-area-inset-bottom));}
 }
 </style>
 </head>
