@@ -1094,6 +1094,36 @@ const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
 const AVIS_STORAGE_KEY = 'ltdc_avis';
 let avisRating = 0;
 
+/*
+ * Avis en dur — visibles par TOUS les visiteurs (ne dépendent pas de localStorage).
+ * Ces avis proviennent de l'ancien système Google Sheets et des témoignages originaux.
+ * Pour ajouter un avis manuellement, ajouter un objet au tableau ci-dessous :
+ *   { nom: 'Prénom N.', ville: 'Ville', note: 5, message: 'Texte...', date: 'AAAA-MM-JJ' }
+ */
+var AVIS_HARDCODED = [
+  {
+    nom: 'Sophie L.',
+    ville: 'Belfort',
+    note: 5,
+    message: 'Un moment de pure détente. Jérôme est très professionnel, à l\'écoute et ses gestes sont précis. Je recommande vivement pour quiconque souhaite découvrir le massage thaï.',
+    date: '2025-01-15'
+  },
+  {
+    nom: 'Marc D.',
+    ville: 'Héricourt',
+    note: 5,
+    message: 'Première expérience de massage thaï et quelle découverte ! Les étirements sont incroyablement libérateurs. Je me suis senti léger pendant plusieurs jours après la séance.',
+    date: '2025-02-03'
+  },
+  {
+    nom: 'Claire B.',
+    ville: 'Lure',
+    note: 5,
+    message: 'Le fait que Jérôme se déplace à domicile change tout. Pas besoin de reprendre la voiture après, on reste dans sa bulle de bien-être. Service impeccable et très humain.',
+    date: '2025-02-20'
+  }
+];
+
 function escapeHTML(str){
   const d = document.createElement('div');
   d.appendChild(document.createTextNode(str));
@@ -1205,7 +1235,9 @@ function renderAvis(approved){
 
 function loadApprovedAvis(){
   var localApproved = getLocalAvis().filter(function(a){ return a.status === 'approved'; });
-  renderAvis(localApproved);
+  /* Combine hardcoded avis (visible by all visitors) + localStorage approved avis */
+  var allApproved = AVIS_HARDCODED.concat(localApproved);
+  renderAvis(allApproved);
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
