@@ -3,15 +3,15 @@
     "nom": "Sophie L.",
     "ville": "Belfort",
     "note": 5,
-    "commentaire": "Un massage thaï absolument incroyable. Je me suis sentie revivre après une séance. Professionnalisme et douceur au rendez-vous.",
+    "commentaire": "Un massage thaÃ¯ absolument incroyable. Je me suis sentie revivre aprÃ¨s une sÃ©ance. Professionnalisme et douceur au rendez-vous.",
     "date": "2025-12-10",
     "statut": "approved"
   },
   {
     "nom": "Marc D.",
-    "ville": "Héricourt",
+    "ville": "HÃ©ricourt",
     "note": 5,
-    "commentaire": "Grâce aux séances d'étirements, j'ai retrouvé une vraie souplesse. Le cadre est apaisant et les conseils sont personnalisés.",
+    "commentaire": "GrÃ¢ce aux sÃ©ances d'Ã©tirements, j'ai retrouvÃ© une vraie souplesse. Le cadre est apaisant et les conseils sont personnalisÃ©s.",
     "date": "2025-11-15",
     "statut": "approved"
   },
@@ -19,7 +19,7 @@
     "nom": "Claire B.",
     "ville": "Lure",
     "note": 5,
-    "commentaire": "J'ai opté pour un massage à domicile et c'était parfait. Ponctualité, écoute, et un vrai moment de détente. Merci !",
+    "commentaire": "J'ai optÃ© pour un massage Ã  domicile et c'Ã©tait parfait. PonctualitÃ©, Ã©coute, et un vrai moment de dÃ©tente. Merci !",
     "date": "2026-01-20",
     "statut": "approved"
   },
@@ -33,10 +33,18 @@
   },
   {
     "nom": "Marie",
-    "ville": "Montbéliard",
+    "ville": "MontbÃ©liard",
     "note": 4,
-    "commentaire": "Très bon massage, je reviendrai",
+    "commentaire": "TrÃ¨s bon massage, je reviendrai",
     "date": "2026-04-02",
     "statut": "approved"
+  },
+  {
+    "nom": "Bastien",
+    "ville": "Lure",
+    "note": 5,
+    "commentaire": "Belle experience !! je recommande ! Merci",
+    "date": "2026-04-02",
+    "statut": "pending"
   }
 ]
