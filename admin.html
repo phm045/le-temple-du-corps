@@ -690,7 +690,9 @@ function copyCalLink() {
 }
 
 /* ===== GESTION DES AVIS ===== */
+const JSONBLOB_URL = "https://jsonblob.com/api/jsonBlob/019d4e4e-4f55-7ab7-8b52-1f6a5a238549";
 let currentAvisTab = 'pending';
+let allAvis = [];
 
 function escapeHTML(str){
   const d = document.createElement('div');
@@ -706,30 +708,49 @@ function switchAvisTab(tab){
   renderAvisAdmin();
 }
 
-function getAvis(){
-  try { return JSON.parse(localStorage.getItem('ltdc_avis') || '[]'); }
-  catch(e){ return []; }
-}
-function saveAvis(list){
-  localStorage.setItem('ltdc_avis', JSON.stringify(list));
+function loadAvis(){
+  fetch(JSONBLOB_URL, {
+    method: 'GET',
+    headers: {'Content-Type':'application/json'}
+  })
+  .then(r => r.json())
+  .then(data => {
+    allAvis = Array.isArray(data) ? data : [];
+    renderAvisAdmin();
+  })
+  .catch(() => {
+    document.getElementById('avisAdminList').innerHTML = '<div class="avis-admin-empty">Impossible de charger les avis. Vérifiez votre connexion et réessayez.</div>';
+  });
 }
 
-function approveAvis(id){
-  const list = getAvis();
-  const a = list.find(x => x.id === id);
-  if(a){ a.status = 'approved'; saveAvis(list); renderAvisAdmin(); }
+function saveAvisToBlob(){
+  return fetch(JSONBLOB_URL, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(allAvis)
+  });
 }
-function deleteAvis(id){
+
+function approveAvis(idx){
+  if(idx < 0 || idx >= allAvis.length) return;
+  allAvis[idx].statut = 'approved';
+  saveAvisToBlob()
+    .then(() => renderAvisAdmin())
+    .catch(() => alert('Erreur lors de la sauvegarde. Veuillez réessayer.'));
+}
+
+function deleteAvis(idx){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
-  const list = getAvis().filter(x => x.id !== id);
-  saveAvis(list);
-  renderAvisAdmin();
+  if(idx < 0 || idx >= allAvis.length) return;
+  allAvis.splice(idx, 1);
+  saveAvisToBlob()
+    .then(() => renderAvisAdmin())
+    .catch(() => alert('Erreur lors de la sauvegarde. Veuillez réessayer.'));
 }
 
 function renderAvisAdmin(){
-  const local = getAvis();
-  const pending = local.filter(a => a.status === 'pending');
-  const approved = local.filter(a => a.status === 'approved');
+  const pending = allAvis.map((a,i) => ({...a, _idx:i})).filter(a => a.statut === 'pending');
+  const approved = allAvis.map((a,i) => ({...a, _idx:i})).filter(a => a.statut === 'approved');
 
   document.getElementById('pendingCount').textContent = pending.length;
   document.getElementById('approvedCount').textContent = approved.length;
@@ -748,8 +769,9 @@ function renderAvisAdmin(){
     const note = parseInt(a.note, 10) || 0;
     const clampedNote = Math.max(0, Math.min(5, note));
     const stars = '\u2605'.repeat(clampedNote) + '\u2606'.repeat(5 - clampedNote);
+    const text = a.commentaire || a.message || '';
     const date = a.date ? new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'}) : '';
-    const safeStatus = a.status === 'approved' ? 'approved' : 'pending';
+    const safeStatus = a.statut === 'approved' ? 'approved' : 'pending';
     html += '<div class="avis-admin-card ' + safeStatus + '">'
       + '<div class="avis-admin-card-body">'
       + '<div class="avis-admin-card-header">'
@@ -757,12 +779,12 @@ function renderAvisAdmin(){
       + '<span class="avis-admin-card-date">' + escapeHTML(date) + '</span>'
       + '</div>'
       + '<div class="avis-admin-card-stars">' + stars + '</div>'
-      + '<p class="avis-admin-card-txt">\u00AB ' + escapeHTML(a.message || '') + ' \u00BB</p>'
+      + '<p class="avis-admin-card-txt">\u00AB ' + escapeHTML(text) + ' \u00BB</p>'
       + '<div class="avis-admin-card-actions">'
       + (safeStatus === 'pending'
-        ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a.id + ')">Approuver</button>'
+        ? '<button class="avis-admin-btn approve" onclick="approveAvis(' + a._idx + ')">Approuver</button>'
         : '')
-      + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a.id + ')">Supprimer</button>'
+      + '<button class="avis-admin-btn reject" onclick="deleteAvis(' + a._idx + ')">Supprimer</button>'
       + '</div></div></div>';
   });
   container.innerHTML = html;
@@ -772,11 +794,11 @@ function renderAvisAdmin(){
 const origShowDashboard = showDashboard;
 showDashboard = function(){
   origShowDashboard();
-  renderAvisAdmin();
+  loadAvis();
 };
 // Si déjà authé, charger directement
 if(sessionStorage.getItem('admin_auth') === 'true'){
-  renderAvisAdmin();
+  loadAvis();
 }
 </script>
 
