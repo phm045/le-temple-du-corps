@@ -28,7 +28,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 
 /* LOGIN SCREEN */
 #login-screen{
-  display:none;align-items:center;justify-content:center;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;
   background:var(--bg);
 }
 .login-box{
@@ -70,7 +70,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);over
 .login-back:hover{color:var(--gold);}
 
 /* ADMIN DASHBOARD */
-#admin-dashboard{display:block;}
+#admin-dashboard{display:none;}
 
 .admin-header{
   background:var(--moss);padding:1.2rem 4vw;
@@ -562,12 +562,14 @@ Cal("init", "admin-cal", { origin: "https://cal.com" });
 
 <script>
 // Password hash (SHA-256)
-const HASH = "9755964ff64b84226cb353e7b0dae00a98d97e7ea806247e2857adef1b4d2bf7";
+const HASH = "71692283164686a882477dd0cc47b006fb16e4cbfef87c62deb980e9de1b66a4";
 
 let currentPopupUrl = '';
 
-// Auth state (in-memory)
-let isAuthenticated = false;
+// Check if already authenticated
+if (sessionStorage.getItem("admin_auth") === "true") {
+  showDashboard();
+}
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
@@ -578,9 +580,16 @@ async function sha256(message) {
 
 async function handleLogin(e) {
   e.preventDefault();
-  isAuthenticated = true;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('admin-dashboard').style.display = 'block';
+  const pwd = document.getElementById('pwd').value;
+  const hash = await sha256(pwd);
+  if (hash === HASH) {
+    sessionStorage.setItem("admin_auth", "true");
+    showDashboard();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
   return false;
 }
 
@@ -588,7 +597,7 @@ function showDashboard() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-dashboard').style.display = 'block';
   // Load Cal.com inline embed
-  try { Cal.ns["admin-cal"]("inline", {
+  Cal.ns["admin-cal"]("inline", {
     elementOrSelector: "#cal-inline",
     calLink: "jerome-fischer-ozrkr1",
     layout: "month_view",
@@ -599,11 +608,11 @@ function showDashboard() {
     styles: { branding: { brandColor: "#3f4e35" } },
     hideEventTypeDetails: false,
     layout: "month_view"
-  }); } catch(e) { console.log('Cal not available', e); }
+  });
 }
 
 function logout() {
-  isAuthenticated = false;
+  sessionStorage.removeItem("admin_auth");
   document.getElementById('admin-dashboard').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pwd').value = '';
@@ -682,11 +691,8 @@ function copyCalLink() {
   });
 }
 
-/* ===== GESTION DES AVIS (Google Sheets) ===== */
-const _PORT = '__PORT_8000__';
-const API_URL = (_PORT.startsWith('__') ? 'http://localhost:8000' : _PORT) + '/api/reviews';
+/* ===== GESTION DES AVIS ===== */
 let currentAvisTab = 'pending';
-let allAvis = [];
 
 function switchAvisTab(tab){
   currentAvisTab = tab;
@@ -696,40 +702,34 @@ function switchAvisTab(tab){
   renderAvisAdmin();
 }
 
-function fetchAvis(){
-  const container = document.getElementById('avisAdminList');
-  container.innerHTML = '<div class="avis-admin-empty">Chargement...</div>';
-  fetch(API_URL + '?status=all')
-  .then(r => r.json())
-  .then(data => {
-    allAvis = data.reviews || data || [];
-    renderAvisAdmin();
-  })
-  .catch(() => {
-    container.innerHTML = '<div class="avis-admin-empty">Erreur de chargement. Vérifiez la configuration.</div>';
-  });
+function getAvis(){
+  return JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
+}
+function saveAvis(list){
+  localStorage.setItem('ltdc_avis', JSON.stringify(list));
 }
 
 function approveAvis(id){
-  fetch(API_URL + '/approve?id=' + id)
-  .then(r => r.json())
-  .then(() => fetchAvis());
+  const list = getAvis();
+  const a = list.find(x => x.id === id);
+  if(a){ a.status = 'approved'; saveAvis(list); renderAvisAdmin(); }
 }
 function unapproveAvis(id){
-  fetch(API_URL + '/unapprove?id=' + id)
-  .then(r => r.json())
-  .then(() => fetchAvis());
+  const list = getAvis();
+  const a = list.find(x => x.id === id);
+  if(a){ a.status = 'pending'; saveAvis(list); renderAvisAdmin(); }
 }
 function deleteAvis(id){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
-  fetch(API_URL + '/delete?id=' + id)
-  .then(r => r.json())
-  .then(() => fetchAvis());
+  const list = getAvis().filter(x => x.id !== id);
+  saveAvis(list);
+  renderAvisAdmin();
 }
 
 function renderAvisAdmin(){
-  const pending = allAvis.filter(a => a['Statut'] === 'pending');
-  const approved = allAvis.filter(a => a['Statut'] === 'approved');
+  const all = getAvis();
+  const pending = all.filter(a => a.status === 'pending');
+  const approved = all.filter(a => a.status === 'approved');
   
   document.getElementById('pendingCount').textContent = pending.length;
   document.getElementById('approvedCount').textContent = approved.length;
@@ -745,28 +745,23 @@ function renderAvisAdmin(){
   
   let html = '';
   list.forEach(a => {
-    const note = parseInt(a['Note']) || 5;
-    const stars = '★'.repeat(note) + '☆'.repeat(5 - note);
-    const nom = a['Prénom'] || 'Anonyme';
-    const ville = a['Ville'] || '';
-    const message = a['Message'] || '';
-    const dateStr = a['Date'] || '';
-    const id = a['ID'];
+    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
+    const date = new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
     html += `
-      <div class="avis-admin-card ${a['Statut']}">
+      <div class="avis-admin-card ${a.status}">
         <div class="avis-admin-card-body">
           <div class="avis-admin-card-header">
-            <span class="avis-admin-card-author">${nom} — ${ville}</span>
-            <span class="avis-admin-card-date">${dateStr}</span>
+            <span class="avis-admin-card-author">${a.nom} — ${a.ville}</span>
+            <span class="avis-admin-card-date">${date}</span>
           </div>
           <div class="avis-admin-card-stars">${stars}</div>
-          <p class="avis-admin-card-txt">« ${message} »</p>
+          <p class="avis-admin-card-txt">« ${a.message} »</p>
           <div class="avis-admin-card-actions">
-            ${a['Statut'] === 'pending' ? 
-              '<button class="avis-admin-btn approve" onclick="approveAvis(\''+id+'\')">✓ Approuver</button>' : 
-              '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(\''+id+'\')">← Retirer</button>'
+            ${a.status === 'pending' ? 
+              '<button class="avis-admin-btn approve" onclick="approveAvis('+a.id+')">Approuver</button>' : 
+              '<button class="avis-admin-btn unapprove" onclick="unapproveAvis('+a.id+')">Retirer</button>'
             }
-            <button class="avis-admin-btn reject" onclick="deleteAvis('${id}')">Supprimer</button>
+            <button class="avis-admin-btn reject" onclick="deleteAvis(${a.id})">Supprimer</button>
           </div>
         </div>
       </div>`;
@@ -778,16 +773,11 @@ function renderAvisAdmin(){
 const origShowDashboard = showDashboard;
 showDashboard = function(){
   origShowDashboard();
-  fetchAvis();
+  renderAvisAdmin();
 };
-// Auto-login
-document.getElementById('login-screen').style.display = 'none';
-document.getElementById('admin-dashboard').style.display = 'block';
-isAuthenticated = true;
-setTimeout(fetchAvis, 100);
 // Si déjà authé
-if(isAuthenticated){
-  setTimeout(fetchAvis, 100);
+if(sessionStorage.getItem('admin_auth') === 'true'){
+  setTimeout(renderAvisAdmin, 100);
 }
 </script>
 
