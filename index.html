@@ -230,6 +230,31 @@ form{margin-top:1rem;}
 .slider-dot{width:8px;height:8px;border-radius:50%;background:rgba(250,248,244,.35);cursor:pointer;}
 .slider-dot.active{background:var(--gold-l);}
 
+/* AVIS */
+#avis{background:var(--bg);}
+.avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem;}
+.avis-card{background:var(--white);padding:2.2rem 2rem;position:relative;transition:transform .3s,box-shadow .3s;}
+.avis-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08);}
+.avis-stars{display:flex;gap:.2rem;margin-bottom:1rem;}
+.avis-star{color:var(--gold);font-size:1rem;}
+.avis-txt{font-size:.84rem;font-weight:300;line-height:1.85;color:var(--ink2);font-style:italic;margin-bottom:1.4rem;}
+.avis-author{display:flex;align-items:center;gap:.8rem;}
+.avis-avatar{width:38px;height:38px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.95rem;font-weight:400;color:var(--sage-d);flex-shrink:0;}
+.avis-meta strong{display:block;font-size:.8rem;font-weight:400;color:var(--ink);}
+.avis-meta span{font-size:.68rem;font-weight:300;color:var(--sage-l);}
+.avis-global{display:flex;align-items:center;gap:2rem;margin-top:4rem;padding:2rem 2.4rem;background:var(--white);}
+.avis-score{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:300;color:var(--gold);line-height:1;}
+.avis-score-info{display:flex;flex-direction:column;gap:.2rem;}
+.avis-score-stars{display:flex;gap:.2rem;color:var(--gold);font-size:1.1rem;}
+.avis-score-label{font-size:.72rem;font-weight:300;color:var(--ink2);}
+.avis-cta{margin-left:auto;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-d);border:1px solid var(--sage-l);padding:.55rem 1.2rem;text-decoration:none;transition:background .3s,color .3s;white-space:nowrap;}
+.avis-cta:hover{background:var(--sage-d);color:var(--white);}
+@media(max-width:768px){
+  .avis-grid{grid-template-columns:1fr;gap:1.2rem;}
+  .avis-global{flex-wrap:wrap;gap:1rem;padding:1.5rem;}
+  .avis-cta{margin-left:0;width:100%;text-align:center;}
+}
+
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease;}
 .reveal.in{opacity:1;transform:none;}
@@ -434,6 +459,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
     <li><a href="#accueil">Accueil</a></li>
     <li><a href="#massage">Le massage thaï</a></li>
     <li><a href="#formules">Formules</a></li>
+    <li><a href="#avis">Avis</a></li>
     <li><a href="#photos">Photos</a></li>
     <li><a href="#contact">Zones</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -447,6 +473,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   <a href="#accueil" onclick="closeMenu()">Accueil</a>
   <a href="#massage" onclick="closeMenu()">Le massage thaï</a>
   <a href="#formules" onclick="closeMenu()">Formules</a>
+  <a href="#avis" onclick="closeMenu()">Avis</a>
   <a href="#photos" onclick="closeMenu()">Photos</a>
   <a href="#contact" onclick="closeMenu()">Zones & Contact</a>
   <a class="mob-cta" href="#" onclick="closeMenu();openCalPopup();return false;">Prendre RDV</a>
@@ -610,6 +637,50 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       <div class="bien-name">Clarté mentale</div>
       <p class="bien-txt">L'état méditatif induit par le massage thaï apaise le mental, réduit le stress et favorise un sommeil réparateur durable.</p>
     </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section id="avis">
+  <div class="s-kicker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;margin-right:.3rem;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Témoignages</div>
+  <h2 class="s-title">Ce que disent nos <em>clients</em></h2>
+
+  <div class="avis-grid">
+    <div class="avis-card reveal">
+      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
+      <p class="avis-txt">« Un moment de pure détente. Jérôme est très professionnel, à l'écoute et ses gestes sont précis. Je recommande vivement pour quiconque souhaite découvrir le massage thaï. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar">S</div>
+        <div class="avis-meta"><strong>Sophie L.</strong><span>Belfort</span></div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal" style="transition-delay:.15s">
+      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
+      <p class="avis-txt">« Première expérience de massage thaï et quelle découverte ! Les étirements sont incroyablement libérateurs. Je me suis senti léger pendant plusieurs jours après la séance. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar">M</div>
+        <div class="avis-meta"><strong>Marc D.</strong><span>Héricourt</span></div>
+      </div>
+    </div>
+
+    <div class="avis-card reveal" style="transition-delay:.3s">
+      <div class="avis-stars"><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span><span class="avis-star">★</span></div>
+      <p class="avis-txt">« Le fait que Jérôme se déplace à domicile change tout. Pas besoin de reprendre la voiture après, on reste dans sa bulle de bien-être. Service impeccable et très humain. »</p>
+      <div class="avis-author">
+        <div class="avis-avatar">C</div>
+        <div class="avis-meta"><strong>Claire B.</strong><span>Lure</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="avis-global reveal">
+    <div class="avis-score">5.0</div>
+    <div class="avis-score-info">
+      <div class="avis-score-stars">★★★★★</div>
+      <span class="avis-score-label">Note moyenne · Avis clients</span>
+    </div>
+    <a class="avis-cta" href="#contact">Laisser un avis</a>
   </div>
 </section>
 
