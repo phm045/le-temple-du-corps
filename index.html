@@ -80,6 +80,33 @@ nav.stuck{background:rgba(242,239,233,.95);backdrop-filter:blur(10px);padding:1r
 .banniere-wrap svg{width:100%;height:100%;}
 .banniere-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;}
 
+/* PUB BANNER */
+.pub-banner{position:relative;z-index:501;width:100%;overflow:hidden;}
+.pub-banner a{display:flex;align-items:stretch;text-decoration:none;color:inherit;min-height:72px;transition:opacity .2s;}
+.pub-banner a:hover{opacity:.92;}
+.pub-banner-bg{flex:1;display:flex;align-items:center;justify-content:center;gap:1.8rem;padding:.7rem 4vw;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);position:relative;overflow:hidden;}
+.pub-banner-bg::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;}
+.pub-banner-img{width:56px;height:56px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,255,255,.15);box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.pub-banner-content{display:flex;flex-direction:column;justify-content:center;gap:.15rem;}
+.pub-banner-label{font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(212,174,122,.6);}
+.pub-banner-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:300;color:#faf8f4;line-height:1.2;}
+.pub-banner-title em{font-style:italic;color:#d4ae7a;}
+.pub-banner-desc{font-size:.7rem;font-weight:300;color:rgba(250,248,244,.5);line-height:1.4;max-width:50ch;}
+.pub-banner-cta{flex-shrink:0;display:flex;align-items:center;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#d4ae7a;border:1px solid rgba(212,174,122,.35);padding:.4rem 1rem;transition:background .3s,color .3s;white-space:nowrap;}
+.pub-banner a:hover .pub-banner-cta{background:rgba(212,174,122,.15);}
+.pub-banner-close{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(250,248,244,.3);font-size:1.1rem;cursor:pointer;z-index:2;padding:4px 8px;transition:color .2s;}
+.pub-banner-close:hover{color:rgba(250,248,244,.6);}
+.pub-banner-sep{width:1px;height:36px;background:rgba(255,255,255,.1);flex-shrink:0;}
+
+@media(max-width:768px){
+  .pub-banner a{min-height:auto;}
+  .pub-banner-bg{flex-direction:column;gap:.6rem;padding:.8rem 3rem .8rem 5vw;text-align:center;}
+  .pub-banner-img{width:44px;height:44px;}
+  .pub-banner-desc{display:none;}
+  .pub-banner-cta{font-size:.55rem;padding:.35rem .8rem;}
+  .pub-banner-sep{display:none;}
+}
+
 /* SECTIONS GÉNÉRALES */
 section{padding:7rem 8vw;}
 .s-kicker{display:flex;align-items:center;gap:.8rem;font-size:.6rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;}
@@ -382,6 +409,23 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 </style>
 </head>
 <body>
+
+<!-- PUB BANNER : Manoir aux Trois Charmes -->
+<div class="pub-banner" id="pubBanner1">
+  <a href="https://www.chambres-hotes.fr/chambres-hotes_manoir-aux-trois-charmes_ronchamp_h3405283.htm" target="_blank" rel="noopener">
+    <div class="pub-banner-bg">
+      <img class="pub-banner-img" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/553187791.jpg?k=2e61c36b707add4cacd1c5fbc945e0d86ff178b309c12ac27177ff5fc0a4c8a7&o=" alt="Manoir aux Trois Charmes" loading="eager">
+      <div class="pub-banner-content">
+        <span class="pub-banner-label">Partenaire bien-être</span>
+        <span class="pub-banner-title">Manoir aux Trois <em>Charmes</em></span>
+        <span class="pub-banner-desc">Chambres d'hôtes de charme à Ronchamp · Spa, sauna & jacuzzi · L'escapade parfaite après votre massage</span>
+      </div>
+      <div class="pub-banner-sep"></div>
+      <span class="pub-banner-cta">Découvrir →</span>
+    </div>
+  </a>
+  <button class="pub-banner-close" onclick="document.getElementById('pubBanner1').style.display='none'" aria-label="Fermer la publicité">×</button>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
