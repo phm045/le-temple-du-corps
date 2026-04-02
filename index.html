@@ -345,6 +345,28 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 /* Touch-friendly targets */
 /* Hint scroll tableau abonnements — masqué sur desktop */
 .abo-scroll-hint{display:none;}
+/* Main animée swipe */
+@keyframes swipe-hand{
+  0%   {transform:translateX(8px);opacity:.5;}
+  35%  {transform:translateX(-12px);opacity:1;}
+  65%  {transform:translateX(-12px);opacity:0;}
+  66%  {transform:translateX(8px);opacity:0;}
+  85%  {transform:translateX(8px);opacity:.5;}
+  100% {transform:translateX(8px);opacity:.5;}
+}
+@keyframes swipe-arrow{
+  0%,60%  {opacity:1;}
+  30%,90% {opacity:.25;}
+}
+.abo-hand-icon{
+  display:inline-block;
+  font-size:1.2rem;
+  line-height:1;
+  animation:swipe-hand 2s ease-in-out infinite;
+  transform-origin:bottom center;
+  will-change:transform,opacity;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.15));
+}
 
 @media(hover:none) and (pointer:coarse){
   .nav-btn,.cta-main,.cta-ghost,.f-devis,.form-btn,.slider-btn,.btn-download{
@@ -472,8 +494,8 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   .abo-table-wrap-dark::-webkit-scrollbar-thumb{background:var(--gold-l);}
   .abo-table-wrap table{min-width:400px;width:100%;}
   .abo-table-wrap td,.abo-table-wrap th{white-space:nowrap;}
-  .abo-scroll-hint{display:flex;align-items:center;gap:.35rem;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-l);margin-bottom:.5rem;}
-  .abo-scroll-hint-dark{color:rgba(250,248,244,.35);}
+  .abo-scroll-hint{display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-l);margin-bottom:.6rem;}
+  .abo-scroll-hint-dark{color:rgba(250,248,244,.4);}
   .abo-label{font-size:.8rem;}
   .abo-sub{display:block !important;}
 }
@@ -1070,7 +1092,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       </div>
       <p style="margin-bottom:1.2rem;color:var(--sage-d);font-size:.75rem;letter-spacing:.08em;">Valable 6 mois · Utilisable sur toutes les formules</p>
       <div class="abo-scroll-hint" aria-hidden="true">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <span class="abo-hand-icon">👉</span>
         Glisser pour tout voir
       </div>
       <div class="abo-table-wrap">
@@ -1127,7 +1149,7 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       </div>
       <p style="margin-bottom:1.2rem;color:rgba(250,248,244,.45);font-size:.75rem;letter-spacing:.08em;">Valable 12 mois · Utilisable sur toutes les formules</p>
       <div class="abo-scroll-hint abo-scroll-hint-dark" aria-hidden="true">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <span class="abo-hand-icon">👉</span>
         Glisser pour tout voir
       </div>
       <div class="abo-table-wrap abo-table-wrap-dark">
