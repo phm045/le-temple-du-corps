@@ -1089,7 +1089,8 @@ function closeMenu(){
   document.body.style.overflow='';  
 }
 
-/* ===== SYSTÈME D'AVIS ===== */
+/* ===== SYSTÈME D'AVIS (Google Sheets) ===== */
+const API_URL = 'https://script.google.com/macros/s/APPS_SCRIPT_DEPLOY_ID/exec';
 let avisRating = 0;
 
 function setRating(n){
@@ -1101,66 +1102,83 @@ function setRating(n){
 function submitAvis(e){
   e.preventDefault();
   if(avisRating === 0){ alert('Veuillez sélectionner une note.'); return false; }
-  const avis = {
-    id: Date.now(),
+  const btn = document.querySelector('.avis-form-btn');
+  btn.textContent = 'ENVOI EN COURS...';
+  btn.disabled = true;
+  const data = {
     nom: document.getElementById('avis-nom').value.trim(),
     ville: document.getElementById('avis-ville').value.trim(),
     note: avisRating,
-    message: document.getElementById('avis-message').value.trim(),
-    date: new Date().toISOString(),
-    status: 'pending'
+    message: document.getElementById('avis-message').value.trim()
   };
-  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
-  all.push(avis);
-  localStorage.setItem('ltdc_avis', JSON.stringify(all));
-  document.getElementById('avisForm').style.display = 'none';
-  document.getElementById('avisFormOk').style.display = 'block';
+  fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'text/plain'},
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(() => {
+    document.getElementById('avisForm').style.display = 'none';
+    document.getElementById('avisFormOk').style.display = 'block';
+  })
+  .catch(() => {
+    alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+    btn.textContent = 'ENVOYER MON AVIS';
+    btn.disabled = false;
+  });
   return false;
 }
 
 function loadApprovedAvis(){
-  const all = JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
-  const approved = all.filter(a => a.status === 'approved');
   const grid = document.getElementById('avisGrid');
   const globalBar = document.getElementById('avisGlobal');
+  grid.innerHTML = '<div class="avis-empty">Chargement des avis...</div>';
   
-  if(approved.length === 0){
+  fetch(API_URL + '?action=approved')
+  .then(r => r.json())
+  .then(approved => {
+    if(!approved || approved.length === 0){
+      grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>';
+      globalBar.style.display = 'none';
+      return;
+    }
+    let html = '';
+    let totalStars = 0;
+    approved.forEach((a, i) => {
+      const note = parseInt(a['Note']) || 5;
+      totalStars += note;
+      const stars = '★'.repeat(note) + '☆'.repeat(5 - note);
+      const nom = a['Prénom'] || 'Anonyme';
+      const initial = nom.charAt(0).toUpperCase();
+      const ville = a['Ville'] || '';
+      const message = a['Message'] || '';
+      const delay = (i * 0.15).toFixed(2);
+      html += `
+        <div class="avis-card reveal" style="transition-delay:${delay}s">
+          <div class="avis-stars">${stars.split('').map(s => '<span class="avis-star">'+s+'</span>').join('')}</div>
+          <p class="avis-txt">« ${message} »</p>
+          <div class="avis-author">
+            <div class="avis-avatar">${initial}</div>
+            <div class="avis-meta"><strong>${nom}</strong><span>${ville}</span></div>
+          </div>
+        </div>`;
+    });
+    grid.innerHTML = html;
+    const avg = (totalStars / approved.length).toFixed(1);
+    document.getElementById('avisScoreNum').textContent = avg;
+    const fullStars = Math.round(totalStars / approved.length);
+    document.getElementById('avisScoreStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+    document.getElementById('avisScoreLabel').textContent = 'Note moyenne · ' + approved.length + ' avis';
+    globalBar.style.display = 'flex';
+    setTimeout(() => {
+      grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+      globalBar.classList.add('in');
+    }, 100);
+  })
+  .catch(() => {
     grid.innerHTML = '<div class="avis-empty">Aucun avis pour le moment. Soyez le premier à partager votre expérience !</div>';
     globalBar.style.display = 'none';
-    return;
-  }
-  
-  let html = '';
-  let totalStars = 0;
-  approved.forEach((a, i) => {
-    totalStars += a.note;
-    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
-    const initial = a.nom.charAt(0).toUpperCase();
-    const delay = (i * 0.15).toFixed(2);
-    html += `
-      <div class="avis-card reveal" style="transition-delay:${delay}s">
-        <div class="avis-stars">${stars.split('').map(s => '<span class="avis-star">'+s+'</span>').join('')}</div>
-        <p class="avis-txt">« ${a.message} »</p>
-        <div class="avis-author">
-          <div class="avis-avatar">${initial}</div>
-          <div class="avis-meta"><strong>${a.nom}</strong><span>${a.ville}</span></div>
-        </div>
-      </div>`;
   });
-  grid.innerHTML = html;
-  
-  const avg = (totalStars / approved.length).toFixed(1);
-  document.getElementById('avisScoreNum').textContent = avg;
-  const fullStars = Math.round(totalStars / approved.length);
-  document.getElementById('avisScoreStars').textContent = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
-  document.getElementById('avisScoreLabel').textContent = 'Note moyenne · ' + approved.length + ' avis';
-  globalBar.style.display = 'flex';
-  
-  // Trigger reveal animation
-  setTimeout(() => {
-    grid.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-    globalBar.classList.add('in');
-  }, 100);
 }
 
 // Charger les avis au chargement de la page

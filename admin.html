@@ -691,8 +691,10 @@ function copyCalLink() {
   });
 }
 
-/* ===== GESTION DES AVIS ===== */
+/* ===== GESTION DES AVIS (Google Sheets) ===== */
+const API_URL = 'https://script.google.com/macros/s/APPS_SCRIPT_DEPLOY_ID/exec';
 let currentAvisTab = 'pending';
+let allAvis = [];
 
 function switchAvisTab(tab){
   currentAvisTab = tab;
@@ -702,34 +704,40 @@ function switchAvisTab(tab){
   renderAvisAdmin();
 }
 
-function getAvis(){
-  return JSON.parse(localStorage.getItem('ltdc_avis') || '[]');
-}
-function saveAvis(list){
-  localStorage.setItem('ltdc_avis', JSON.stringify(list));
+function fetchAvis(){
+  const container = document.getElementById('avisAdminList');
+  container.innerHTML = '<div class="avis-admin-empty">Chargement...</div>';
+  fetch(API_URL + '?action=all')
+  .then(r => r.json())
+  .then(data => {
+    allAvis = data || [];
+    renderAvisAdmin();
+  })
+  .catch(() => {
+    container.innerHTML = '<div class="avis-admin-empty">Erreur de chargement. Vérifiez la configuration.</div>';
+  });
 }
 
 function approveAvis(id){
-  const list = getAvis();
-  const a = list.find(x => x.id === id);
-  if(a){ a.status = 'approved'; saveAvis(list); renderAvisAdmin(); }
+  fetch(API_URL + '?action=approve&id=' + id)
+  .then(r => r.json())
+  .then(() => fetchAvis());
 }
 function unapproveAvis(id){
-  const list = getAvis();
-  const a = list.find(x => x.id === id);
-  if(a){ a.status = 'pending'; saveAvis(list); renderAvisAdmin(); }
+  fetch(API_URL + '?action=unapprove&id=' + id)
+  .then(r => r.json())
+  .then(() => fetchAvis());
 }
 function deleteAvis(id){
   if(!confirm('Supprimer cet avis définitivement ?')) return;
-  const list = getAvis().filter(x => x.id !== id);
-  saveAvis(list);
-  renderAvisAdmin();
+  fetch(API_URL + '?action=reject&id=' + id)
+  .then(r => r.json())
+  .then(() => fetchAvis());
 }
 
 function renderAvisAdmin(){
-  const all = getAvis();
-  const pending = all.filter(a => a.status === 'pending');
-  const approved = all.filter(a => a.status === 'approved');
+  const pending = allAvis.filter(a => a['Statut'] === 'pending');
+  const approved = allAvis.filter(a => a['Statut'] === 'approved');
   
   document.getElementById('pendingCount').textContent = pending.length;
   document.getElementById('approvedCount').textContent = approved.length;
@@ -745,23 +753,28 @@ function renderAvisAdmin(){
   
   let html = '';
   list.forEach(a => {
-    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
-    const date = new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
+    const note = parseInt(a['Note']) || 5;
+    const stars = '★'.repeat(note) + '☆'.repeat(5 - note);
+    const nom = a['Prénom'] || 'Anonyme';
+    const ville = a['Ville'] || '';
+    const message = a['Message'] || '';
+    const dateStr = a['Date'] || '';
+    const id = a['ID'];
     html += `
-      <div class="avis-admin-card ${a.status}">
+      <div class="avis-admin-card ${a['Statut']}">
         <div class="avis-admin-card-body">
           <div class="avis-admin-card-header">
-            <span class="avis-admin-card-author">${a.nom} — ${a.ville}</span>
-            <span class="avis-admin-card-date">${date}</span>
+            <span class="avis-admin-card-author">${nom} — ${ville}</span>
+            <span class="avis-admin-card-date">${dateStr}</span>
           </div>
           <div class="avis-admin-card-stars">${stars}</div>
-          <p class="avis-admin-card-txt">« ${a.message} »</p>
+          <p class="avis-admin-card-txt">« ${message} »</p>
           <div class="avis-admin-card-actions">
-            ${a.status === 'pending' ? 
-              '<button class="avis-admin-btn approve" onclick="approveAvis('+a.id+')">Approuver</button>' : 
-              '<button class="avis-admin-btn unapprove" onclick="unapproveAvis('+a.id+')">Retirer</button>'
+            ${a['Statut'] === 'pending' ? 
+              '<button class="avis-admin-btn approve" onclick="approveAvis(\''+id+'\')">✓ Approuver</button>' : 
+              '<button class="avis-admin-btn unapprove" onclick="unapproveAvis(\''+id+'\')">← Retirer</button>'
             }
-            <button class="avis-admin-btn reject" onclick="deleteAvis(${a.id})">Supprimer</button>
+            <button class="avis-admin-btn reject" onclick="deleteAvis('${id}')">Supprimer</button>
           </div>
         </div>
       </div>`;
@@ -773,11 +786,11 @@ function renderAvisAdmin(){
 const origShowDashboard = showDashboard;
 showDashboard = function(){
   origShowDashboard();
-  renderAvisAdmin();
+  fetchAvis();
 };
 // Si déjà authé
 if(sessionStorage.getItem('admin_auth') === 'true'){
-  setTimeout(renderAvisAdmin, 100);
+  setTimeout(fetchAvis, 100);
 }
 </script>
 
