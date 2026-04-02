@@ -1090,7 +1090,6 @@ function closeMenu(){
 }
 
 /* ===== SYSTÈME D'AVIS ===== */
-const SHEET_ID = '1Eq0o3HNQaEtNbN59Q5yQ3gK98VVxHCwEbB6tKAKEoJg';
 const W3F_KEY = 'a09f54ec-9b8f-405b-8112-33cb94d93308';
 const AVIS_STORAGE_KEY = 'ltdc_avis';
 let avisRating = 0;
@@ -1204,59 +1203,9 @@ function renderAvis(approved){
   }, 100);
 }
 
-function parseGvizNote(val){
-  if(typeof val === 'number') return val;
-  if(typeof val === 'string'){
-    var m = val.match(/^(\d)/);
-    if(m) return parseInt(m[1], 10);
-  }
-  return 5;
-}
-
 function loadApprovedAvis(){
-  /* Merge two sources: Google Sheets (legacy) + localStorage (new submissions) */
   var localApproved = getLocalAvis().filter(function(a){ return a.status === 'approved'; });
-
-  /* Use JSONP (script-tag injection) to avoid CORS restrictions on the
-     Google Visualization API — fetch() is blocked because the endpoint
-     does not send Access-Control-Allow-Origin headers. */
-  var cbName = '_gvizAvisCallback';
-  var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID
-    + '/gviz/tq?tqx=responseHandler:' + cbName + '&sheet=Avis&tq='
-    + encodeURIComponent("SELECT B,C,D,E WHERE G='approved'");
-
-  var timeoutId = setTimeout(function(){
-    /* If the script fails to load within 8 seconds, show local reviews only */
-    window[cbName] = function(){};
-    renderAvis(localApproved);
-  }, 8000);
-
-  window[cbName] = function(json){
-    clearTimeout(timeoutId);
-    try {
-      var rows = (json.table && json.table.rows) || [];
-      var sheetApproved = rows.map(function(r){
-        return {
-          nom: (r.c[0] && r.c[0].v) || 'Anonyme',
-          ville: (r.c[1] && r.c[1].v) || '',
-          note: parseGvizNote(r.c[2] && r.c[2].v),
-          message: (r.c[3] && r.c[3].v) || ''
-        };
-      });
-      renderAvis(sheetApproved.concat(localApproved));
-    } catch(e){
-      renderAvis(localApproved);
-    }
-  };
-
-  var script = document.createElement('script');
-  script.src = url;
-  script.onerror = function(){
-    clearTimeout(timeoutId);
-    renderAvis(localApproved);
-    script.remove();
-  };
-  document.head.appendChild(script);
+  renderAvis(localApproved);
 }
 
 document.addEventListener('DOMContentLoaded', loadApprovedAvis);
