@@ -389,10 +389,14 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Formules */
   .form-head{grid-template-columns:1fr;gap:1.2rem;margin-bottom:3rem;}
-  .formules-grid{grid-template-columns:1fr;gap:0;}
+  .formules-grid{grid-template-columns:1fr;gap:2px;}
   .f-card{padding:2rem 1.6rem;}
-  .f-card.large{grid-column:auto;grid-template-columns:1fr;gap:0;padding:2rem 1.6rem;}
-  .f-large-mid{border:none;padding:0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:1.5rem 0;margin:1rem 0;}
+  .f-card.large{grid-column:auto;grid-template-columns:1fr;gap:0;padding:0;}
+  .f-card.large > div{padding:2rem 1.6rem;}
+  .f-large-mid{border:none;padding:2rem 1.6rem;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);margin:0;}
+  .f-devis{width:100%;justify-content:center;padding:.75rem 1rem;font-size:.68rem;}
+  .f-card-name{font-size:1.25rem;}
+  .f-card-desc{font-size:.84rem;margin-bottom:1.4rem;}
 
   /* Bienfaits */
   .bien-grid{grid-template-columns:1fr 1fr;gap:2px;}
@@ -421,6 +425,11 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
 
   /* Modal */
   .modal-box{padding:2rem 1.5rem;margin:1rem;}
+  /* Tableau abonnements : masquer colonnes secondaires sur mobile */
+  .abo-col-unit,.abo-col-par{display:none;}
+  .abo-col-total{text-align:left !important;padding-left:1rem !important;}
+  .abo-label{font-size:.8rem;}
+  .abo-sub{display:block !important;}
 }
 
 @media(max-width:560px){
@@ -451,6 +460,11 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
   /* Footer 1 col */
   .footer-top{grid-template-columns:1fr;gap:1.8rem;}
   .f-brand img{height:40px !important;}
+
+  /* Modal abonnements - tableau compact */
+  #modal-abonnements .modal-box{padding:1.5rem 1rem;}
+  #modal-abonnements table{font-size:.75rem;}
+  #modal-abonnements td,#modal-abonnements th{padding:.45rem 0 !important;}
 
   /* Slider swipe-friendly */
   .slider{touch-action:pan-y;overflow:hidden;}
@@ -989,42 +1003,42 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
       <table style="width:100%;border-collapse:collapse;font-size:.82rem;font-weight:300;">
         <thead>
           <tr style="border-bottom:1px solid var(--bg3);">
-            <th style="text-align:left;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Formule</th>
-            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
-            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 5</th>
-            <th style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
+            <th class="abo-label" style="text-align:left;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Formule</th>
+            <th class="abo-col-unit" style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
+            <th class="abo-col-total" style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 5</th>
+            <th class="abo-col-par" style="text-align:right;padding:.5rem 0;color:var(--sage-d);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
           </tr>
         </thead>
         <tbody>
           <tr style="border-bottom:1px solid var(--bg3);">
             <td style="padding:.55rem 0;color:var(--ink2);">Accès bien-être <span style="font-size:.65rem;color:var(--sage-l);">(jacuzzi · hammam · sauna)</span></td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">35 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">166 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">33,20 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:var(--ink2);">35 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">166 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--sage);">33,20 €</td>
           </tr>
           <tr style="border-bottom:1px solid var(--bg3);">
             <td style="padding:.55rem 0;color:var(--ink2);">Massage 30 min</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">30 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">142 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">28,40 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:var(--ink2);">30 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">142 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--sage);">28,40 €</td>
           </tr>
           <tr style="border-bottom:1px solid var(--bg3);">
             <td style="padding:.55rem 0;color:var(--ink2);">Massage 1h</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">55 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">261 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">52,20 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:var(--ink2);">55 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">261 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--sage);">52,20 €</td>
           </tr>
           <tr style="border-bottom:1px solid var(--bg3);">
             <td style="padding:.55rem 0;color:var(--ink2);">Massage 1h30</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">75 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">356 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">71,20 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:var(--ink2);">75 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">356 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--sage);">71,20 €</td>
           </tr>
           <tr>
             <td style="padding:.55rem 0;color:var(--ink2);">Duo</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--ink2);">100 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">475 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--sage);">95 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:var(--ink2);">100 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--ink);">475 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--sage);">95 €</td>
           </tr>
         </tbody>
       </table>
@@ -1041,41 +1055,41 @@ footer{background:var(--moss);color:var(--white);padding:5rem 8vw 2.5rem;}
         <thead>
           <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
             <th style="text-align:left;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Formule</th>
-            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
-            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 10</th>
-            <th style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
+            <th class="abo-col-unit" style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Tarif unitaire</th>
+            <th class="abo-col-total" style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Carnet 10</th>
+            <th class="abo-col-par" style="text-align:right;padding:.5rem 0;color:rgba(250,248,244,.4);font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;">Par séance</th>
           </tr>
         </thead>
         <tbody>
           <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
             <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Accès bien-être <span style="font-size:.65rem;color:rgba(250,248,244,.35);">(jacuzzi · hammam · sauna)</span></td>
-            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">35 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">315 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">31,50 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">35 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">315 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--gold-l);">31,50 €</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
             <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 30 min</td>
-            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">30 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">270 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">27 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">30 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">270 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--gold-l);">27 €</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
             <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 1h</td>
-            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">55 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">495 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">49,50 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">55 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">495 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--gold-l);">49,50 €</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,.08);">
             <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Massage 1h30</td>
-            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">75 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">675 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">67,50 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">75 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">675 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--gold-l);">67,50 €</td>
           </tr>
           <tr>
             <td style="padding:.55rem 0;color:rgba(250,248,244,.7);">Duo</td>
-            <td style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">100 €</td>
-            <td style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">900 €</td>
-            <td style="text-align:right;padding:.55rem 0;color:var(--gold-l);">90 €</td>
+            <td class="abo-col-unit" style="text-align:right;padding:.55rem 0;color:rgba(250,248,244,.5);">100 €</td>
+            <td class="abo-col-total" style="text-align:right;padding:.55rem 0;font-weight:400;color:var(--white);">900 €</td>
+            <td class="abo-col-par" style="text-align:right;padding:.55rem 0;color:var(--gold-l);">90 €</td>
           </tr>
         </tbody>
       </table>
